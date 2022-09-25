@@ -1,3 +1,18 @@
+// abstracts
+@import './styles/abstracts/colors.scss';
+@import './styles/abstracts/mixins.scss';
+@import './styles/abstracts/variables.scss';
+
+
+// base
 @import './styles/base/reset.scss';
 @import './styles/base/font-face.css';
-@import './styles/base/utils.scss'
+@import './styles/base/utils.scss';
+
+
+// components
+@import './styles/components/inputs.scss';
+@import './styles/components/buttons.scss';
+
+//Pages
+@import './styles/pages/sign-in.scss';

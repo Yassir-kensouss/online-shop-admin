@@ -1,0 +1,77 @@
+.signIn{
+    height: 100vh;
+
+    &__content{
+        padding: 1em;
+    }
+
+    &__title{
+        
+        font-size: 2rem;
+        color: $darkPrimary;
+        font-weight: 500;
+        margin-bottom: 0.5em;
+    }
+
+    &__description{
+        font-size: 0.85rem;
+        color: $secondaryColor;
+    }
+    
+    &__thirdPartyAuth{
+        background-color: $graySecondary;
+        padding: 0.8em;
+        margin-top: 1.5em;
+        border-radius: 10px;
+        gap: 0.5em;
+        color: $darkPrimary;
+        transition: 0.2s ease;
+
+        &:hover{
+            opacity: 0.8;
+        }
+
+        &:active{
+            opacity: 1;
+        }
+        img{
+            width: 15px;
+        }
+    }
+
+    &__field{
+        margin-bottom: 1.8em;
+        label{
+            display: block;
+            font-size: 0.8rem;
+            margin-bottom: 0.8em;
+            color: $darkPrimary;
+        }
+    }
+
+    &__cover{
+        @include setBg('../../assets/signIn-page-bg.webp','top left','cover');
+        border-bottom-left-radius: 110px;
+    }
+
+    &__form{
+        width: 350px;
+    }
+
+    &__forgotPassword{
+        font-size: 0.85rem;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .signIn{
+        flex-direction: column;
+        &__cover{
+            display: none;
+        }
+
+        &__content{
+            padding: 2em;
+        }
+    }
+}

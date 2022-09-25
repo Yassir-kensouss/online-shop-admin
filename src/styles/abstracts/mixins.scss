@@ -1,0 +1,8 @@
+// set element background 
+
+@mixin setBg($url, $position, $size){
+    background: url($url);
+    background-repeat: no-repeat;
+    background-position: $position;
+    background-size: $size;
+}

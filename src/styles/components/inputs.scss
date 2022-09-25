@@ -1,0 +1,12 @@
+.p-inputtext.text-field{
+    border-radius: $border-radius ;
+    border: $inputBorder;
+}
+
+.p-password.custom-password-input{
+    width: 100%;
+   input{
+    width: 100%;
+    border-radius: $border-radius ;
+   }
+}
