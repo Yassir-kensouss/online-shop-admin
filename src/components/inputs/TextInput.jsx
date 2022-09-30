@@ -10,6 +10,7 @@ const TextInput = (props) => {
       placeholder={placeholder}
       className={`${className} p-inputtext-sm text-field`}
       id={id}
+      {...props}
     />
   );
 };

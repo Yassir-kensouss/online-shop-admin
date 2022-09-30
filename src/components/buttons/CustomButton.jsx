@@ -6,7 +6,11 @@ const CustomButton = (props) => {
   const { label, className } = props;
 
   return (
-    <Button label={label} className={`${className} p-button-sm custom-btn`} />
+    <Button
+      {...props}
+      label={label}
+      className={`${className} p-button-sm custom-btn`}
+    />
   );
 };
 
