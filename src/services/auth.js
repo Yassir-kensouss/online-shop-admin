@@ -7,3 +7,10 @@ export const signIn = (data) => {
     data,
   });
 };
+
+export const signOut = async () => {
+  return auth({
+    url: "signout/",
+    method: "GET",
+  });
+};

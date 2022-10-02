@@ -2,11 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Checkbox, Divider, Toast } from "primereact";
 import { Password } from "primereact/password";
-import googleIcon from "../assets/icons/google-icon.svg";
+// import googleIcon from "../assets/icons/google-icon.svg";
 import TextInput from "../components/inputs/TextInput";
 import CustomButton from "../components/buttons/CustomButton";
 import { useMutation } from "react-query";
 import { signIn } from "../services/auth";
+import { GoogleLogin } from "@react-oauth/google";
+import { API_URL } from "../config";
 
 const SignIn = () => {
   const toast = useRef(null);
@@ -41,6 +43,36 @@ const SignIn = () => {
     }
   }, [isError]);
 
+  // const success = () => {
+  //   console.log("res", response); // eslint-disable-line
+  // };
+
+  // const error = (response) => {
+  //   console.error(response); // eslint-disable-line
+  // };
+
+  // const loading = () => {
+  //   console.log("loading"); // eslint-disable-line
+  // };
+
+  const handleLogin = async (googleData) => {
+    const res = await fetch(`${API_URL}/v1/auth/google`, {
+      method: "POST",
+      body: JSON.stringify({
+        token: googleData.credential,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+
+    if (data) {
+      localStorage.setItem("jwt_data", JSON.stringify(data));
+      return navigate("/");
+    }
+  };
+
   return (
     <>
       <Toast ref={toast} />
@@ -51,10 +83,15 @@ const SignIn = () => {
             <h3 className="signIn__description">
               Enter your email and password to sign in!
             </h3>
-            <button className="signIn__thirdPartyAuth flex align-items-center justify-content-center w-full">
+            {/* <button className="signIn__thirdPartyAuth flex align-items-center justify-content-center w-full">
               <img src={googleIcon} alt="google icon" />
               Sign in with google
-            </button>
+            </button> */}
+            <GoogleLogin
+              onSuccess={handleLogin}
+              onError={handleLogin}
+              useOneTap
+            />
             <Divider align="center">or</Divider>
             <form>
               <div className="signIn__field">

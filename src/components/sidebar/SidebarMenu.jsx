@@ -1,9 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { signOut } from "../../services/auth";
 
 const SidebarMenu = () => {
   const pathname = useLocation().pathname;
+  const navigate = useNavigate();
+
+  const handleSignout = () => {
+    signOut()
+      .then(() => {
+        localStorage.removeItem("jwt_data");
+        return navigate("/sign-in");
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <div className="sidebar__menu">
@@ -79,6 +90,32 @@ const SidebarMenu = () => {
               <i className="pi pi-chart-line" />
             </span>
             Analytics
+          </Link>
+        </li>
+        <li className="sidebar__item">
+          <Link
+            className={
+              pathname === "/profile" ? "sidebar__link active" : "sidebar__link"
+            }
+            to="/profile"
+          >
+            <span className="sidebar__MenuItemIcon">
+              <i className="pi pi-user" />
+            </span>
+            Profile
+          </Link>
+        </li>
+        <li className="sidebar__item">
+          <Link
+            className={
+              pathname === "/logout" ? "sidebar__link active" : "sidebar__link"
+            }
+            onClick={handleSignout}
+          >
+            <span className="sidebar__MenuItemIcon">
+              <i className="pi pi-lock" />
+            </span>
+            Log out
           </Link>
         </li>
       </ul>
