@@ -6,16 +6,30 @@
     }
 
     &__title{
-        
+        display: flex;
         font-size: 2rem;
         color: $darkPrimary;
         font-weight: 500;
         margin-bottom: 0.5em;
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    &__titleIcon{
+        width: 40px;
+        height: 40px;
+        background-color: rgb(137, 222, 137);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     &__description{
-        font-size: 0.85rem;
+        font-size: 0.86rem;
         color: $secondaryColor;
+        line-height: 1.35;
     }
     
     &__thirdPartyAuth{
@@ -55,7 +69,7 @@
     }
 
     &__form{
-        width: 350px;
+        width: 550px;
     }
 
     &__forgotPassword{
