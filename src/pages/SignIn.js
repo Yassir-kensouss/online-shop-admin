@@ -7,7 +7,7 @@ import TextInput from "../components/inputs/TextInput";
 import CustomButton from "../components/buttons/CustomButton";
 import { useMutation } from "react-query";
 import { signIn } from "../services/auth";
-import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { API_URL } from "../config";
 import Loader from "../components/Loader";
 
@@ -76,7 +76,10 @@ const SignIn = () => {
             <p className="signIn__description">
               Enter your email and password to sign in!
             </p>
-            {/* <button className="signIn__thirdPartyAuth flex align-items-center justify-content-center w-full">
+            {/* <button
+              onClick={() => googleLogin()}
+              className="signIn__thirdPartyAuth flex align-items-center justify-content-center w-full"
+            >
               <img src={googleIcon} alt="google icon" />
               Sign in with google
             </button> */}

@@ -9,6 +9,8 @@ import Profile from "./pages/Profile";
 import SignIn from "./pages/SignIn";
 import ResetPassword from "./pages/ResetPasswrod";
 import UpdatePassword from "./pages/UpdatePassword";
+import PrivateRoute from "./utils/PrivateRoute";
+import AdminRoute from "./utils/AdminRoute";
 
 const Routers = () => {
   return (
@@ -20,11 +22,46 @@ const Routers = () => {
           path="/update-password/:userId/:token"
           element={<UpdatePassword />}
         />
-        <Route path="/" element={<Home />} />
-        <Route path="/customers" element={<Customers />} />
-        <Route path="/categories" element={<Categories />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/analytics" element={<Analytics />} />
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/customers"
+          element={
+            <AdminRoute>
+              <Customers />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/categories"
+          element={
+            <AdminRoute>
+              <Categories />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <PrivateRoute>
+              <Products />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <PrivateRoute>
+              <Analytics />
+            </PrivateRoute>
+          }
+        />
         <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
