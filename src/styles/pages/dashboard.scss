@@ -9,9 +9,22 @@
         background-color: white;
     }
 
+    &__header{
+        margin-bottom: 1em;
+    }
+    
+    &__title{
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-top: 0.5em;
+        color: $darkPrimary;
+        text-transform: capitalize;
+    }
+
     &__main{
         width: 85%;
         overflow-x: hidden;
         background-color: $graySecondary;
+        padding: 1.5em 1em 1em 1em;
     }
 }

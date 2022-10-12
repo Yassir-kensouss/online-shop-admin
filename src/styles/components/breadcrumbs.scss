@@ -1,0 +1,22 @@
+.breadcrumbs{
+    display: flex;
+    &__divider{
+        margin: 0 0.5em;
+        color: $normalGray;
+    }
+
+    &__link{
+        text-decoration: none;
+        color: $normalGray;
+        font-size: 0.85rem;
+    }
+
+    &__item{
+        display: flex;
+        align-items: center;
+    }
+
+    &__link-active{
+        opacity: 0.7;
+    }
+}

@@ -1,0 +1,32 @@
+.dCard{
+    background-color: white;
+    border-radius: 15px;
+    flex: 1;
+    padding: 1em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+
+    &__iconWrapper{
+        width: 30px;
+        height: 30px;
+        background-color: $graySecondary;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        color: $primaryColor;
+    }
+
+    &__title{
+        font-size: 0.75rem;
+        color: $secondaryColor;
+        text-transform: capitalize;
+    }
+
+    &__value{
+        font-size: 1rem;
+        color: $darkPrimary;
+        margin-top: 0.25em;
+        font-weight: 600;
+    }
+}
