@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useForm, Controller } from "react-hook-form";
+import { fetchAllCategories, persistCategory } from "../services/category";
 import CustomButton from "../components/buttons/CustomButton";
 import Dashboard from "../components/Dashboard";
 import { Dialog } from "primereact/dialog";
 import { Button, InputText, Toast } from "primereact";
-import { persistCategory } from "../services/category";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 const crumbs = [
   { label: "Home", url: "/" },
@@ -36,8 +38,15 @@ const Categories = () => {
     formState: { errors },
   } = useForm();
 
-  const { mutate, isError, error, isLoading, isSuccess, data, reset } =
+  const { mutate, isError, isLoading, isSuccess } =
     useMutation(persistCategory);
+
+  const { isLoading: getCategoriesLoading, data: categories } = useQuery(
+    "categories",
+    fetchAllCategories
+  );
+
+  useEffect(() => {}, [categories]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -114,6 +123,12 @@ const Categories = () => {
           )}
         </form>
       </Dialog>
+      <DataTable value={categories.data.categories} responsiveLayout="scroll">
+        <Column field="name" header="Name" sortable></Column>
+        <Column field="createdAt" header="Creation Time" sortable></Column>
+        <Column field="createdAt" header="Creation Time" sortable></Column>
+        <Column field="actions" header="Actions"></Column>
+      </DataTable>
     </Dashboard>
   );
 };
