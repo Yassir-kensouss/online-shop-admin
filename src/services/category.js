@@ -11,7 +11,7 @@ export const persistCategory = (data) => {
   });
 };
 
-export const fetchAllCategories = () => {
+export const fetchAllCategories = async () => {
   return auth({
     method: "GET",
     url: "category/",

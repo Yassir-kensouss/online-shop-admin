@@ -1,10 +1,13 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import { signOut } from "../../services/auth";
+import { getCategries } from "../../store/categories";
 import { isAuthenticated } from "../../utils/helpers";
 
 const SidebarMenu = () => {
+  const dispatch = useDispatch();
   const pathname = useLocation().pathname;
   const navigate = useNavigate();
 

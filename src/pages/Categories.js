@@ -1,13 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { useForm, Controller } from "react-hook-form";
-import { fetchAllCategories, persistCategory } from "../services/category";
+import { persistCategory } from "../services/category";
 import CustomButton from "../components/buttons/CustomButton";
 import Dashboard from "../components/Dashboard";
 import { Dialog } from "primereact/dialog";
 import { Button, InputText, Toast } from "primereact";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { useDispatch, useSelector } from "react-redux";
+import { addNewCategory, getCategries } from "../store/categories";
+import EmptyBox from "../components/EmptyBox";
+import { CategoryIcon } from "../assets/icons";
 
 const crumbs = [
   { label: "Home", url: "/" },
@@ -30,25 +34,21 @@ const validate = {
 };
 
 const Categories = () => {
+  const dispatch = useDispatch();
   const toast = useRef(null);
 
   const {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
-  const { mutate, isError, isLoading, isSuccess } =
+  const { mutate, isError, isLoading, isSuccess, data } =
     useMutation(persistCategory);
 
-  const { isLoading: getCategoriesLoading, data: categories } = useQuery(
-    "categories",
-    fetchAllCategories
-  );
-
-  useEffect(() => {}, [categories]);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const categories = useSelector((state) => state.categories.categories) || {};
 
   const onSubmit = (data, e) => {
     mutate(data);
@@ -56,17 +56,19 @@ const Categories = () => {
   };
 
   useEffect(() => {
-    if (isError) {
-      toast.current.show({
-        severity: "error",
-        summary: "Somthing went wrong!",
-        detail: "Email or password incorrect",
-        life: 3000,
-      });
-    }
+    dispatch(getCategries());
+  }, []);
 
+  useEffect(() => {
     if (isSuccess) {
       setIsModalOpen(false);
+      dispatch(
+        addNewCategory({
+          type: "ADD_NEW_CATEGORY",
+          category: data.data.category,
+        })
+      );
+      reset({});
     }
   }, [isError, isSuccess]);
 
@@ -75,11 +77,13 @@ const Categories = () => {
       items={crumbs}
       title="Categories"
       rightElement={
-        <CustomButton
-          onClick={() => setIsModalOpen(true)}
-          label="New Category"
-          icon="pi pi-plus"
-        />
+        categories && categories.length > 0 ? (
+          <CustomButton
+            onClick={() => setIsModalOpen(true)}
+            label="New Category"
+            icon="pi pi-plus"
+          />
+        ) : null
       }
     >
       <Toast ref={toast} />
@@ -123,12 +127,28 @@ const Categories = () => {
           )}
         </form>
       </Dialog>
-      <DataTable value={categories.data.categories} responsiveLayout="scroll">
-        <Column field="name" header="Name" sortable></Column>
-        <Column field="createdAt" header="Creation Time" sortable></Column>
-        <Column field="createdAt" header="Creation Time" sortable></Column>
-        <Column field="actions" header="Actions"></Column>
-      </DataTable>
+      {categories && categories.length > 0 ? (
+        <DataTable value={categories} responsiveLayout="scroll">
+          <Column field="name" header="Name" sortable></Column>
+          <Column field="createdAt" header="Creation Time" sortable></Column>
+          <Column field="createdAt" header="Creation Time" sortable></Column>
+          <Column field="actions" header="Actions"></Column>
+        </DataTable>
+      ) : (
+        <EmptyBox
+          icon={<CategoryIcon />}
+          parentClassName="pb-8"
+          title="No Category"
+          message="Once you create a new category, will be listed here"
+          action={
+            <CustomButton
+              onClick={() => setIsModalOpen(true)}
+              label="New Category"
+              icon="pi pi-plus"
+            />
+          }
+        />
+      )}
     </Dashboard>
   );
 };

@@ -1,0 +1,34 @@
+.emptyBox{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &__icon{
+        font-size: 4rem;
+        color: $normalGray;
+        svg{
+            display: block;
+        }
+    }
+
+    &__title{
+        font-size: 1.5rem;
+        margin: 0.5em 0;
+        font-weight: 500;
+        color: rgb(61, 61, 61);
+    }
+
+    &__message{
+        width: 250px;
+        text-align: center;
+        color: $normalGray;
+        line-height: 1.25;
+    }
+
+    &__action{
+        margin-top: 0.5em;
+    }
+}
