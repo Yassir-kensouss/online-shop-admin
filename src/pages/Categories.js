@@ -31,6 +31,10 @@ const validate = {
     value: 4,
     message: "category name must be between 4 and 30",
   },
+  pattern: {
+    value: /^[-a-zA-Z0-9-()]+(\s+[-a-zA-Z0-9-()]+)*$/,
+    message: "Only letters and numbers allowed",
+  },
 };
 
 const Categories = () => {
