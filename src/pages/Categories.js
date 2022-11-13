@@ -8,6 +8,7 @@ import { Dialog } from "primereact/dialog";
 import { Button, InputText, Toast } from "primereact";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { Tooltip } from "primereact/tooltip";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewCategory, getCategries } from "../store/categories";
 import EmptyBox from "../components/EmptyBox";
@@ -52,6 +53,8 @@ const Categories = () => {
     useMutation(persistCategory);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [isDeleteCategory, setIsDeleteCategory] = useState(false);
   const categories = useSelector((state) => state.categories.categories) || {};
 
   const onSubmit = (data, e) => {
@@ -76,18 +79,49 @@ const Categories = () => {
     }
   }, [isError, isSuccess]);
 
+  const deleteCategoryDialogFooter = (
+    <>
+      <Button
+        label="No"
+        icon="pi pi-times"
+        className="p-button-text"
+        onClick={() => setIsDeleteCategory(false)}
+      />
+      <Button label="Yes" icon="pi pi-check" className="p-button-text" />
+    </>
+  );
+
   return (
     <Dashboard
       items={crumbs}
       title="Categories"
       rightElement={
-        categories && categories.length > 0 ? (
-          <CustomButton
-            onClick={() => setIsModalOpen(true)}
-            label="New Category"
-            icon="pi pi-plus"
-          />
-        ) : null
+        <>
+          {categories && categories.length > 0 ? (
+            <>
+              <Tooltip
+                target="#deleteCategory"
+                content="Delete category"
+                position="bottom"
+              />
+              <CustomButton
+                onClick={() => setIsDeleteCategory(true)}
+                className="p-button-danger"
+                icon="pi pi-trash"
+                disabled={!selectedCategory || !selectedCategory.length}
+                id="deleteCategory"
+                aria-label="delete category"
+              />
+            </>
+          ) : null}
+          {categories && categories.length > 0 ? (
+            <CustomButton
+              label="New Category"
+              icon="pi pi-plus"
+              onClick={() => setIsModalOpen(true)}
+            />
+          ) : null}
+        </>
       }
     >
       <Toast ref={toast} />
@@ -131,12 +165,50 @@ const Categories = () => {
           )}
         </form>
       </Dialog>
+      <Dialog
+        visible={isDeleteCategory}
+        style={{ width: "450px" }}
+        header="Confirm"
+        draggable={false}
+        onHide={() => setIsDeleteCategory(false)}
+        footer={deleteCategoryDialogFooter}
+      >
+        <div className="flex align-items-center gap-3">
+          <i
+            className="pi pi-exclamation-triangle"
+            style={{ fontSize: "1.5rem" }}
+          />
+          <p>
+            Are you sure you want to delete{" "}
+            {selectedCategory ? (
+              <b>
+                {selectedCategory && selectedCategory.length == 1
+                  ? selectedCategory[0].name
+                  : selectedCategory && selectedCategory.length + " categories"}
+              </b>
+            ) : null}
+          </p>
+        </div>
+      </Dialog>
       {categories && categories.length > 0 ? (
-        <DataTable value={categories} responsiveLayout="scroll">
+        <DataTable
+          value={categories}
+          responsiveLayout="scroll"
+          selection={selectedCategory}
+          onSelectionChange={(e) => setSelectedCategory(e.value)}
+        >
+          <Column
+            selectionMode="multiple"
+            headerStyle={{ width: "3rem" }}
+            exportable={false}
+          ></Column>
           <Column field="name" header="Name" sortable></Column>
           <Column field="createdAt" header="Creation Time" sortable></Column>
-          <Column field="createdAt" header="Creation Time" sortable></Column>
-          <Column field="actions" header="Actions"></Column>
+          <Column
+            field="linked products"
+            header="Linked Products"
+            sortable
+          ></Column>
         </DataTable>
       ) : (
         <EmptyBox

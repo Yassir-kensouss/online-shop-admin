@@ -16,7 +16,7 @@ const Dashboard = (props) => {
             {items && items.length > 0 && <BreadCrumb items={items} />}
             <h2 className="dashboard__title">{title}</h2>
           </div>
-          {rightElement}
+          <div className="flex align-items-center gap-2">{rightElement}</div>
         </header>
         {children}
       </main>
