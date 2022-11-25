@@ -17,3 +17,11 @@ export const fetchAllCategories = async () => {
     url: "category/",
   });
 };
+
+export const deleteManyCategories = async (data) => {
+  return auth({
+    method: 'POST',
+    url: "category/delete/multiple",
+    data:data
+  })
+}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useMutation } from "react-query";
 import { useForm, Controller } from "react-hook-form";
-import { persistCategory } from "../services/category";
+import { persistCategory, deleteManyCategories } from "../services/category";
 import CustomButton from "../components/buttons/CustomButton";
 import Dashboard from "../components/Dashboard";
 import { Dialog } from "primereact/dialog";
@@ -52,6 +52,15 @@ const Categories = () => {
   const { mutate, isError, isLoading, isSuccess, data } =
     useMutation(persistCategory);
 
+  const deleteMutation = useMutation((data) => deleteManyCategories(data))
+
+  const _deleteCategory = () => {
+    let ids = [];
+    selectedCategory && selectedCategory.map(category => ids.push(category._id))
+    deleteMutation.mutate({ids:ids})
+    console.log(deleteMutation.isSuccess)
+  }
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isDeleteCategory, setIsDeleteCategory] = useState(false);
@@ -79,6 +88,19 @@ const Categories = () => {
     }
   }, [isError, isSuccess]);
 
+  useEffect(() => {
+    if(deleteMutation.isSuccess){
+      setIsDeleteCategory(false)
+      toast.current.show({
+        severity: "success",
+        detail: `${selectedCategory && selectedCategory.length} categories deleted`,
+        life: 3000,
+      });
+      dispatch(getCategries());
+      setSelectedCategory(null)
+    }
+  },[deleteMutation.isSuccess])
+
   const deleteCategoryDialogFooter = (
     <>
       <Button
@@ -87,9 +109,17 @@ const Categories = () => {
         className="p-button-text"
         onClick={() => setIsDeleteCategory(false)}
       />
-      <Button label="Yes" icon="pi pi-check" className="p-button-text" />
+      
+      <Button
+        onClick={() => _deleteCategory()}
+        label="Yes"
+        icon="pi pi-check"
+        className="p-button-text"
+      />
     </>
   );
+
+  console.log("selected category", selectedCategory);
 
   return (
     <Dashboard
@@ -196,6 +226,7 @@ const Categories = () => {
           responsiveLayout="scroll"
           selection={selectedCategory}
           onSelectionChange={(e) => setSelectedCategory(e.value)}
+          className='categories-data-table'
         >
           <Column
             selectionMode="multiple"
