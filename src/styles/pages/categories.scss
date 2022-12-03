@@ -1,3 +1,106 @@
 .addCategory{
     width: 35em;
 }
+
+.cUploader{
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin: 1em 1em 1em 0;
+
+    &_label{
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        transition: $default-transition;
+        padding: 0.4em;
+        border-radius: $border-radius;
+        cursor: pointer;
+
+        &:hover{
+            background-color: $lightSecondaryColor;
+        }
+    }
+    
+    &_labelIcon{
+        font-size: 1.4em;
+        color: $secondaryColor;
+    }
+
+    &_labelText{
+
+        font-size: $small;
+        color: $text;
+        text-transform: capitalize;
+    }
+}
+
+.category-multi-upload-tooltip{
+    width: 80px;
+    max-width: 80px;
+    font-size: $xx-small;
+}
+
+.filePreview{
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    background-color: rgba($color: $lightSecondaryColor, $alpha: 0.5);
+    border-radius: $border-radius;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    &:hover{
+        .filePreview__removeFile{
+            visibility: visible;
+        }
+    }
+
+    &__removeFile{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba($color: #000000, $alpha: 0.6);
+        visibility: hidden;
+    }
+
+    &__removeFileBtn{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: rgba($color: #000000, $alpha: 1.0); 
+        color: white;
+
+        i{
+            font-size: 0.8rem;
+        }
+    }
+
+    &__icon{
+        font-size: 2.5em;
+    }
+
+    &__name{
+        display: block;
+        color: $text;
+        font-size: $medium;
+        margin-bottom: 5px;
+    }
+
+    &__size{
+        display: block;
+        color: $normalGray;
+        font-size: $small;
+    }
+}

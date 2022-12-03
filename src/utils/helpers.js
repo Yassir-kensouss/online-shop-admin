@@ -7,3 +7,24 @@ export const isAuthenticated = () => {
     return false;
   }
 };
+
+export const isCsvCategoryValid = (arr) => {
+
+  let isValid = true;
+
+  arr.map(res => {
+    if(Object.keys(res).length > 1 || Object.keys(res).length == 0 ){
+      isValid = false;
+      return 
+    }
+
+    if(Object.keys(res)[0] !== 'name'){
+      isValid = false;
+      return
+    }
+
+  })
+
+  return isValid;
+
+}

@@ -11,10 +11,18 @@ export const persistCategory = (data) => {
   });
 };
 
-export const fetchAllCategories = async () => {
+export const persistManyCategories = (categories) => {
+  return admin({
+    method: 'POST',
+    url: `category/multiple/create`,
+    data: categories
+  })
+}
+
+export const fetchAllCategories = async (page) => {
   return auth({
     method: "GET",
-    url: "category/",
+    url: `category?page=${page}`,
   });
 };
 

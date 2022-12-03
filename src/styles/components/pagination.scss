@@ -1,0 +1,22 @@
+.pagi{
+    &__button{
+        width: 45px;
+        height: 45px;
+        outline: none;
+        border-radius: 50%;
+        color: rgb(117, 117, 117);
+        font-size:medium;
+        transition: $default-transition;
+
+        &:hover{
+            background: rgb(218, 222, 229);
+        }
+
+        &--active{
+            background: #e6ebff;
+            border-color: #e6ebff;
+            color: #4338CA;
+        }
+    }
+
+}
