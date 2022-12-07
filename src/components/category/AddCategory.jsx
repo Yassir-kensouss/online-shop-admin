@@ -8,6 +8,7 @@ import { addNewCategory, getCategries } from "../../store/categories";
 import AddMany from "./AddMany";
 import Papa from 'papaparse'
 import { isCsvCategoryValid } from "../../utils/helpers";
+import PropTypes from 'prop-types'
 
 const AddCategory = props => {
 
@@ -176,3 +177,8 @@ const AddCategory = props => {
 };
 
 export default AddCategory;
+
+AddCategory.propTypes = {
+  isModalOpen: PropTypes.bool.isRequired,
+  setIsModalOpen: PropTypes.func.isRequired
+}

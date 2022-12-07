@@ -41,6 +41,17 @@ const DeleteCategory = props => {
     }
   }, [deleteMutation.isSuccess]);
 
+  useEffect(() => {
+    if (deleteMutation.isError) {
+      setIsDeleteCategory(true);
+      toast.current.show({
+        severity: "error",
+        detail: 'Something went wrong',
+        life: 3000,
+      });
+    }
+  }, [deleteMutation.isError]);
+
   const deleteCategoryDialogFooter = (
     <>
       <Button

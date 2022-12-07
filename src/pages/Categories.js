@@ -11,16 +11,10 @@ import { CategoryIcon } from "../assets/icons";
 import AddCategory from "../components/category/AddCategory";
 import DeleteCategory from "../components/category/DeleteCategory";
 import DataTableSkeleton from "../components/loadings/DataTableSkeleton";
-import {
-  Button,
-  classNames,
-  Dropdown,
-  InputText,
-  Paginator,
-  Ripple,
-  Toast,
-} from "primereact";
+import { InputText, Toast } from "primereact";
 import Pagination from "../components/pagination/Pagination";
+import { useMutation } from "react-query";
+import { updateCategory } from "../services/category";
 
 const crumbs = [
   { label: "Home", url: "/" },
@@ -31,19 +25,23 @@ const Categories = () => {
   const dispatch = useDispatch();
 
   const toast = useRef(null);
+  const datatable = useRef(null);
+
+  const updateRow = useMutation((data) => updateCategory(data))
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [basicFirst, setBasicFirst] = useState(0);
-  const [basicRows, setBasicRows] = useState(10);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isDeleteCategory, setIsDeleteCategory] = useState(false);
-  const [page, setPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const categories = useSelector(state => state.categories.categories) || {};
   const loading = useSelector(state => state.categories.loading);
   const fetchingCategoriesError = useSelector(state => state.categories.error);
+  const count = useSelector(state => state.categories.count);
+  const perPage = useSelector(state => state.categories.perPage);
+  const [scrollTop, setScrollTop] = useState(null);
 
   useEffect(() => {
-    dispatch(getCategries());
+    dispatch(getCategries(currentPage));
   }, []);
 
   useEffect(() => {
@@ -56,22 +54,60 @@ const Categories = () => {
     }
   }, [fetchingCategoriesError]);
 
-  const onBasicPageChange = (event) => {
-    setBasicFirst(event.first);
-    setBasicRows(event.rows);
-    setPage(event.page)
-    console.log('first', event)
-  }
-  
   useEffect(() => {
-    // dispatch(getCategries(page));
+    dispatch(getCategries(currentPage));
+    const el = document.querySelector(".dashboard__main");
+    el.scrollTo(0, 100);
+  }, [currentPage]);
 
-    setBasicFirst(page * 10)
-  },[page])
+  // Set scroll top of the parent element to avoid scrolling top after component render
+  useEffect(() => {
+    const el = document.querySelector(".dashboard__main");
+    el.scrollTo(0, scrollTop);
+  }, [categories]);
 
-  const handlePageClick = (btn) => {
-    dispatch(getCategries(btn))
+  const onRowEditComplete1 = (e) => {
+    const newVal = e.newData.name;
+    const oldVal = categories.find(category => category._id === e.newData._id).name;
+    const data = {
+      name: e.newData.name,
+      _id: e.newData._id
+    }
+    if(newVal !== oldVal){
+      updateRow.mutate(data)
+    }
   }
+
+  useEffect(() => {
+    if(updateRow.isSuccess){
+      dispatch(getCategries(currentPage));
+      toast.current.show({
+        severity: "success",
+        detail: 'Category updated successeffly',
+        life: 3000,
+      });
+    }
+  },[updateRow.isSuccess])
+
+  useEffect(() => {
+    if(updateRow.isError){
+      toast.current.show({
+        severity: "error",
+        detail: 'Something went wrong',
+        life: 3000,
+      });
+    }
+  },[updateRow.isError])
+
+  const textEditor = options => {
+    return (
+      <InputText
+        type="text"
+        value={options.value}
+        onChange={e => options.editorCallback(e.target.value)}
+      />
+    );
+  };
 
   return (
     <>
@@ -121,42 +157,52 @@ const Categories = () => {
         {loading ? (
           <DataTableSkeleton />
         ) : categories && categories.length > 0 ? (
-          <>
+          <div ref={datatable}>
             <DataTable
               value={categories}
               responsiveLayout="scroll"
               selection={selectedCategory}
               onSelectionChange={e => setSelectedCategory(e.value)}
               className="categories-data-table"
+              editMode="row"
+              onRowEditComplete={onRowEditComplete1}
             >
               <Column
                 selectionMode="multiple"
                 headerStyle={{ width: "3rem" }}
                 exportable={false}
               ></Column>
-              <Column field="name" header="Name" sortable></Column>
+              <Column
+                field="name"
+                header="Name"
+                sortable
+                editor={options => textEditor(options)}
+              ></Column>
               <Column
                 field="createdAt"
                 header="Creation Time"
                 sortable
               ></Column>
               <Column
-                field="linked products"
-                header="Linked Products"
-                sortable
+                header='Actions'
+                rowEditor
+                headerStyle={{ width: "10%", minWidth: "8rem" }}
+                bodyStyle={{ textAlign: "center" }}
               ></Column>
             </DataTable>
-            {/* <Paginator
-              first={basicFirst}
-              rows={basicRows}
-              totalRecords={120}
-              rowsPerPageOptions={[5, 10, 15, 25, 30]}
-              onPageChange={onBasicPageChange}
-            ></Paginator> */}
             {
-              <Pagination/>
+              <div className="w-full flex justify-content-end m-2">
+                <Pagination
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  pages={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+                  count={count}
+                  perPage={perPage}
+                  setScrollTop={setScrollTop}
+                />
+              </div>
             }
-          </>
+          </div>
         ) : (
           <EmptyBox
             icon={<CategoryIcon />}

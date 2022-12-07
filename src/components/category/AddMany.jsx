@@ -1,31 +1,7 @@
-import { Tooltip } from "primereact";
 import React, { useState } from "react";
-import { useMutation } from "react-query";
+import {formatSizeUnits} from '../../utils/helpers'
 import { CSVIcon, ImportIcon } from "../../assets/icons";
-import { persistManyCategories } from "../../services/category";
-
-const tooltipStyles = {
-  width: "12em",
-  fontSize: "14px",
-  lineHeight: "1.35",
-};
-
-function formatSizeUnits(bytes) {
-  if (bytes >= 1073741824) {
-    bytes = (bytes / 1073741824).toFixed(2) + " GB";
-  } else if (bytes >= 1048576) {
-    bytes = (bytes / 1048576).toFixed(2) + " MB";
-  } else if (bytes >= 1024) {
-    bytes = (bytes / 1024).toFixed(2) + " KB";
-  } else if (bytes > 1) {
-    bytes = bytes + " bytes";
-  } else if (bytes == 1) {
-    bytes = bytes + " byte";
-  } else {
-    bytes = "0 bytes";
-  }
-  return bytes;
-}
+import PropTypes from 'prop-types'
 
 const AddMany = props => {
   const { setHasFile,setCsvFile, setError } = props;
@@ -104,3 +80,9 @@ const AddMany = props => {
 };
 
 export default AddMany;
+
+AddMany.propTypes = {
+  setHasFile: PropTypes.bool.isRequired,
+  setCsvFile: PropTypes.object.isRequired,
+  setError: PropTypes.string.isRequired
+}

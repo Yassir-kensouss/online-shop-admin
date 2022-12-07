@@ -27,9 +27,32 @@ export const fetchAllCategories = async (page) => {
 };
 
 export const deleteManyCategories = async (data) => {
+  const localItem  = localStorage.getItem('jwt_data');
+  const jwt = JSON.parse(localItem)
   return auth({
+    headers:{
+      Authorization: `Bearer ${jwt.token}`
+    },
     method: 'POST',
     url: "category/delete/multiple",
     data:data
   })
+}
+
+export const updateCategory = async (data) => {
+  const {_id} = data;
+  const localItem  = localStorage.getItem('jwt_data');
+  const jwt = JSON.parse(localItem)
+  const body = {
+    name: data.name
+  }
+  return auth({
+    headers:{
+      Authorization: `Bearer ${jwt.token}`
+    },
+    method: 'PUT',
+    url: `category/${_id}`,
+    data:body
+  })
+
 }

@@ -1,4 +1,7 @@
 .pagi{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
     &__button{
         width: 45px;
         height: 45px;
@@ -6,16 +9,23 @@
         border-radius: 50%;
         color: rgb(117, 117, 117);
         font-size:medium;
-        transition: $default-transition;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         &:hover{
-            background: rgb(218, 222, 229);
+            background: rgb(224, 229, 236);
         }
 
         &--active{
             background: #e6ebff;
             border-color: #e6ebff;
             color: #4338CA;
+        }
+
+        &--disabled{
+            opacity: 0.6;
+            pointer-events: none;
         }
     }
 
