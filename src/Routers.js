@@ -41,9 +41,9 @@ const Routers = () => {
         <Route
           path="/categories"
           element={
-            <AdminRoute>
+            <PrivateRoute>
               <Categories />
-            </AdminRoute>
+            </PrivateRoute>
           }
         />
         <Route

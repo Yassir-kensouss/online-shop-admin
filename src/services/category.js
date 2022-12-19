@@ -3,15 +3,25 @@ import { admin, auth } from "./instances";
 
 const { user } = isAuthenticated();
 
+const localItem  = localStorage.getItem('jwt_data');
+const jwt = JSON.parse(localItem)
+
 export const persistCategory = (data) => {
+  const body = {
+    name: data.name,
+    user: user._id
+  }
   return admin({
     method: "POST",
     url: `category/create/${user._id}`,
-    data,
+    data:body,
   });
 };
 
 export const persistManyCategories = (categories) => {
+  categories.map(category  => {
+    return category.user = user._id;
+  })
   return admin({
     method: 'POST',
     url: `category/multiple/create`,
@@ -19,16 +29,14 @@ export const persistManyCategories = (categories) => {
   })
 }
 
-export const fetchAllCategories = async (page) => {
+export const fetchAllCategories = async (page = 0) => {
   return auth({
     method: "GET",
-    url: `category?page=${page}`,
+    url: `category/${user._id}?page=${page - 1}`,
   });
 };
 
 export const deleteManyCategories = async (data) => {
-  const localItem  = localStorage.getItem('jwt_data');
-  const jwt = JSON.parse(localItem)
   return auth({
     headers:{
       Authorization: `Bearer ${jwt.token}`
@@ -41,8 +49,6 @@ export const deleteManyCategories = async (data) => {
 
 export const updateCategory = async (data) => {
   const {_id} = data;
-  const localItem  = localStorage.getItem('jwt_data');
-  const jwt = JSON.parse(localItem)
   const body = {
     name: data.name
   }
@@ -53,6 +59,15 @@ export const updateCategory = async (data) => {
     method: 'PUT',
     url: `category/${_id}`,
     data:body
+  })
+
+}
+
+
+export const searchCategories = async (data) => {
+  return auth({
+    method: 'GET',
+    url: `category/categories/search?searchValue=${data}`,
   })
 
 }

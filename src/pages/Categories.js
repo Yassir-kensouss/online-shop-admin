@@ -4,8 +4,6 @@ import Dashboard from "../components/Dashboard";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Tooltip } from "primereact/tooltip";
-import { useDispatch, useSelector } from "react-redux";
-import { getCategries } from "../store/categories";
 import EmptyBox from "../components/EmptyBox";
 import { CategoryIcon } from "../assets/icons";
 import AddCategory from "../components/category/AddCategory";
@@ -13,8 +11,8 @@ import DeleteCategory from "../components/category/DeleteCategory";
 import DataTableSkeleton from "../components/loadings/DataTableSkeleton";
 import { InputText, Toast } from "primereact";
 import Pagination from "../components/pagination/Pagination";
-import { useMutation } from "react-query";
-import { updateCategory } from "../services/category";
+import { useMutation, useQuery } from "react-query";
+import { fetchAllCategories, searchCategories, updateCategory } from "../services/category";
 
 const crumbs = [
   { label: "Home", url: "/" },
@@ -22,7 +20,6 @@ const crumbs = [
 ];
 
 const Categories = () => {
-  const dispatch = useDispatch();
 
   const toast = useRef(null);
   const datatable = useRef(null);
@@ -33,57 +30,54 @@ const Categories = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isDeleteCategory, setIsDeleteCategory] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const categories = useSelector(state => state.categories.categories) || {};
-  const loading = useSelector(state => state.categories.loading);
-  const fetchingCategoriesError = useSelector(state => state.categories.error);
-  const count = useSelector(state => state.categories.count);
-  const perPage = useSelector(state => state.categories.perPage);
   const [scrollTop, setScrollTop] = useState(null);
+  const [categoriesCount, setCategoriesCount] = useState(null);
+  const [perPage, setPerPage] = useState(null);
+  const [search, setSearch] = useState(false);
+  const [searchValue, setSearchValue] = useState(null);
+  const [categories,setCategories] = useState([]);
 
-  useEffect(() => {
-    dispatch(getCategries(currentPage));
-  }, []);
+  const {data, isLoading, refetch} = useQuery('fetchCategories', async () => {
+    const response = await fetchAllCategories(currentPage);
+    const data = await response.data;
+    setCategoriesCount(data.count)
+    setPerPage(data.perPage);
+    setCategories(data.categories)
+    // return data.categories;
+  },{refetchOnWindowFocus:false})
 
-  useEffect(() => {
-    if (fetchingCategoriesError) {
-      toast.current.show({
-        severity: "error",
-        detail: fetchingCategoriesError,
-        life: 7000,
-      });
-    }
-  }, [fetchingCategoriesError]);
-
-  useEffect(() => {
-    dispatch(getCategries(currentPage));
-    const el = document.querySelector(".dashboard__main");
-    el.scrollTo(0, 100);
-  }, [currentPage]);
+  const searchCat = useQuery('searchCategory', async () => {
+    const response = await searchCategories(searchValue);
+    const data = await response.data;
+    setCategoriesCount(data.count)
+    setPerPage(data.perPage);
+    setCategories(data.categories)
+  },{refetchOnWindowFocus:false, enabled: false})
 
   // Set scroll top of the parent element to avoid scrolling top after component render
   useEffect(() => {
     const el = document.querySelector(".dashboard__main");
     el.scrollTo(0, scrollTop);
-  }, [categories]);
+  }, [data]);
 
   const onRowEditComplete1 = (e) => {
     const newVal = e.newData.name;
-    const oldVal = categories.find(category => category._id === e.newData._id).name;
-    const data = {
+    const oldVal = categories?.find(category => category._id === e.newData._id).name;
+    const newData = {
       name: e.newData.name,
       _id: e.newData._id
     }
     if(newVal !== oldVal){
-      updateRow.mutate(data)
+      updateRow.mutate(newData)
     }
   }
 
   useEffect(() => {
     if(updateRow.isSuccess){
-      dispatch(getCategries(currentPage));
+      refetch()
       toast.current.show({
         severity: "success",
-        detail: 'Category updated successeffly',
+        detail: 'Category updated successfully',
         life: 3000,
       });
     }
@@ -109,6 +103,16 @@ const Categories = () => {
     );
   };
 
+  useEffect(() => {
+    refetch()
+  },[currentPage])
+
+  const handleSearchCategory = (e) => {
+    if(e.key === 'Enter'){
+      searchCat.refetch()
+    }
+  }
+
   return (
     <>
       <Toast ref={toast} />
@@ -117,12 +121,37 @@ const Categories = () => {
         title="Categories"
         rightElement={
           <>
-            {categories && categories.length > 0 ? (
+            {categories && categories?.length > 0 ? (
               <>
                 <Tooltip
                   target="#deleteCategory"
                   content="Delete category"
                   position="bottom"
+                />
+                {
+                  search ?
+                  <span className="p-input-icon-right">
+                    <i className="pi pi-search" />
+                    <InputText placeholder="Search" 
+                      onChange={(e) => {
+                        setSearchValue(e.target.value)
+                        if(e.target.value === ''){
+                          refetch()
+                        }
+                      }} 
+                      onKeyUp={(e) => handleSearchCategory(e)}
+                    /> 
+                  </span> : null
+                }
+                <CustomButton
+                  className="p-button-primary"
+                  icon={search ? "pi pi-times" : "pi pi-search"}
+                  onClick={() => {
+                    setSearch(!search)
+                    if(searchValue.length > 0){
+                      refetch()
+                    }
+                  }}
                 />
                 <CustomButton
                   onClick={() => setIsDeleteCategory(true)}
@@ -132,14 +161,12 @@ const Categories = () => {
                   id="deleteCategory"
                   aria-label="delete category"
                 />
+                <CustomButton
+                  label="New Category"
+                  icon="pi pi-plus"
+                  onClick={() => setIsModalOpen(true)}
+                />
               </>
-            ) : null}
-            {categories && categories.length > 0 ? (
-              <CustomButton
-                label="New Category"
-                icon="pi pi-plus"
-                onClick={() => setIsModalOpen(true)}
-              />
             ) : null}
           </>
         }
@@ -147,16 +174,18 @@ const Categories = () => {
         <AddCategory
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
+          refetch={refetch}
         />
         <DeleteCategory
           isDeleteCategory={isDeleteCategory}
           setIsDeleteCategory={setIsDeleteCategory}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
+          refetch={refetch}
         />
-        {loading ? (
+        {isLoading ? (
           <DataTableSkeleton />
-        ) : categories && categories.length > 0 ? (
+        ) : categories && categories?.length > 0 ? (
           <div ref={datatable}>
             <DataTable
               value={categories}
@@ -166,6 +195,7 @@ const Categories = () => {
               className="categories-data-table"
               editMode="row"
               onRowEditComplete={onRowEditComplete1}
+              stripedRows
             >
               <Column
                 selectionMode="multiple"
@@ -195,8 +225,7 @@ const Categories = () => {
                 <Pagination
                   currentPage={currentPage}
                   setCurrentPage={setCurrentPage}
-                  pages={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-                  count={count}
+                  count={categoriesCount}
                   perPage={perPage}
                   setScrollTop={setScrollTop}
                 />

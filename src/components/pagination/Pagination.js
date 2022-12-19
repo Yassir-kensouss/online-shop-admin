@@ -1,5 +1,5 @@
 import { InputText, Toast } from "primereact";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 const Pagination = props => {
@@ -20,7 +20,7 @@ const Pagination = props => {
   const handleNext = () => {
       const el = document.querySelector(".dashboard__main");
       setScrollTop(el?.scrollTop);
-    if (currentPage != Math.ceil(count / perPage) - 1) {
+    if (currentPage != Math.ceil(count / perPage)) {
       setCurrentPage(parseInt(currentPage) + 1);
     }
   };
@@ -34,11 +34,11 @@ const Pagination = props => {
           life: 3000,
         });
         return;
-      } else if (goTo > Math.ceil(count / perPage) - 1) {
+      } else if (goTo > Math.ceil(count / perPage)) {
         toast.current.show({
           severity: "error",
           detail: `Page number can not be grater than ${
-            Math.ceil(count / perPage) - 1
+            Math.ceil(count / perPage)
           }`,
           life: 3000,
         });
@@ -52,6 +52,12 @@ const Pagination = props => {
     setGoTo(e.target.value);
   };
 
+  useEffect(() => {
+    console.log('count23', count)
+  },[])
+
+  console.log('math', currentPage,count,perPage, Math.ceil(count / perPage))
+
   return (
     <>
       <Toast ref={toast} />
@@ -63,13 +69,15 @@ const Pagination = props => {
             onKeyUp={goToSpecificPage}
             type="number"
             min={1}
-            max={Math.ceil(count / perPage) - 1}
+            max={Math.ceil(count / perPage)}
             className="w-4rem"
           />
         </div>
         {currentPage} - {currentPage * perPage} of {count}
         <button
-          onClick={handlePrev}
+          onClick={() => {
+            handlePrev()
+          }}
           aria-label="previous page"
           className={
             currentPage == 1
@@ -80,10 +88,12 @@ const Pagination = props => {
           <i className="pi pi-angle-left"></i>
         </button>
         <button
-          onClick={handleNext}
+          onClick={() => {
+            handleNext();
+          }}
           aria-label="previous page"
           className={
-            currentPage == Math.ceil(count / perPage) - 1
+            count < 11 || currentPage === Math.ceil(count / perPage)
               ? "next pagi__button pagi__button--disabled"
               : "next pagi__button"
           }

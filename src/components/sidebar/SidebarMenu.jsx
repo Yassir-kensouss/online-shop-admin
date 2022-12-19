@@ -53,8 +53,8 @@ const SidebarMenu = () => {
             </Link>
           </li>
         )}
-        {isAuthenticated() && isAuthenticated().user.role === 1 && (
-          <li className="sidebar__item">
+        {isAuthenticated() && (
+          <li className="sidebar__item" onClick={() => dispatch(getCategries(0))}>
             <Link
               className={
                 pathname === "/categories"

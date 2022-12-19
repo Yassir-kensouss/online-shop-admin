@@ -12,7 +12,7 @@ import PropTypes from 'prop-types'
 
 const AddCategory = props => {
 
-  const { isModalOpen, setIsModalOpen } = props;
+  const { isModalOpen, setIsModalOpen, refetch } = props;
 
   const [hasFile,setHasFile] = useState(false)
   const [csvFile,setCsvFile] = useState(null)
@@ -38,6 +38,7 @@ const AddCategory = props => {
       Papa.parse(csvFile,{
         header:true,
         complete: (result) => {
+          console.log('result', result)
           if(isCsvCategoryValid(result.data)){
             addMany.mutate(result.data);
           }else{
@@ -54,7 +55,7 @@ const AddCategory = props => {
   useEffect(() => {
 
     if(addMany.isSuccess){
-      dispatch(getCategries())
+      refetch()
       setHasFile(false);
       setCsvFile(null)
       setIsModalOpen(false);
@@ -83,12 +84,7 @@ const AddCategory = props => {
   useEffect(() => {
     if (isSuccess) {
       setIsModalOpen(false);
-      dispatch(
-        addNewCategory({
-          type: "ADD_NEW_CATEGORY",
-          category: data.data.category,
-        })
-      );
+      refetch()
       toast.current.show({
         severity: "success",
         detail: "Category Added",

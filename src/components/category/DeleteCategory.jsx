@@ -11,6 +11,7 @@ const DeleteCategory = props => {
     isDeleteCategory,
     selectedCategory,
     setSelectedCategory,
+    refetch
   } = props;
 
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ const DeleteCategory = props => {
         } categories deleted`,
         life: 3000,
       });
-      dispatch(getCategries());
+      refetch()
       setSelectedCategory(null);
     }
   }, [deleteMutation.isSuccess]);

@@ -45,3 +45,10 @@ export const formatSizeUnits = (bytes) => {
   }
   return bytes;
 }
+
+
+// Reorder list
+
+export const sortByDate = (a, b) => {
+  return new Date(b.createdAt) - new Date(a.createdAt);
+};
