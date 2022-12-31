@@ -1,0 +1,125 @@
+.productPictures{
+
+    margin-bottom: 1em;
+    
+    label{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        cursor: pointer;
+        transition: 0.2s;
+
+        &:hover{
+            opacity: 0.8;
+        }
+    }
+
+    &_label{
+        display: block;
+        margin-top: 5px;
+        color: rgb(108, 107, 107);
+    }
+
+    &_labelIcon{
+        font-size: 2rem;
+        color: rgb(185, 185, 185);
+    }
+}
+
+
+.previewPictures{
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    flex-wrap: wrap;
+
+    &__addMore{
+        width: 130px;
+        height: 130px;
+        border-radius: $border-radius;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        background-color: $graySecondary;
+        svg{
+            color: $text;
+        }
+    }
+
+    &__img{
+        border-radius: $border-radius;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &__item{
+        width: 130px;
+        height: 130px;
+        position: relative;
+
+        &:hover{
+            .previewPictures__overlay{
+                visibility: visible;
+            }
+        }
+
+        .p-image-preview-indicator{
+            top: 50%;
+            height: 50%;
+        }
+
+        .p-image-preview-container{
+            border-radius: $border-radius;
+            overflow: hidden;
+            width: 130px;
+            height: 130px;
+
+            img{
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    &__overlay{
+        position: absolute;
+        top: 0;
+        left: 0 ;
+        z-index: 2;
+        background-color: rgba($color: #000000, $alpha: 0.6);
+        width: 100%;
+        height: 50%;
+        cursor: pointer;
+        visibility: hidden;
+        border-top-left-radius: $border-radius;
+        border-top-right-radius: $border-radius;
+    }
+
+    &__cancel{
+        font-size: 1rem;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-transform: capitalize;
+        width: 100%;
+        height: 100%;
+
+        &:first-child{
+            border-top-left-radius: $border-radius;
+            border-top-right-radius: $border-radius;
+        }
+
+        &:hover{
+            background-color: rgba(134, 134, 134, 0.429);
+        }
+    }
+}

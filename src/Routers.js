@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Analytics from "./pages/Analytics";
 import Categories from "./pages/Categories";
+import NewProduct from "./pages/NewProduct";
 import Customers from "./pages/Customers";
 import Home from "./pages/home/Home";
 import Products from "./pages/Products";
@@ -51,6 +52,14 @@ const Routers = () => {
           element={
             <PrivateRoute>
               <Products />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/products/new-product"
+          element={
+            <PrivateRoute>
+              <NewProduct />
             </PrivateRoute>
           }
         />

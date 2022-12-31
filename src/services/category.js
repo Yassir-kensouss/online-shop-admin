@@ -36,6 +36,13 @@ export const fetchAllCategories = async (page = 0) => {
   });
 };
 
+export const allCategories = async () => {
+  return auth({
+    method: "GET",
+    url: `category/categories/all`,
+  });
+}
+
 export const deleteManyCategories = async (data) => {
   return auth({
     headers:{
