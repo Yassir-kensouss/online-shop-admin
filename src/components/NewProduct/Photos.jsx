@@ -9,7 +9,7 @@ import { isFilesValid } from "../../utils/isFilesValid";
 
 const Photos = () => {
   const toast = useRef(null)
-  const { setFiles, files, product, setProduct } = useContext(ContextContainer);
+  const { setFiles, files, product, setProduct, errors } = useContext(ContextContainer);
 
   useEffect(() => {
 
@@ -94,7 +94,7 @@ const Photos = () => {
   return (
     <div className="bg-white p-3 border-round-sm mt-3">
       <Toast ref={toast} />
-      <h2 className="text-xl mb-5 font-medium text-800">Pictures</h2>
+      <h2 className="text-xl mb-5 font-medium text-800">Pictures *</h2>
       {files && files.length > 0 ? (
         <div className="previewPictures">
           {files.map(file => (
@@ -130,7 +130,8 @@ const Photos = () => {
           ) : null}
         </div>
       ) : (
-        <div className="productPictures">
+        <>
+          <div className="productPictures">
           <label htmlFor="productPictures">
             <input
               type="file"
@@ -151,6 +152,11 @@ const Photos = () => {
             </small>
           </label>
         </div>
+        {
+          errors && 'files' in errors ? 
+          <p className="text-red-400 mt-2 text-sm">{errors['files']}</p>:null
+        }
+        </>
       )}
     </div>
   );

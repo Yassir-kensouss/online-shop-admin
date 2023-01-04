@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { ContextContainer } from "../../pages/NewProduct";
 
 const BasicInfo = () => {
-  const { product, setProduct } = useContext(ContextContainer);
+  const { product, setProduct, errors } = useContext(ContextContainer);
 
   return (
     <div className="bg-white p-3 border-round-sm mt-3">
@@ -12,7 +12,7 @@ const BasicInfo = () => {
       <div className="flex gap-4">
         <div className="p-0 flex-1">
           <label htmlFor="price" className="block text-sm mb-2">
-            Price
+            Price *
           </label>
           <InputNumber
             inputId="price"
@@ -37,6 +37,10 @@ const BasicInfo = () => {
           />
         </div>
       </div>
+      {
+          errors && ('price' in errors || 'oldPrice' in errors) ? 
+          <p className="text-red-400 mt-2 text-sm">{errors['price'] || errors['oldPrice']}</p>:null
+        }
     </div>
   );
 };

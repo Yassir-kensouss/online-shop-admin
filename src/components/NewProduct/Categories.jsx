@@ -8,7 +8,7 @@ import { allCategories } from "../../services/category";
 
 const BasicInfo = () => {
 
-  const {product, setProduct} = useContext(ContextContainer);
+  const {product, setProduct, errors} = useContext(ContextContainer);
 
   const [selectedCategories, setSelectedCategories] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -37,7 +37,7 @@ const BasicInfo = () => {
 
   return (
     <div className="bg-white p-3 border-round-sm mt-3">
-      <h2 className="text-xl mb-5 font-medium text-800">Categories</h2>
+      <h2 className="text-xl mb-5 font-medium text-800">Categories *</h2>
       <div className="flex gap-4">
         <MultiSelect
           className="w-full"
@@ -49,6 +49,10 @@ const BasicInfo = () => {
           display="chip"
         />
       </div>
+      {
+          errors && 'categories' in errors ? 
+          <p className="text-red-400 mt-2 text-sm">{errors['categories']}</p>:null
+        }
       <div className="mt-3 text-sm">
         <Link to='/categories'>Add New Category</Link>
       </div>

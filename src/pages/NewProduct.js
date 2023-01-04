@@ -8,6 +8,9 @@ import Visibility from "../components/NewProduct/Visibility";
 import Categories from "../components/NewProduct/Categories";
 import Photos from "../components/NewProduct/Photos";
 import Tags from "../components/NewProduct/Tags";
+import useValidProduct from "../hooks/useValidProduct";
+import { useMutation } from "react-query";
+import { addNewProduct } from "../services/product";
 
 const crumbs = [
   { label: "Home", url: "/" },
@@ -62,7 +65,18 @@ export const ContextContainer = createContext(null);
 const Products = () => {
   const [name, setName] = useState('');
   const [files, setFiles] = useState(null);
-  const [product, setProduct] = useState({name,files,...initialState});
+  const [errors, setErrors] = useState(null);
+  const [product, setProduct] = useState({...initialState,name,files});
+
+  const newProduct = useMutation((data) => addNewProduct(data));
+
+  const addProduct = () => {
+    const {isValid, errors} = useValidProduct({...product,name,files});
+    !isValid ? setErrors(errors) : setErrors(null);
+    // if(isValid){
+      newProduct.mutate(product)
+    // }
+  }
 
   return (
     <Dashboard
@@ -74,13 +88,18 @@ const Products = () => {
             label="Save"
             icon="pi pi-plus"
             model={items}
+            onClick={addProduct}
             className="p-button-sm mr-2 mb-2"
           ></SplitButton>
         </>
       }
     >
+      {
+        errors ?
+        <p className="text-red-400 pt-4 text-sm">Please check fields with *</p>:null
+      }
       <div className="grid  pt-4">
-        <ContextContainer.Provider value={{ product, setProduct, setName ,name, setFiles, files }}>
+        <ContextContainer.Provider value={{ product, setProduct, setName ,name, setFiles, files, errors }}>
           <div className="col-7">
             <BasicInfo/>
             <Pricing />
