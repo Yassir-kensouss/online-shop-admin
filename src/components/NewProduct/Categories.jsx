@@ -14,10 +14,14 @@ const BasicInfo = () => {
   const [categories, setCategories] = useState([]);
 
   const handleCatgoriesSelect = (e) => {
+    const objectId = e.value.map(el => {
+      return el.code
+    })
+    
     setSelectedCategories(e.value)
     setProduct({
       ...product,
-      categories: e.value
+      categories: objectId
     })
   }
 

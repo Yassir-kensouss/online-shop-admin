@@ -50,13 +50,13 @@ const items = [
 ];
 
 const initialState = {
-    description: "",
-    shortDescription: "",
-    oldPrice: "",
-    price: "",
-    sku: "",
-    visibility: "",
-    quantity: "",
+    description: null,
+    shortDescription: null,
+    oldPrice: null,
+    price: null,
+    sku: null,
+    visibility: null,
+    quantity: null,
     tags:[],
     categories: []
 };
@@ -73,9 +73,9 @@ const Products = () => {
   const addProduct = () => {
     const {isValid, errors} = useValidProduct({...product,name,files});
     !isValid ? setErrors(errors) : setErrors(null);
-    // if(isValid){
+    if(isValid){
       newProduct.mutate(product)
-    // }
+    }
   }
 
   return (

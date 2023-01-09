@@ -1,3 +1,5 @@
+import { MAX_LENGTH, MAX_PRICE, MAX_QUANTITY } from "../common/constants";
+
 const useValidProduct = values => {
   const errors = {};
 
@@ -12,8 +14,8 @@ const useValidProduct = values => {
           errors.name
             ? errors.name.push("Product name is required")
             : (errors.name = ["Product name is required"]);
-        } else if (values["name"] && values["name"].length > 10) {
-          errors.name = ["maximum character length for name is 30"];
+        } else if (values["name"] && values["name"].length > MAX_LENGTH.PRODUCT_NAME) {
+          errors.name = [`maximum character length for name is ${MAX_LENGTH.PRODUCT_NAME}`];
         } else {
           delete errors.name;
         }
@@ -26,9 +28,9 @@ const useValidProduct = values => {
           errors.description
             ? errors.description.push("product description is required")
             : (errors.description = ["product description is required"]);
-        } else if (values["description"] && values["description"].length > 10) {
+        } else if (values["description"] && values["description"].length > MAX_LENGTH.PRODUCT_DESC) {
           errors.description = [
-            "maximum character length for description is 30",
+            `maximum character length for description is ${MAX_LENGTH.PRODUCT_DESC}`,
           ];
         } else {
           delete errors.description;
@@ -47,10 +49,10 @@ const useValidProduct = values => {
               ]
         } else if (
           values[property] &&
-          values[property].length > 10
+          values[property].length > MAX_LENGTH.PRODUCT_SHORT_DESC
         ) {
           errors.shortDescription = [
-            "maximum character length for short description is 30",
+            `maximum character length for short description is ${MAX_LENGTH.PRODUCT_SHORT_DESC}`,
           ];
         } else {
           delete errors.shortDescription;
@@ -64,7 +66,7 @@ const useValidProduct = values => {
           errors.price
             ? errors.price.push("product price is required")
             : (errors.price = ["product price is required"]);
-        } else if (values["price"] && values["price"] > 1000000) {
+        } else if (values["price"] && values["price"] > MAX_PRICE) {
           errors.price = ["maximum price is 1 000 000$"];
         } else {
           delete errors.price;
@@ -83,15 +85,15 @@ const useValidProduct = values => {
     },
 
     validateSku: property => {
-      if (values[property] && values[property].length > 30) {
+      if (values[property] && values[property].length > MAX_LENGTH.PRODUCT_SKU) {
         errors.sku = ["product sku is too long"];
       } else {
         delete errors.sku;
       }
     },
     validateQuantity: property => {
-      if (values[property] && values[property] > 1000000000) {
-        errors.quantity = ["product quantity number is too big"];
+      if (values[property] && values[property] > MAX_QUANTITY) {
+        errors.quantity = [`Maximum product quantity you can add is ${MAX_QUANTITY}`];
       } else {
         delete errors.quantity;
       }

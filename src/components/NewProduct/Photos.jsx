@@ -1,162 +1,133 @@
 import { Image, Toast } from "primereact";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
-import { ImportIcon } from "../../assets/icons";
 import { ContextContainer } from "../../pages/NewProduct";
-import { isFilesValid } from "../../utils/isFilesValid";
+import { useDropzone } from "react-dropzone";
+import { FILE_FORMATS, FILE_SIZE } from "../../common/constants";
 
 const Photos = () => {
-  const toast = useRef(null)
+  const toast = useRef(null);
   const { setFiles, files, product, setProduct, errors } = useContext(ContextContainer);
+  const [media, setMedia] = useState([]);
+  const [fileErrors, setFileErrors] = useState(null);
+
+  const onDrop = useCallback((acceptedFiles, fileRejections) => {
+    if (fileRejections.length > 0) {
+      fileRejections.forEach(file => {
+        file.errors.forEach(err => {
+          if (err.code === "file-too-large") {
+            setFileErrors({
+              hasError: true,
+              message: err.message,
+            });
+          }
+
+          if (err.code === "file-invalid-type") {
+            setFileErrors({
+              hasError: true,
+              message:
+                "Error: Invalid media type (png, jpg, jpeg, webp) only allowed",
+            });
+          }
+        });
+      });
+    } else {
+      setFileErrors(null);
+    }
+
+    const filesArray = Array.from(acceptedFiles);
+
+    filesArray.forEach((file, index) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setMedia(oldData => [...oldData, reader.result]);
+      };
+    });
+  }, []);
 
   useEffect(() => {
+    if (!fileErrors) {
+      setProduct({
+        ...product,
+        files: media,
+      });
 
+      setFiles(media);
+    }
+  }, [media]);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    multiple: true,
+    maxFiles: 6,
+    maxSize: FILE_SIZE.IMAGE,
+    accept: {
+      "image/*": FILE_FORMATS.IMAGE,
+      "video/*": FILE_FORMATS.VIDEO,
+    },
+  });
+
+  useEffect(() => {
     setProduct({
       ...product,
-      files
-    })
+      files,
+    });
+  }, [files]);
 
-  },[files])
-
-  const handleProductPicture = (e) => {
-    const files = e.target.files;
-    const arr = [...files]
-    const {errors, isValid} = isFilesValid(arr)
-
-    if(arr.length > 6){
-      toast.current.show({
-        severity: "error",
-        detail: 'You cannot upload more than 6 pictures',
-        life: 2000,
-      });
-      return false
-    }
-
-    if(errors && !isValid){
-      let errs = [];
-      errors.map(error => {
-        errs.push({
-          severity: "error",
-          detail: error.message,
-          life: 2000,
-        })
-      })
-      toast.current.show(errs);
-      return false
-    }
-
-    setFiles(arr);
-  }
-
-  const handleMoreFiles = (e) => {
-    const newFiles = e.target.files;
-    const arr = [...newFiles];
-    const {errors, isValid} = isFilesValid(arr)
-    
-    if(errors && !isValid){
-      let errs = [];
-      errors.map(error => {
-        errs.push({
-          severity: "error",
-          detail: error.message,
-          life: 2000,
-        })
-      })
-      toast.current.show(errs);
-      return false
-    }
-
-    const moreFiles = [...files,...arr]
-
-    if(moreFiles && moreFiles.length > 6){
-      toast.current.show({
-        severity: "error",
-        detail: 'You cannot upload more than 6 pictures',
-        life: 2000,
-      });
-      return false
-    }
-
-    setFiles(moreFiles)
-  }
-
-  const  handleRemove = (file) => {
-    const name = file.name;
-    const arr = files.filter(file => {
-      return file.name !== name
-    })
-    setFiles(arr)
-  }
-
+  const handleRemove = index => {
+    const array = [...media];
+    array.splice(index, 1);
+    setMedia(array);
+  };
 
   return (
     <div className="bg-white p-3 border-round-sm mt-3">
       <Toast ref={toast} />
       <h2 className="text-xl mb-5 font-medium text-800">Pictures *</h2>
-      {files && files.length > 0 ? (
-        <div className="previewPictures">
-          {files.map(file => (
-            <div className="previewPictures__item" key={file.name}>
-              {/* <img className="previewPictures__img" src={URL.createObjectURL(file)} /> */}
-              <Image
-                src={URL.createObjectURL(file)}
-                alt="Image"
-                width="130"
-                preview
-              />
-              <div className="previewPictures__overlay">
-                <div
-                  className="previewPictures__cancel"
-                  onClick={() => handleRemove(file)}
-                >
-                  Cancel
-                </div>
-              </div>
-            </div>
-          ))}
-          {files && files.length <= 5 ? (
-            <label className="previewPictures__addMore" htmlFor="moreProductPictures">
-              <i className="pi pi-plus" aria-hidden='true'></i>
-              <input
-                type="file"
-                multiple
-                onChange={handleMoreFiles}
-                hidden
-                id="moreProductPictures"
-              />
-            </label>
-          ) : null}
+      <>
+        <div className="productPictures">
+          <div
+            {...getRootProps()}
+            className="productPictures__dropZone"
+            style={{
+              borderColor: isDragActive ? "#4318FF" : "rgb(192, 192, 192)",
+            }}
+          >
+            <input {...getInputProps()} />
+            {isDragActive ? (
+              <p>Drop the files here ...</p>
+            ) : (
+              <p>Drag and drop the product pictures or video</p>
+            )}
+          </div>
         </div>
-      ) : (
-        <>
-          <div className="productPictures">
-          <label htmlFor="productPictures">
-            <input
-              type="file"
-              multiple
-              onChange={handleProductPicture}
-              hidden
-              id="productPictures"
-            />
-            <ImportIcon
-              aria-hidden="true"
-              className="productPictures_labelIcon"
-            />
-            <span className="productPictures_label">
-              Click To Upload Pictures
-            </span>
-            <small className="text-xs text-500 mt-2">
-              Support JPEG, PNG, WENP, and Up to 2MB
-            </small>
-          </label>
-        </div>
+        {fileErrors && fileErrors.hasError ? (
+          <p className="text-red-400 mt-2 text-sm">{fileErrors.message}</p>
+        ) : null}
         {
           errors && 'files' in errors ? 
           <p className="text-red-400 mt-2 text-sm">{errors['files']}</p>:null
         }
-        </>
+      </>
+      {files && files.length > 0 && (
+        <div className="previewPictures mt-3">
+          {files.map((file, index) => (
+            <div className="previewPictures__item" key={index}>
+              <Image src={file} alt="Image" width="130" preview />
+              <div
+                className="previewPictures__overlay"
+                onClick={() => handleRemove(index)}
+              >
+                <div className="previewPictures__cancel">
+                  <i className="pi pi-trash"></i>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

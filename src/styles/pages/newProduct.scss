@@ -1,125 +1,72 @@
-.productPictures{
-
-    margin-bottom: 1em;
-    
-    label{
+.productPictures {
+    &__dropZone {
+        border-style: dashed;
+        border-width: 2px;
         width: 100%;
-        height: 100%;
+        height: 70px;
         display: flex;
-        justify-content: center;
         align-items: center;
-        flex-direction: column;
+        justify-content: center;
+        font-size: $medium;
+        color: $normalGray;
         cursor: pointer;
-        transition: 0.2s;
+        transition: $default-transition;
 
-        &:hover{
+        &:hover {
             opacity: 0.8;
         }
     }
-
-    &_label{
-        display: block;
-        margin-top: 5px;
-        color: rgb(108, 107, 107);
-    }
-
-    &_labelIcon{
-        font-size: 2rem;
-        color: rgb(185, 185, 185);
-    }
 }
 
-
-.previewPictures{
+.previewPictures {
     display: flex;
-    align-items: center;
-    gap: 1em;
     flex-wrap: wrap;
-
-    &__addMore{
-        width: 130px;
-        height: 130px;
-        border-radius: $border-radius;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        background-color: $graySecondary;
-        svg{
-            color: $text;
-        }
-    }
-
-    &__img{
-        border-radius: $border-radius;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    &__item{
-        width: 130px;
-        height: 130px;
+    gap: 0.8em;
+    
+    &__item {
+        width: 135px;
+        height: 120px;
         position: relative;
-
+        border-radius: $border-radius;
+        overflow: hidden;
+        
         &:hover{
             .previewPictures__overlay{
                 visibility: visible;
             }
         }
 
-        .p-image-preview-indicator{
-            top: 50%;
-            height: 50%;
-        }
+        .p-image-preview-container {
 
-        .p-image-preview-container{
-            border-radius: $border-radius;
-            overflow: hidden;
-            width: 130px;
-            height: 130px;
+            width: 100%;
+            height: 100%;
 
-            img{
-                display: block;
+            img {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+                display: block;
             }
+
+        }
+        
+        .p-image-preview-indicator{
+            height: 50%;
         }
     }
 
     &__overlay{
         position: absolute;
-        top: 0;
-        left: 0 ;
-        z-index: 2;
-        background-color: rgba($color: #000000, $alpha: 0.6);
         width: 100%;
         height: 50%;
-        cursor: pointer;
-        visibility: hidden;
-        border-top-left-radius: $border-radius;
-        border-top-right-radius: $border-radius;
-    }
-
-    &__cancel{
-        font-size: 1rem;
-        color: white;
-        cursor: pointer;
+        top: 50%;
+        left: 0;
+        background-color: rgba($color: #000000, $alpha: 0.5);
         display: flex;
         align-items: center;
         justify-content: center;
-        text-transform: capitalize;
-        width: 100%;
-        height: 100%;
-
-        &:first-child{
-            border-top-left-radius: $border-radius;
-            border-top-right-radius: $border-radius;
-        }
-
-        &:hover{
-            background-color: rgba(134, 134, 134, 0.429);
-        }
+        color: white;
+        visibility: hidden;
+        cursor: pointer;
     }
 }

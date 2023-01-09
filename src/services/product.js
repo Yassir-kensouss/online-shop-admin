@@ -1,24 +1,17 @@
+import { isAuthenticated } from "../utils/helpers";
 import { auth } from "./instances";
+const { user } = isAuthenticated();
+
+const localItem = localStorage.getItem("jwt_data");
+const jwt = JSON.parse(localItem);
 
 export const addNewProduct = data => {
-
-  const {files} = data;
-  
-  const formData = new FormData();
-
-  formData.append('files',JSON.stringify(files))
-  
-  console.log('files 00', formData)
-
   return auth({
+    headers: {
+      Authorization: `Bearer ${jwt.token}`,
+    },
     method: "POST",
-    url: `file-storage/upload`,
-    data: files,
+    url: `product/create/${user._id}`,
+    data: data,
   });
-
-//   return auth({
-//     method: "POST",
-//     url: `product/create/${user._id}`,
-//     data: body,
-//   });
 };
