@@ -39,6 +39,16 @@ const BasicInfo = () => {
     { refetchOnWindowFocus: false }
   );
 
+  const panelFooterTemplate = () => {
+    const selectedItems = selectedCategories;
+    const length = selectedItems ? selectedItems.length : 0;
+    return (
+        <div className="py-2 px-3">
+            <b>{length}</b> item{length > 1 ? 's' : ''} selected.
+        </div>
+    );
+  }
+
   return (
     <div className="bg-white p-3 border-round-sm mt-3">
       <h2 className="text-xl mb-5 font-medium text-800">Categories *</h2>
@@ -51,6 +61,8 @@ const BasicInfo = () => {
           optionLabel="name"
           placeholder="Select a category"
           display="chip"
+          filter
+          panelFooterTemplate={panelFooterTemplate}
         />
       </div>
       {

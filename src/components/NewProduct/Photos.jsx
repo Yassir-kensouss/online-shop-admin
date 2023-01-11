@@ -20,7 +20,14 @@ const Photos = () => {
           if (err.code === "file-too-large") {
             setFileErrors({
               hasError: true,
-              message: err.message,
+              message: 'File is larger than 2MB',
+            });
+          }
+
+          if(err.code === 'too-many-files'){
+            setFileErrors({
+              hasError: true,
+              message: 'Too many files, Maximum you can upload is 6',
             });
           }
 
@@ -31,6 +38,7 @@ const Photos = () => {
                 "Error: Invalid media type (png, jpg, jpeg, webp) only allowed",
             });
           }
+          console.log('errors', err)
         });
       });
     } else {
