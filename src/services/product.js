@@ -15,3 +15,34 @@ export const addNewProduct = data => {
     data: data,
   });
 };
+
+export const fetchAllProducts = () => {
+  return auth({
+    method: "GET",
+    url: 'product/',
+  });
+};
+
+export const duplicateProduct = data => {
+
+  delete data._id
+
+  return auth({
+    headers: {
+      Authorization: `Bearer ${jwt.token}`,
+    },
+    method: "POST",
+    url: `product/duplicate/${user._id}`,
+    data: data,
+  });
+};
+
+export const deleteProduct = (id) => {
+  return auth({
+    headers:{
+      Authorization: `Bearer ${jwt.token}`
+    },
+    method: "DELETE",
+    url: `product/${id}/${user._id}`
+  })
+}

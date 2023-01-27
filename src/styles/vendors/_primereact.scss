@@ -1,3 +1,21 @@
 .tags-chips .p-chips-multiple-container{
     width: 100%;
 }
+
+.custom-badge{
+    &.p-badge-success{
+        background-color: rgb(117, 223, 117);
+    }
+    &.p-badge-muted{
+        background-color: rgb(122, 122, 122);
+    }
+    &.p-badge-warning{
+        background-color: rgb(208, 156, 44);
+    }
+}
+
+.p-button.p-button-icon-only.p-button-rounded.table-btn-icon{
+    width: 20px;
+    height: 20px;
+    padding: 0;
+}
