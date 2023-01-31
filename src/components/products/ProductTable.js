@@ -4,12 +4,13 @@ import { useMutation, useQuery } from "react-query";
 import { deleteProduct, duplicateProduct, fetchAllProducts } from "../../services/product";
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
-const ProductTable = () => {
+const ProductTable = (props) => {
+
+  const {selectedProducts, setSelectedProducts, productsQuery} = props;
 
   const menu = useRef(null);
   const toast = useRef(null)
 
-  const [selectedCustomer1, setSelectedCustomer1] = useState([]);
   const [filters1, setFilters1] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     name: {
@@ -26,17 +27,6 @@ const ProductTable = () => {
       constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
     },
   });
-
-  const productsQuery = useQuery(
-    "fetchProducts",
-    async () => {
-      const response = await fetchAllProducts();
-      const data = await response.data;
-      const products = await data.products;
-      return products;
-    },
-    { refetchOnWindowFocus: false }
-  );
 
   const filtersMap = {
     filters1: { value: filters1, callback: setFilters1 },
@@ -132,7 +122,7 @@ const ProductTable = () => {
         life: 3000,
       });
     },
-  })
+  });
 
   const [rowBody, setRowBody] = useState(null)
 
@@ -161,23 +151,17 @@ const ProductTable = () => {
     );
   };
 
-  const dt = useRef(null)
-
   return (
     <div>
       <Toast ref={toast} />
       <DataTable
         value={productsQuery.data}
-        ref={dt}
         paginator
         rows={10}
         header={header1}
-        selection={selectedCustomer1}
-        onSelectionChange={e => setSelectedCustomer1(e.value)}
-        selectionMode="multiple"
+        selection={selectedProducts}
+        onSelectionChange={e => setSelectedProducts(e.value)}
         responsiveLayout="scroll"
-        stateStorage="session"
-        stateKey="dt-state-demo-session"
         emptyMessage="No customers found."
       >
         <Column

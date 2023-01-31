@@ -46,3 +46,16 @@ export const deleteProduct = (id) => {
     url: `product/${id}/${user._id}`
   })
 }
+
+export const deleteManyProducts = (ids) => {
+  
+  return auth({
+    headers:{
+      Authorization: `Bearer ${jwt.token}`
+    },
+    method: "POST",
+    url: `/product/deleteMany/${user._id}`,
+    data: ids
+  })
+}
+
