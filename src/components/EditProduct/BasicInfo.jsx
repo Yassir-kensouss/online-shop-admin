@@ -1,11 +1,8 @@
 import { Editor, InputText, InputTextarea } from "primereact";
-import React, { useState } from "react";
-import { useContext } from "react";
-import { EditProductContext } from "../../pages/EditProduct";
-import { ContextContainer } from "../../pages/NewProduct";
+import React from "react";
 
-const BasicInfo = () => {
-  const { product, setProduct, setName, name, errors } = useContext(ContextContainer);
+const BasicInfo = (props) => {
+  const { product, setProduct } = props;
 
   const setDescription = e => {
     setProduct({
@@ -15,13 +12,15 @@ const BasicInfo = () => {
   };
   
   const setProductName = e => {
-    setName(e.target.value)
+    setProduct({
+      ...product,
+      name: e.target.value,
+    });
   };
   
   const setShortDescription = e => {
     setProduct({
       ...product,
-      name:name,
       shortDescription: e.target.value,
     });
   };
@@ -36,13 +35,9 @@ const BasicInfo = () => {
         <InputText
           className="p-inputtext-sm w-full"
           placeholder="Apple iPad (2018 Model)"
-          value={name}
+          value={product.name}
           onChange={setProductName}
         />
-        {
-          errors && 'name' in errors ? 
-          <p className="text-red-400 mt-2 text-sm">{errors['name']}</p>:null
-        }
       </div>
       <div className="product-description-editor mb-3">
         <label className="block text-sm mb-2">Description *</label>
@@ -51,10 +46,6 @@ const BasicInfo = () => {
           value={product.description}
           onTextChange={(e) => setDescription(e)}
         />
-        {
-          errors && 'description' in errors ? 
-          <p className="text-red-400 mt-2 text-sm">{errors['description']}</p>:null
-        }
       </div>
       <div className="short-description">
         <label className="block text-sm mb-2">Short Description *</label>
@@ -63,11 +54,8 @@ const BasicInfo = () => {
           cols={30}
           className="w-full max-h-9rem"
           onChange={setShortDescription}
+          value={product.shortDescription}
         />
-        {
-          errors && 'shortDescription' in errors ? 
-          <p className="text-red-400 mt-2 text-sm">{errors['shortDescription']}</p>:null
-        }
       </div>
     </div>
   );

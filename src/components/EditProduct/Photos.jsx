@@ -5,12 +5,10 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import { FILE_FORMATS, FILE_SIZE } from "../../common/constants";
-import { EditProductContext } from "../../pages/EditProduct";
-import { ContextContainer } from "../../pages/NewProduct";
 
-const Photos = () => {
+const Photos = (props) => {
   const toast = useRef(null);
-  const { setFiles, files, product, setProduct, errors } = useContext(ContextContainer);
+  const { setFiles, files, product, setProduct, errors } = props;
   const [media, setMedia] = useState([]);
   const [fileErrors, setFileErrors] = useState(null);
 

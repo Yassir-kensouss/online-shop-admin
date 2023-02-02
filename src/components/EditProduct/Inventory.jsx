@@ -1,11 +1,9 @@
 import { InputNumber, InputText } from 'primereact'
-import React, { useContext } from 'react'
-import { EditProductContext } from '../../pages/EditProduct';
-import { ContextContainer } from '../../pages/NewProduct';
+import React from 'react'
 
-const Inventory = () => {
+const Inventory = (props) => {
 
-  const { product, setProduct, errors } = useContext(ContextContainer);
+  const { product, setProduct } = props;
 
   return (
     <div className='bg-white p-3 border-round-sm mt-3'>
@@ -14,22 +12,16 @@ const Inventory = () => {
             <label htmlFor="sku" className='block text-sm mb-2'>SKU</label>
             <InputText id="sku" className='p-inputtext-sm w-full' placeholder='SCREW150' 
               onChange={e => setProduct({ ...product, sku: e.target.value })}
+              value={product.sku}
             />
         </div>
-        {
-          errors && 'sku' in errors? 
-          <p className="text-red-400 mt-2 text-sm">{errors['sku']}</p>:null
-        }
         <div className='product-title-field'>
             <label htmlFor="stock-quantity" className='block text-sm mb-2'>Stock quantity</label>
             <InputNumber inputId="stock-quantity" className='p-inputtext-sm w-full' 
               onValueChange={e => setProduct({ ...product, quantity: e.target.value })}
+              value={product.quantity}
             />
         </div>
-        {
-          errors && 'quantity' in errors? 
-          <p className="text-red-400 mt-2 text-sm">{errors['quantity']}</p>:null
-        }
     </div>
   )
 }

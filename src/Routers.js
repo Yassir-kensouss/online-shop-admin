@@ -12,6 +12,7 @@ import ResetPassword from "./pages/ResetPasswrod";
 import UpdatePassword from "./pages/UpdatePassword";
 import PrivateRoute from "./utils/PrivateRoute";
 import AdminRoute from "./utils/AdminRoute";
+import EditProduct from "./pages/EditProduct";
 
 const Routers = () => {
   return (
@@ -60,6 +61,14 @@ const Routers = () => {
           element={
             <PrivateRoute>
               <NewProduct />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/products/edit-product/:productId"
+          element={
+            <PrivateRoute>
+              <EditProduct />
             </PrivateRoute>
           }
         />

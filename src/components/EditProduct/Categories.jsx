@@ -1,24 +1,19 @@
-import { MultiSelect, Skeleton } from "primereact";
+import { MultiSelect } from "primereact";
 import React, { useState } from "react";
-import { useContext } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
-import { EditProductContext } from "../../pages/EditProduct";
-import { ContextContainer } from "../../pages/NewProduct";
 import { allCategories } from "../../services/category";
 
-const Categories = () => {
+const Categories = (props) => {
 
-  const {product, setProduct, errors} = useContext(ContextContainer);
+  const {product, setProduct} = props;
 
   const [selectedCategories, setSelectedCategories] = useState(null);
   const [categories, setCategories] = useState([]);
 
+  console.log('selected', selectedCategories)
+
   const handleCatgoriesSelect = (e) => {
-    const objectId = e.value.map(el => {
-      return el.code
-    })
-    
     setSelectedCategories(e.value)
     setProduct({
       ...product,
@@ -36,6 +31,7 @@ const Categories = () => {
         arr.push({ name: category.name, code: category._id });
       });
       setCategories(arr);
+      setSelectedCategories(product.categories)
     },
     { refetchOnWindowFocus: false }
   );
@@ -66,10 +62,6 @@ const Categories = () => {
           panelFooterTemplate={panelFooterTemplate}
         />
       </div>
-      {
-          errors && 'categories' in errors ? 
-          <p className="text-red-400 mt-2 text-sm">{errors['categories']}</p>:null
-        }
       <div className="mt-3 text-sm">
         <Link to='/categories'>Add New Category</Link>
       </div>

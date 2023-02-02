@@ -1,15 +1,32 @@
-import { Badge, Button, Column, DataTable, InputText, Menu, Toast } from "primereact";
+import {
+  Badge,
+  Button,
+  Column,
+  ConfirmDialog,
+  DataTable,
+  InputText,
+  Menu,
+  Toast,
+} from "primereact";
 import React, { useRef, useState } from "react";
-import { useMutation, useQuery } from "react-query";
-import { deleteProduct, duplicateProduct, fetchAllProducts } from "../../services/product";
-import { FilterMatchMode, FilterOperator } from 'primereact/api';
+import { useMutation } from "react-query";
+import {
+  deleteProduct,
+  duplicateProduct,
+  fetchAllProducts,
+} from "../../services/product";
+import { FilterMatchMode, FilterOperator } from "primereact/api";
+import { useNavigate } from "react-router-dom";
 
-const ProductTable = (props) => {
+const ProductTable = props => {
+  const navigate = useNavigate();
 
-  const {selectedProducts, setSelectedProducts, productsQuery} = props;
+  const { selectedProducts, setSelectedProducts, productsQuery } = props;
+
+  const [confirmDelete, setConformDelete] = useState(false);
 
   const menu = useRef(null);
-  const toast = useRef(null)
+  const toast = useRef(null);
 
   const [filters1, setFilters1] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -61,7 +78,7 @@ const ProductTable = (props) => {
 
   // Render a badge based on visibility type
   const renderVisibility = rowData => {
-    let intent = '';
+    let intent = "";
     switch (rowData.visibility) {
       case "published":
         intent = "p-badge-success";
@@ -77,22 +94,24 @@ const ProductTable = (props) => {
     }
     return (
       <>
-        <Badge value={rowData.visibility} className={`custom-badge ${intent}`} severity="success"></Badge>
+        <Badge
+          value={rowData.visibility}
+          className={`custom-badge ${intent}`}
+          severity="success"
+        ></Badge>
       </>
     );
   };
 
-  const setPrice = (rowData) => {
-    return (
-      <span>{`${rowData.price} $`}</span>
-    )
-  }
+  const setPrice = rowData => {
+    return <span>{`${rowData.price} $`}</span>;
+  };
 
   const duplicate = useMutation(data => duplicateProduct(data), {
     onSuccess: () => {
       toast.current.show({
         severity: "success",
-        detail: 'Product duplicated',
+        detail: "Product duplicated",
         life: 3000,
       });
       productsQuery.refetch();
@@ -100,7 +119,7 @@ const ProductTable = (props) => {
     onError: () => {
       toast.current.show({
         severity: "error",
-        detail: 'Something went wrong',
+        detail: "Something went wrong",
         life: 3000,
       });
     },
@@ -110,7 +129,7 @@ const ProductTable = (props) => {
     onSuccess: () => {
       toast.current.show({
         severity: "success",
-        detail: 'Product deleted',
+        detail: "Product deleted",
         life: 3000,
       });
       productsQuery.refetch();
@@ -118,20 +137,31 @@ const ProductTable = (props) => {
     onError: () => {
       toast.current.show({
         severity: "error",
-        detail: 'Something went wrong',
+        detail: "Something went wrong",
         life: 3000,
       });
     },
   });
 
-  const [rowBody, setRowBody] = useState(null)
+  const [rowBody, setRowBody] = useState(null);
 
-  const renderActions = (rowData) => {
-
+  const renderActions = rowData => {
     let items = [
-      { label: "Edit", icon: "pi pi-fw pi-file-edit" },
-      { label: "Duplicate", icon: "pi pi-fw pi-copy", command: () => duplicate.mutate(rowBody) },
-      { label: "Delete", icon: "pi pi-fw pi-trash", command: () => deleteProd.mutate(rowBody._id)  },
+      {
+        label: "Edit",
+        icon: "pi pi-fw pi-file-edit",
+        command: () => navigate(`/products/edit-product/${rowBody._id}`),
+      },
+      {
+        label: "Duplicate",
+        icon: "pi pi-fw pi-copy",
+        command: () => duplicate.mutate(rowBody),
+      },
+      {
+        label: "Delete",
+        icon: "pi pi-fw pi-trash",
+        command: () => setConformDelete(true),
+      },
     ];
 
     return (
@@ -140,8 +170,8 @@ const ProductTable = (props) => {
         <Button
           icon="pi pi-ellipsis-v"
           onClick={event => {
-            menu.current.toggle(event)
-            setRowBody(rowData)
+            menu.current.toggle(event);
+            setRowBody(rowData);
           }}
           aria-controls="popup_menu"
           aria-haspopup
@@ -154,6 +184,15 @@ const ProductTable = (props) => {
   return (
     <div>
       <Toast ref={toast} />
+      <ConfirmDialog
+        visible={confirmDelete}
+        onHide={() => setConformDelete(false)}
+        message="Are you sure you want to proceed?"
+        header="Confirmation"
+        icon="pi pi-exclamation-triangle"
+        accept={() => deleteProd.mutate(rowBody._id)}
+        reject={() => setConformDelete(false)}
+      />
       <DataTable
         value={productsQuery.data}
         paginator
@@ -164,10 +203,7 @@ const ProductTable = (props) => {
         responsiveLayout="scroll"
         emptyMessage="No customers found."
       >
-        <Column
-          selectionMode="multiple"
-          exportable={false}
-        ></Column>
+        <Column selectionMode="multiple" exportable={false}></Column>
         <Column
           field="name"
           header="Name"
@@ -175,7 +211,13 @@ const ProductTable = (props) => {
           filter
           filterPlaceholder="Search by name"
         ></Column>
-        <Column field="price" body={setPrice} header="Price" sortable filter ></Column>
+        <Column
+          field="price"
+          body={setPrice}
+          header="Price"
+          sortable
+          filter
+        ></Column>
         <Column field="quantity" header="Qte" sortable filter></Column>
         <Column
           field="sku"
@@ -192,10 +234,7 @@ const ProductTable = (props) => {
           filter
           filterPlaceholder="Search by sku"
         ></Column>
-        <Column
-          body={(data) => renderActions(data)}
-          exportable={false}
-        ></Column>
+        <Column body={data => renderActions(data)} exportable={false}></Column>
       </DataTable>
     </div>
   );

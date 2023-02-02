@@ -1,12 +1,9 @@
 import { Chips } from "primereact";
 import React, { useState } from "react";
-import { useContext } from "react";
-import { EditProductContext } from "../../pages/EditProduct";
-import { ContextContainer } from "../../pages/NewProduct";
 
-const Tgas = () => {
+const Tgas = (props) => {
 
-    const {product, setProduct} = useContext(ContextContainer)
+    const {product, setProduct} = props
 
     const [tags, setTags] = useState([]);
 

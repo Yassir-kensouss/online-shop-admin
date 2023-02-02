@@ -1,6 +1,7 @@
-import { Calendar, Editor, InputText, InputTextarea, RadioButton } from 'primereact'
+import { Calendar, RadioButton } from 'primereact'
 import React, { useContext, useState } from 'react'
 import { useEffect } from 'react';
+import { EditProductContext } from '../../pages/EditProduct';
 import { ContextContainer } from '../../pages/NewProduct';
 
 const Visibility = () => {

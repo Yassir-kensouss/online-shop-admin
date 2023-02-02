@@ -1,11 +1,8 @@
-import { Editor, InputNumber, InputText, InputTextarea } from "primereact";
+import { InputNumber } from "primereact";
 import React from "react";
-import { useContext } from "react";
-import { EditProductContext } from "../../pages/EditProduct";
-import { ContextContainer } from "../../pages/NewProduct";
 
-const Pricing = () => {
-  const { product, setProduct, errors } = useContext(ContextContainer);
+const Pricing = (props) => {
+  const { product, setProduct } = props;
 
   return (
     <div className="bg-white p-3 border-round-sm mt-3">
@@ -21,6 +18,7 @@ const Pricing = () => {
             showButtons
             mode="currency"
             currency="USD"
+            value={product.price}
             onValueChange={e => setProduct({ ...product, price: e.target.value })}
           />
         </div>
@@ -34,14 +32,11 @@ const Pricing = () => {
             showButtons
             mode="currency"
             currency="USD"
+            value={product.oldPrice}
             onValueChange={(e) => setProduct({...product,oldPrice:e.target.value})}
           />
         </div>
       </div>
-      {
-          errors && ('price' in errors || 'oldPrice' in errors) ? 
-          <p className="text-red-400 mt-2 text-sm">{errors['price'] || errors['oldPrice']}</p>:null
-        }
     </div>
   );
 };

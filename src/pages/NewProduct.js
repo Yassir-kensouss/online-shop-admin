@@ -63,7 +63,7 @@ const Products = () => {
         navigate('/products');
       },3000)
 
-      return () => clearTimeout(clearTimeout)
+      return () => clearTimeout(navigateTimer)
     },
     onError: () => {
       toast.current.show({

@@ -1,4 +1,4 @@
-import { Toast } from "primereact";
+import { ConfirmDialog, Toast } from "primereact";
 import React, { useRef, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { Link } from "react-router-dom";
@@ -14,7 +14,8 @@ const crumbs = [
 
 const Products = () => {
 
-  const [selectedProducts, setSelectedProducts] = useState([])
+  const [selectedProducts, setSelectedProducts] = useState([]);
+  const [confirmDelete, setConformDelete] = useState(false)
 
   const toast = useRef(null);
 
@@ -64,7 +65,7 @@ const Products = () => {
       rightElement={
         <>
           <CustomButton
-            onClick={() => deleteProducts()}
+            onClick={() => setConformDelete(true)}
             className="p-button-danger"
             icon="pi pi-trash"
             disabled={!selectedProducts || !selectedProducts.length > 0}
@@ -78,6 +79,15 @@ const Products = () => {
       }
     >
       <Toast ref={toast} />
+      <ConfirmDialog
+        visible={confirmDelete}
+        onHide={() => setConformDelete(false)}
+        message="Are you sure you want to proceed?"
+        header="Confirmation"
+        icon="pi pi-exclamation-triangle"
+        accept={deleteProducts}
+        reject={() => setConformDelete(false)}
+      />
       <ProductTable
         selectedProducts={selectedProducts}
         setSelectedProducts={setSelectedProducts}

@@ -59,3 +59,13 @@ export const deleteManyProducts = (ids) => {
   })
 }
 
+export const fetchSingleProduct = (id) => {
+  
+  return auth({
+    headers:{
+      Authorization: `Bearer ${jwt.token}`
+    },
+    method: "GET",
+    url: `/product/${id}`,
+  })
+}
