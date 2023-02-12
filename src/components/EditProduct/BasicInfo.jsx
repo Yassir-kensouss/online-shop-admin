@@ -1,61 +1,86 @@
-import { Editor, InputText, InputTextarea } from "primereact";
+import { classNames, Editor, InputText, InputTextarea } from "primereact";
 import React from "react";
+import { Controller } from "react-hook-form";
+import { MAX_LENGTH } from "../../common/constants";
 
-const BasicInfo = (props) => {
-  const { product, setProduct } = props;
+const BasicInfo = props => {
+  const { errors, control, setDescription, description, register } =
+    props;
 
-  const setDescription = e => {
-    setProduct({
-      ...product,
-      description: e.htmlValue,
-    });
-  };
-  
-  const setProductName = e => {
-    setProduct({
-      ...product,
-      name: e.target.value,
-    });
-  };
-  
-  const setShortDescription = e => {
-    setProduct({
-      ...product,
-      shortDescription: e.target.value,
-    });
+  const getFormErrorMessage = name => {
+    return (
+      errors[name] && (
+        <small className="p-error block mt-2">{errors[name].message}</small>
+      )
+    );
   };
 
   return (
     <div className="bg-white p-3 border-round-sm">
-      <h2 className="text-xl mb-5 font-medium text-800">Basic Information</h2>
+      <h2 className="text-xl mb-5 font-medium text-800 flex align-items-center gap-2">
+        Basic Information
+      </h2>
       <div className="product-title-field mb-3">
-        <label htmlFor="product-title" className="block text-sm mb-2">
-          Title *
-        </label>
-        <InputText
-          className="p-inputtext-sm w-full"
-          placeholder="Apple iPad (2018 Model)"
-          value={product.name}
-          onChange={setProductName}
+        <Controller
+          name="name"
+          defaultValue={""}
+          control={control}
+          rules={{
+            required: "Name is required.",
+            maxLength: {
+              value: MAX_LENGTH.PRODUCT_NAME,
+              message: "Product name is too long",
+            },
+          }}
+          render={({ field, fieldState }) => (
+            <InputText
+              id={field.name}
+              {...field}
+              {...register("name")}
+              className={`${classNames({
+                "p-invalid": fieldState.error,
+              })} w-full p-inputtext-sm`}
+              placeholder="Apple iPad (2018 Model)"
+            />
+          )}
         />
+        {getFormErrorMessage("name")}
       </div>
-      <div className="product-description-editor mb-3">
-        <label className="block text-sm mb-2">Description *</label>
+
+      <div className="product-title-field mb-3">
         <Editor
           style={{ height: "320px" }}
-          value={product.description}
-          onTextChange={(e) => setDescription(e)}
+          onTextChange={e => setDescription(e)}
+          value={description}
         />
       </div>
-      <div className="short-description">
-        <label className="block text-sm mb-2">Short Description *</label>
-        <InputTextarea
-          rows={5}
-          cols={30}
-          className="w-full max-h-9rem"
-          onChange={setShortDescription}
-          value={product.shortDescription}
+
+      <div className="product-title-field mb-3">
+        <Controller
+          name="shortDescription"
+          control={control}
+          rules={{
+            required: "Short description is required.",
+            maxLength: {
+              value: MAX_LENGTH.PRODUCT_SHORT_DESC,
+              message: "Short description is too long",
+            },
+          }}
+          render={({ field, fieldState }) => (
+            <InputTextarea
+              rows={5}
+              cols={30}
+              id={field.name}
+              {...field}
+              {...register("shortDescription")}
+              className={`${classNames({
+                "p-invalid": fieldState.error,
+              })} w-full p-inputtext-sm w-full max-h-9rem`}
+              placeholder="Short descriptipn"
+            />
+          )}
         />
+        {getFormErrorMessage("shortDescription")}
       </div>
     </div>
   );

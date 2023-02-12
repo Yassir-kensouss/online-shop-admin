@@ -1,18 +1,12 @@
 import { Chips } from "primereact";
 import React, { useState } from "react";
 
-const Tgas = (props) => {
+const Tags = (props) => {
 
-    const {product, setProduct} = props
-
-    const [tags, setTags] = useState([]);
+    const {tags, setTags} = props
 
     const handleTags = (e) => {
       setTags(e.value);
-      setProduct({
-        ...product,
-        tags:e.value
-      })
     }
 
   return (
@@ -25,4 +19,4 @@ const Tgas = (props) => {
   );
 };
 
-export default Tgas;
+export default Tags;

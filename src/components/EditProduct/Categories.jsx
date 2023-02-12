@@ -6,19 +6,22 @@ import { allCategories } from "../../services/category";
 
 const Categories = (props) => {
 
-  const {product, setProduct} = props;
+  const {selectedCategories, setSelectedCategories, hasError, setHasError} = props;
 
-  const [selectedCategories, setSelectedCategories] = useState(null);
   const [categories, setCategories] = useState([]);
 
-  console.log('selected', selectedCategories)
+  const handleCategoriesSelect = (e) => {
 
-  const handleCatgoriesSelect = (e) => {
+    const err = {};
+    if(e.value?.length === 0){
+      err.categories = "Product should at least belong to one category";
+      setHasError(err)
+    } else{
+      delete err.categories
+      setHasError(err)
+    }
+
     setSelectedCategories(e.value)
-    setProduct({
-      ...product,
-      categories: e.value
-    })
   }
 
   const { data, isLoading, refetch } = useQuery(
@@ -31,7 +34,6 @@ const Categories = (props) => {
         arr.push({ name: category.name, code: category._id });
       });
       setCategories(arr);
-      setSelectedCategories(product.categories)
     },
     { refetchOnWindowFocus: false }
   );
@@ -54,7 +56,7 @@ const Categories = (props) => {
           className="w-full"
           value={selectedCategories}
           options={categories}
-          onChange={handleCatgoriesSelect}
+          onChange={handleCategoriesSelect}
           optionLabel="name"
           placeholder="Select a category"
           display="chip"
@@ -62,6 +64,9 @@ const Categories = (props) => {
           panelFooterTemplate={panelFooterTemplate}
         />
       </div>
+        { hasError && hasError?.categories? 
+          <small className="p-error block mt-2">{hasError?.categories}</small>: null
+        }
       <div className="mt-3 text-sm">
         <Link to='/categories'>Add New Category</Link>
       </div>

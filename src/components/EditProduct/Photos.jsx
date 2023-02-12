@@ -2,15 +2,26 @@ import { Image, Toast } from "primereact";
 import React, { useCallback, useState } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
-import { useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import { FILE_FORMATS, FILE_SIZE } from "../../common/constants";
 
 const Photos = (props) => {
   const toast = useRef(null);
   const { setFiles, files, product, setProduct, errors } = props;
-  const [media, setMedia] = useState([]);
   const [fileErrors, setFileErrors] = useState(null);
+
+  useEffect(() => {
+    const promise = new Promise((resolve, reject) => {
+      let images = [];
+      product.photos?.map(photo => {
+        images.push(photo.url)
+      })
+
+      resolve(images)
+    })
+
+    promise.then(res => setFiles(res))
+  },[])
 
   const onDrop = useCallback((acceptedFiles, fileRejections) => {
     if (fileRejections.length > 0) {
@@ -37,7 +48,6 @@ const Photos = (props) => {
                 "Error: Invalid media type (png, jpg, jpeg, webp) only allowed",
             });
           }
-          console.log('errors', err)
         });
       });
     } else {
@@ -50,21 +60,10 @@ const Photos = (props) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
-        setMedia(oldData => [...oldData, reader.result]);
+        setFiles(oldData => [...oldData, reader.result]);
       };
     });
   }, []);
-
-  useEffect(() => {
-    if (!fileErrors) {
-      setProduct({
-        ...product,
-        files: media,
-      });
-
-      setFiles(media);
-    }
-  }, [media]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -85,9 +84,9 @@ const Photos = (props) => {
   }, [files]);
 
   const handleRemove = index => {
-    const array = [...media];
+    const array = [...files];
     array.splice(index, 1);
-    setMedia(array);
+    setFiles(array);
   };
 
   return (
