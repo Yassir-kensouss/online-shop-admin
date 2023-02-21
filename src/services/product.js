@@ -16,10 +16,10 @@ export const addNewProduct = data => {
   });
 };
 
-export const fetchAllProducts = () => {
+export const fetchAllProducts = (page, limit) => {
   return auth({
     method: "GET",
-    url: 'product/',
+    url: `product?page=${page}&limit=${limit}`,
   });
 };
 
@@ -68,4 +68,28 @@ export const fetchSingleProduct = (id) => {
     method: "GET",
     url: `/product/${id}`,
   })
+}
+
+export const updateProduct = (body) => {
+  
+  return auth({
+    headers:{
+      Authorization: `Bearer ${jwt.token}`
+    },
+    method: "PUT",
+    url: `/product/${body._id}`,
+    data: body
+  })
+}
+
+export const productsList = (value, page, limit) => {
+
+  return auth({
+    headers:{
+      Authorization: `Bearer ${jwt.token}`
+    },
+    method: "GET",
+    url: `/product/productsList?search=${value}&page=${page}&limit=${limit}`,
+  })
+
 }

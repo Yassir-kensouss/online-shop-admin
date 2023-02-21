@@ -1,11 +1,12 @@
 import { ConfirmDialog, Toast } from "primereact";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import { PRODUCT_DATATABLE_LIMIT } from "../common/constants";
 import CustomButton from "../components/buttons/CustomButton";
 import Dashboard from "../components/Dashboard";
 import ProductTable from "../components/products/ProductTable";
-import { deleteManyProducts, fetchAllProducts } from "../services/product";
+import { deleteManyProducts, fetchAllProducts, productsList } from "../services/product";
 
 const crumbs = [
   { label: "Home", url: "/" },
@@ -15,7 +16,11 @@ const crumbs = [
 const Products = () => {
 
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [confirmDelete, setConformDelete] = useState(false)
+  const [confirmDelete, setConformDelete] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(0);
+  const [searchValue, setSearchValue] = useState("");
 
   const toast = useRef(null);
 
@@ -38,15 +43,36 @@ const Products = () => {
   });
 
   const productsQuery = useQuery(
-    "fetchProducts",
+    ["fetchProducts", page],
     async () => {
-      const response = await fetchAllProducts();
+      const response = await fetchAllProducts(page, PRODUCT_DATATABLE_LIMIT);
       const data = await response.data;
       const products = await data.products;
+      setTotal(data.total)
+      setProducts(products);
       return products;
     },
     { refetchOnWindowFocus: false }
   );
+
+  const searchProductsByName = useQuery(
+    ["search-product-by-name",page],
+    async () => {
+      const result = await productsList(searchValue, page, PRODUCT_DATATABLE_LIMIT);
+      const data = result.data;
+      setProducts(data.products);
+      setTotal(data.total)
+      return data;
+    },
+    { enabled: false }
+  );
+
+  const handleCustomer = e => {
+    if (e.target.value === "") {
+      productsQuery.refetch();
+    }
+    setSearchValue(e.target.value);
+  };
 
   const deleteProducts = () => {
     let ids = [];
@@ -57,6 +83,11 @@ const Products = () => {
 
     deleteMany.mutate(ids);
   };
+
+  const handlePageChange = (e) => {
+    setPage(e.page)
+    productsQuery.refetch()
+  }
 
   return (
     <Dashboard
@@ -91,7 +122,18 @@ const Products = () => {
       <ProductTable
         selectedProducts={selectedProducts}
         setSelectedProducts={setSelectedProducts}
+        products={products}
+        setProducts={setProducts}
         productsQuery={productsQuery}
+        searchProductsByName={searchProductsByName}
+        total={total}
+        page={page}
+        limit={PRODUCT_DATATABLE_LIMIT}
+        handlePageChange={handlePageChange}
+        setTotal={setTotal}
+        setPage={setPage}
+        handleCustomer={handleCustomer}
+        searchValue={searchValue}
       />
     </Dashboard>
   );

@@ -1,22 +1,17 @@
 import {
-  classNames,
-  Editor,
-  InputText,
-  InputTextarea,
   Toast,
 } from "primereact";
 import React, {
-  createContext,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
 import Dashboard from "../components/Dashboard";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import CustomButton from "../components/buttons/CustomButton";
-import { useQuery } from "react-query";
-import { fetchSingleProduct } from "../services/product";
+import { useMutation, useQuery } from "react-query";
+import { fetchSingleProduct, updateProduct } from "../services/product";
 import Loader from "../components/Loader";
 import BasicInfo from "../components/EditProduct/BasicInfo";
 import Pricing from "../components/EditProduct/Pricing";
@@ -25,8 +20,7 @@ import Visibility from "../components/EditProduct/Visibility";
 import Categories from "../components/EditProduct/Categories";
 import Tags from "../components/EditProduct/Tags";
 import Photos from "../components/EditProduct/Photos";
-import { Controller, useForm } from "react-hook-form";
-import { MAX_LENGTH } from "../common/constants";
+import { useForm } from "react-hook-form";
 
 const crumbs = [
   { label: "Home", url: "/" },
@@ -47,7 +41,7 @@ const EditProduct = () => {
   const [description, setDescription] = useState("");
   const [hasError, setHasError] = useState({});
 
-  const { isLoading, isError, data } = useQuery(
+  const { isLoading, isError } = useQuery(
     "fetch-single-product",
     async () => {
       const response = await fetchSingleProduct(productId);
@@ -62,6 +56,34 @@ const EditProduct = () => {
     },
     { refetchOnWindowFocus: false, cacheTime: 0 }
   );
+
+  const successMessage = (
+    <>
+      <p>
+        Product updated successfully{" "}
+        <Link to="/products" className="text-green-500">
+          See The products
+        </Link>
+      </p>
+    </>
+  );
+
+  const updateProductMutation = useMutation(data => updateProduct(data), {
+    onSuccess: () => {
+      toast.current.show({
+        severity: "success",
+        detail: successMessage,
+        life: 3000,
+      });
+    },
+    onError: (error) => {
+      toast.current.show({
+        severity: "error",
+        detail: error?.response.data,
+        life: 3000,
+      });
+    }
+  },{useErrorBoundary: true});
 
   useEffect(() => {
     if (isError) {
@@ -96,20 +118,30 @@ const EditProduct = () => {
     reset(product);
   }, [product]);
 
-  const onSubmit = data => {
+  const onSubmit = async data => {
+
     const body = {
-      ...data,
+      _id: data._id,
+      name: data.name,
+      shortDescription: data.shortDescription,
+      price: data.price,
+      oldPrice: data.oldPrice,
+      sku: data.sku,
+      quantity: data.quantity,
       visibility: visibility,
-      files: files,
       categories: selectedCategories,
       tags: tags,
       description: description,
+      photos: files
     };
 
-    if(Object.keys(errors)?.length == 0 || Object.keys(hasError)?.length == 0){
-      alert('send api')
+    if (
+      Object.keys(errors)?.length == 0 ||
+      Object.keys(hasError)?.length == 0
+    ) {
+      updateProductMutation.mutate(body);
     }
-
+    
   };
 
   return (
@@ -126,7 +158,11 @@ const EditProduct = () => {
                 className="p-button-primary"
                 icon="pi pi-check"
                 label="Save"
-                disabled={Object.keys(errors)?.length > 0 || Object.keys(hasError)?.length > 0}
+                disabled={
+                  Object.keys(errors)?.length > 0 ||
+                  Object.keys(hasError)?.length > 0
+                }
+                loading={updateProductMutation.isLoading}
               />
             </>
           }

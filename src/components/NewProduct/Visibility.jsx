@@ -16,7 +16,7 @@ const Visibility = () => {
         visibility: visibility
     })
 
-  },[visibility])
+  },[])
 
   return (
     <div className='bg-white p-3 border-round-sm w-full'>

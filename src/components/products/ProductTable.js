@@ -6,6 +6,7 @@ import {
   DataTable,
   InputText,
   Menu,
+  Paginator,
   Toast,
 } from "primereact";
 import React, { useRef, useState } from "react";
@@ -13,62 +14,47 @@ import { useMutation } from "react-query";
 import {
   deleteProduct,
   duplicateProduct,
-  fetchAllProducts,
 } from "../../services/product";
-import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { useNavigate } from "react-router-dom";
 
 const ProductTable = props => {
   const navigate = useNavigate();
 
-  const { selectedProducts, setSelectedProducts, productsQuery } = props;
+  const {
+    selectedProducts,
+    setSelectedProducts,
+    productsQuery,
+    products,
+    total,
+    page,
+    limit,
+    handlePageChange,
+    searchProductsByName,
+    searchValue,
+    handleCustomer
+  } = props;
 
   const [confirmDelete, setConformDelete] = useState(false);
 
   const menu = useRef(null);
   const toast = useRef(null);
 
-  const [filters1, setFilters1] = useState({
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    name: {
-      operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-    },
-    "country.name": {
-      operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-    },
-    representative: { value: null, matchMode: FilterMatchMode.IN },
-    status: {
-      operator: FilterOperator.OR,
-      constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
-    },
-  });
-
-  const filtersMap = {
-    filters1: { value: filters1, callback: setFilters1 },
+  const searchProduct = event => {
+    if (event.key === "Enter") {
+      searchProductsByName.refetch();
+    }
   };
 
-  const onGlobalFilterChange = (event, filtersKey) => {
-    const value = event.target.value;
-    let filters = { ...filtersMap[filtersKey].value };
-    filters["global"].value = value;
-
-    filtersMap[filtersKey].callback(filters);
-  };
-
-  const renderHeader = filtersKey => {
-    const filters = filtersMap[`${filtersKey}`].value;
-    const value = filters["global"] ? filters["global"].value : "";
-
+  const renderHeader = () => {
     return (
       <span className="p-input-icon-left">
         <i className="pi pi-search" />
         <InputText
           type="search"
-          value={value || ""}
-          onChange={e => onGlobalFilterChange(e, filtersKey)}
+          value={searchValue}
+          onKeyDown={searchProduct}
           placeholder="Global Search"
+          onChange={handleCustomer}
         />
       </span>
     );
@@ -194,14 +180,18 @@ const ProductTable = props => {
         reject={() => setConformDelete(false)}
       />
       <DataTable
-        value={productsQuery.data}
-        paginator
-        rows={10}
+        value={products}
+        responsiveLayout="scroll"
+        // paginator
+        rows={limit}
         header={header1}
+        onPage={handlePageChange}
         selection={selectedProducts}
         onSelectionChange={e => setSelectedProducts(e.value)}
-        responsiveLayout="scroll"
-        emptyMessage="No customers found."
+        emptyMessage="No products found."
+        stripedRows
+        first={page * limit}
+        totalRecords={total}
       >
         <Column selectionMode="multiple" exportable={false}></Column>
         <Column
@@ -236,6 +226,7 @@ const ProductTable = props => {
         ></Column>
         <Column body={data => renderActions(data)} exportable={false}></Column>
       </DataTable>
+      <Paginator first={page * limit} rows={limit} totalRecords={total} onPageChange={handlePageChange} />
     </div>
   );
 };

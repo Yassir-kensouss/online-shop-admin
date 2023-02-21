@@ -3,6 +3,8 @@ const FILE_SIZE = {
     VIDEO: 2000000 // Bytes
 }
 
+const PRODUCT_DATATABLE_LIMIT = 5;
+
 const FILE_FORMATS = {
     IMAGE: [".png", ".webp", ".jpeg", ".jpg"],
     VIDEO: [".mp4", ".mov"]
@@ -23,5 +25,6 @@ export {
     FILE_FORMATS,
     MAX_LENGTH,
     MAX_PRICE,
-    MAX_QUANTITY
+    MAX_QUANTITY,
+    PRODUCT_DATATABLE_LIMIT
 }

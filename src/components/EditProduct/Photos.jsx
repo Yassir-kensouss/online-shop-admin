@@ -14,7 +14,7 @@ const Photos = (props) => {
     const promise = new Promise((resolve, reject) => {
       let images = [];
       product.photos?.map(photo => {
-        images.push(photo.url)
+        images.push(photo)
       })
 
       resolve(images)
@@ -60,7 +60,7 @@ const Photos = (props) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
-        setFiles(oldData => [...oldData, reader.result]);
+        setFiles(oldData => [...oldData, {url: reader.result}]);
       };
     });
   }, []);
@@ -122,7 +122,7 @@ const Photos = (props) => {
         <div className="previewPictures mt-3">
           {files.map((file, index) => (
             <div className="previewPictures__item" key={index}>
-              <Image src={file} alt="Image" width="130" preview />
+              <Image src={file.url} alt="Image" width="130" preview />
               <div
                 className="previewPictures__overlay"
                 onClick={() => handleRemove(index)}

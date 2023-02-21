@@ -50,7 +50,7 @@ const BasicInfo = props => {
       <div className="product-title-field mb-3">
         <Editor
           style={{ height: "320px" }}
-          onTextChange={e => setDescription(e)}
+          onTextChange={e => setDescription(e.htmlValue)}
           value={description}
         />
       </div>

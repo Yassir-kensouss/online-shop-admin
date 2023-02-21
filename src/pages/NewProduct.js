@@ -35,7 +35,7 @@ const initialState = {
   oldPrice: null,
   price: null,
   sku: null,
-  visibility: null,
+  visibility: "published",
   quantity: null,
   tags: [],
   categories: [],
