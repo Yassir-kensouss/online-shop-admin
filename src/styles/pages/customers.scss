@@ -1,0 +1,11 @@
+.customer-details-avatar {
+    img, .p-image-preview-indicator {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+}
+.customer-recent-activities:nth-child(odd){
+    background-color:#f7f7fe;
+}

@@ -8,6 +8,14 @@ export const signIn = (data) => {
   });
 };
 
+export const signUp = (data) => {
+  return auth({
+    url: "signup",
+    method: "POST",
+    data,
+  });
+};
+
 export const signOut = async () => {
   return auth({
     url: "signout/",

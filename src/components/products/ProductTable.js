@@ -1,9 +1,12 @@
+import '../../styles/pages/products.scss'
 import {
+  Avatar,
   Badge,
   Button,
   Column,
   ConfirmDialog,
   DataTable,
+  Image,
   InputText,
   Menu,
   Paginator,
@@ -167,6 +170,17 @@ const ProductTable = props => {
     );
   };
 
+  const renderPhoto = data => {
+    return (
+      <Image
+        src={data?.photos[0].url}
+        style={{ verticalAlign: "middle", width: '40px', height: '40px', borderRadius: '50%' }}
+        className="datatable-product-image"
+        preview
+      />
+    );
+  };
+
   return (
     <div>
       <Toast ref={toast} />
@@ -194,6 +208,11 @@ const ProductTable = props => {
         totalRecords={total}
       >
         <Column selectionMode="multiple" exportable={false}></Column>
+        <Column
+          field="photos"
+          header="Photos"
+          body={data => renderPhoto(data)}
+        ></Column>
         <Column
           field="name"
           header="Name"

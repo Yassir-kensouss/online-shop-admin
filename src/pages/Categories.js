@@ -214,6 +214,11 @@ const Categories = () => {
                 sortable
               ></Column>
               <Column
+                field="linkedProduct"
+                header="Linked Products"
+                sortable
+              ></Column>
+              <Column
                 header='Actions'
                 rowEditor
                 headerStyle={{ width: "10%", minWidth: "8rem" }}

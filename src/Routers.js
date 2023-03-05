@@ -13,6 +13,7 @@ import UpdatePassword from "./pages/UpdatePassword";
 import PrivateRoute from "./utils/PrivateRoute";
 import AdminRoute from "./utils/AdminRoute";
 import EditProduct from "./pages/EditProduct";
+import CustomerDetails from "./pages/CustomerDetails";
 
 const Routers = () => {
   return (
@@ -40,6 +41,7 @@ const Routers = () => {
             </AdminRoute>
           }
         />
+        <Route path="/customer/details/:custId" element={<AdminRoute><CustomerDetails/></AdminRoute>}/>
         <Route
           path="/categories"
           element={
@@ -81,6 +83,7 @@ const Routers = () => {
           }
         />
         <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<div>No match</div>} />
       </Routes>
     </Router>
   );
