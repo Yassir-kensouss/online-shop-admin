@@ -188,7 +188,7 @@ const EditDetailsForm = (props) => {
             />
           </div>
         </div>
-        <Button label="Create" type="submit" loading={_updateCustomerDetails.isLoading} className="p-button-secondary" />
+        <Button label="Save changes" type="submit" loading={_updateCustomerDetails.isLoading} className="p-button-secondary" />
       </form>
     </div>
   );

@@ -15,7 +15,7 @@ const EditCustomerDetails = props => {
       onSuccess: () => {
         toast.current.show({
           severity: "success",
-          detail: "Customer created",
+          detail: "Customer details updated",
           life: 3000,
         });
         setEditUserDialog(false)
@@ -35,7 +35,7 @@ const EditCustomerDetails = props => {
     <>
       <Toast ref={toast} />
       <Dialog
-        header="New User"
+        header="Edit details"
         visible={editUserDialog}
         style={{ width: "35vw" }}
         onHide={() => setEditUserDialog(false)}

@@ -144,7 +144,7 @@ const Customers = () => {
               aria-label="delete customers"
             />
             <CustomButton
-              label="New Product"
+              label="New Customer"
               icon="pi pi-plus"
               onClick={() => setNewUserDialog(true)}
             />

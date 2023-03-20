@@ -1,5 +1,5 @@
 import { Skeleton, Toast } from "primereact";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import CustomerActivities from "../components/customer details/CustomerActivities";
@@ -15,13 +15,13 @@ const crumbs = [
 const CustomerDetails = () => {
 
   const toast = useRef(null);
-  const {custId} = useParams()
+  const {custId} = useParams();
 
-  const customerDetails = useQuery("customer-details",async () => {
+  const customerDetailsQuery = useQuery("customer-details",async () => {
     const response = await getCustomer(custId);
     const customer = await response.data.user
     return customer
-  }, { refetchOnWindowFocus: false })
+  }, { refetchOnWindowFocus: false})
 
   return (
     <>
@@ -30,12 +30,16 @@ const CustomerDetails = () => {
         <section className="flex gap-4">
           <div className="flex-1">
             {
-              customerDetails.isSuccess ? 
-              <PersonalDetails details={customerDetails.data} /> : <Skeleton width="100%" height="2rem" />
+              customerDetailsQuery.isSuccess ? 
+              <PersonalDetails details={customerDetailsQuery.data} customerDetailsQuery={customerDetailsQuery}/> : <Skeleton width="100%" height="6rem" />
             }
           </div>
           <div className="flex-1">
-            <CustomerActivities />
+            {
+              customerDetailsQuery.isSuccess ? 
+              <CustomerActivities history={customerDetailsQuery.data.history} />:
+              <Skeleton width="100%" height="6rem" />
+            }
           </div>
         </section>
       </Dashboard>

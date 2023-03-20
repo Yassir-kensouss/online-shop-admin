@@ -52,3 +52,10 @@ export const formatSizeUnits = (bytes) => {
 export const sortByDate = (a, b) => {
   return new Date(b.createdAt) - new Date(a.createdAt);
 };
+
+
+// Get country name
+
+export const countryName = new Intl.DisplayNames(
+  ['en'], {type: 'region'}
+)

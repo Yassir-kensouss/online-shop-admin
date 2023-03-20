@@ -35,7 +35,7 @@ const CreateNewUser = (props) => {
       <Dialog
         header="New User"
         visible={newUserDialog}
-        style={{ width: "35vw" }}
+        style={{ width: "60vw" }}
         onHide={() => setNewUserDialog(false)}
       >
         <NewUserForm fetchCustomersQuery={fetchCustomersQuery} setNewUserDialog={setNewUserDialog} createNewUser={createNewUser} editCustomer={editCustomer}/>

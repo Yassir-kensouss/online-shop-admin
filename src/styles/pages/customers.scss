@@ -9,3 +9,22 @@
 .customer-recent-activities:nth-child(odd){
     background-color:#f7f7fe;
 }
+
+.customer-details-address{
+    display: grid;
+    grid-template-columns: minmax(20px, 250px) minmax(20px, 250px);
+    gap: 15px;
+    margin: 30px 0 20px 30px;
+}
+
+.address-value {
+    .key{
+        display: inline-block;
+        margin-right: 10px;
+        font-weight: 500;
+    }
+    .value{
+        color: #636987;
+        line-height: 1.25;
+    }
+}
