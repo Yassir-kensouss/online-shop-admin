@@ -82,7 +82,7 @@ const NewUserForm = props => {
       avatar,
       role: isAdmin ? 1 : 0,
       address: {
-        country: selectedCountry ? countryName.of(selectedCountry) : "",
+        country: selectedCountry,
         address: data.address.primaryAddress,
         state: data.address.state,
         zipCode: data.address.zipCode,
@@ -263,7 +263,6 @@ const NewUserForm = props => {
             <ShippingAddressForm
               control={control}
               errors={errors}
-              formFields={formFields}
               getFormErrorMessage={getFormErrorMessage}
               selectedCountry={selectedCountry} 
               setSelectedCountry={setSelectedCountry}

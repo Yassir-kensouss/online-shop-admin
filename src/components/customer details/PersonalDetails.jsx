@@ -54,7 +54,7 @@ const PersonalDetails = props => {
             <div className="address-value">
               <span className="key">Country: </span>
               <span className="value">
-                {address.country !== "" ? address.country : "Not Provided"}
+                {address.country !== "" ? address.country?.countryName : "Not Provided"}
               </span>
             </div>
 
@@ -99,24 +99,20 @@ const PersonalDetails = props => {
             <i className="pi pi-book mr-1"></i>Contacts
           </span>
         </Divider>
-        {phone !== "" || mobile !== "" ? (
+        {(phone && phone !== "") && (mobile && mobile !== "") ? (
           <div className="ml-4 flex align-items-center gap-4">
             {phone && phone !== "" ? (
               <div className="address-value mb-2">
                 <span className="key">Phone: </span>
                 <span className="value">+{phone}</span>
               </div>
-            ) : (
-              "Phone not provided"
-            )}
+            ) : null}
             {mobile && mobile !== "" ? (
               <div className="address-value mb-2">
                 <span className="key">Mobile: </span>
                 <span className="value">+{mobile}</span>
               </div>
-            ) : (
-              "Mobile not provided"
-            )}
+            ) : null}
           </div>
         ) : (
           <div className="text-sm text-600 ml-4">

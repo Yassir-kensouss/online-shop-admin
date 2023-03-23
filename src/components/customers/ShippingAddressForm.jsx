@@ -3,6 +3,7 @@ import { Divider, InputText, InputTextarea } from "primereact";
 import React, { useState } from "react";
 import ReactFlagsSelect from "react-flags-select";
 import { Controller } from "react-hook-form";
+import { countryName } from "../../utils/helpers";
 
 const ShippingAddressForm = props => {
   const { control, errors, getFormErrorMessage, selectedCountry, setSelectedCountry } = props;
@@ -26,8 +27,11 @@ const ShippingAddressForm = props => {
           </label>
           <ReactFlagsSelect
             id="country"
-            selected={selectedCountry}
-            onSelect={code => setSelectedCountry(code)}
+            selected={selectedCountry?.countryCode}
+            onSelect={code => setSelectedCountry({
+              countryCode: code,
+              countryName: countryName.of(code)
+            })}
             className="flex-1 pb-0 customer-country-address"
             searchable
           />

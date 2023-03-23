@@ -37,7 +37,7 @@ const EditCustomerDetails = props => {
       <Dialog
         header="Edit details"
         visible={editUserDialog}
-        style={{ width: "35vw" }}
+        style={{ width: "60vw" }}
         onHide={() => setEditUserDialog(false)}
       >
         <EditDetailsForm customer={customer} _updateCustomerDetails={_updateCustomerDetails}/>

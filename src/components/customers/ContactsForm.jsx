@@ -12,7 +12,7 @@ const ContactsForm = props => {
         <h3 className="p-tag">Contacts</h3>
       </Divider>
 
-      <div>
+      <div className="mt-6">
         <label
           htmlFor="country"
           className="w-full mb-2 inline-block"
