@@ -14,12 +14,14 @@ import PrivateRoute from "./utils/PrivateRoute";
 import AdminRoute from "./utils/AdminRoute";
 import EditProduct from "./pages/EditProduct";
 import CustomerDetails from "./pages/CustomerDetails";
+import Pay from "./pages/Pay";
 
 const Routers = () => {
   return (
     <Router>
       <Routes>
         <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/pay" element={<Pay />} />
         <Route path="/password-reset" element={<ResetPassword />} />
         <Route
           path="/update-password/:userId/:token"

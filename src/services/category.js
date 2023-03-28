@@ -32,7 +32,7 @@ export const persistManyCategories = (categories) => {
 export const fetchAllCategories = async (page = 0) => {
   return auth({
     method: "GET",
-    url: `category/${user._id}?page=${page - 1}`,
+    url: `category/fetchAll?page=${page - 1}`,
   });
 };
 

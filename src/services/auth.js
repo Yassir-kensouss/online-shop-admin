@@ -1,4 +1,5 @@
 import { auth } from "./instances";
+import { isAuthenticated } from "../utils/helpers";
 
 export const signIn = (data) => {
   return auth({
@@ -17,8 +18,9 @@ export const signUp = (data) => {
 };
 
 export const signOut = async () => {
+  const userId = isAuthenticated() && isAuthenticated().user._id;
   return auth({
-    url: "signout/",
+    url: `signout/${userId}`,
     method: "GET",
   });
 };
