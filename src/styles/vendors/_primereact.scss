@@ -3,6 +3,9 @@
 }
 
 .custom-badge{
+
+    cursor: pointer;
+
     &.p-badge-success{
         background-color: rgb(117, 223, 117);
     }
@@ -14,6 +17,26 @@
     }
     &.p-badge-warning{
         background-color: rgb(208, 156, 44);
+    }
+
+    &.p-badge-grey{
+        background-color: rgb(179, 179, 179);
+    }
+
+    &.p-badge-orange{
+        background-color: rgb(208, 156, 44);
+    }
+
+    &.p-badge-blue{
+        background-color: rgb(112, 175, 234);
+    }
+
+    &.p-badge-green{
+        background-color: rgb(117, 223, 117);
+    }
+
+    &.p-badge-red{
+        background-color: rgb(243, 63, 50);
     }
 }
 

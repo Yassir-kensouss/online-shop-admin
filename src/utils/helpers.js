@@ -59,3 +59,9 @@ export const sortByDate = (a, b) => {
 export const countryName = new Intl.DisplayNames(
   ['en'], {type: 'region'}
 )
+
+// Shorten a given string
+
+export const shortenString = (string, limit) => {
+  return string?.length > limit ? string?.substr(0, limit) + "..." : string;
+};

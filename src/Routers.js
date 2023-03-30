@@ -15,6 +15,7 @@ import AdminRoute from "./utils/AdminRoute";
 import EditProduct from "./pages/EditProduct";
 import CustomerDetails from "./pages/CustomerDetails";
 import Pay from "./pages/Pay";
+import Orders from "./pages/Orders";
 
 const Routers = () => {
   return (
@@ -57,6 +58,14 @@ const Routers = () => {
           element={
             <PrivateRoute>
               <Products />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <PrivateRoute>
+              <Orders />
             </PrivateRoute>
           }
         />

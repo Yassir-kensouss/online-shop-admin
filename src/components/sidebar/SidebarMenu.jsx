@@ -91,6 +91,23 @@ const SidebarMenu = () => {
           <li className="sidebar__item">
             <Link
               className={
+                pathname === "/orders"
+                  ? "sidebar__link active"
+                  : "sidebar__link"
+              }
+              to="/orders"
+            >
+              <span className="sidebar__MenuItemIcon">
+                <i className="pi pi-shopping-cart" />
+              </span>
+              Orders
+            </Link>
+          </li>
+        )}
+        {isAuthenticated() && (
+          <li className="sidebar__item">
+            <Link
+              className={
                 pathname === "/analytics"
                   ? "sidebar__link active"
                   : "sidebar__link"

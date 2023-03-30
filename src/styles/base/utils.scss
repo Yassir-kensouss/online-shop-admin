@@ -1,3 +1,31 @@
 .p-toast-message-icon{
     display: none;
 }
+
+.button-accessibility-states{
+    &:hover{
+        opacity: 0.7;
+    }
+
+    &:active{
+        opacity: 1;
+    }
+}
+
+.click-to-copy{
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 5px;
+    width: 100%;
+
+    &:hover{
+        background-color: rgb(249, 249, 249);
+    }
+
+    &:active{
+        background-color: rgb(243, 243, 243);
+    }
+}

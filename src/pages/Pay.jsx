@@ -6,11 +6,11 @@ import { createOrder } from '../services/orders';
 
 const prods = [
   {
-    _id: "63f55799447902e4ef2ffaf0",
-    name: "iphone 4s",
-    price: 40,
-    count: 2,
-  },
+    _id: "63fa5f562ec1dd973cbc87a7",
+    name: "The real dream",
+    price: 215,
+    count: 1,
+  }
 ];
 
 const getBraintreeToken = (userId, token) => {
@@ -61,19 +61,28 @@ const Pay = () => {
             })
     },[])
 
+    const setTotalPrice = () => {
+      let total = 0;
+      prods.map(prod => {
+        total = prod.count * prod.price
+      });
+
+      return total
+    }
+
     const buy = () => {
       data.instance
         ?.requestPaymentMethod()
         .then(data => {
             paymentProcess(userId, token, {
-                amount: amount,
+                amount: setTotalPrice(),
                 paymentMethodNonce: data.nonce
             }).then(res => {
 
                 const orderData = {
                     products: prods,
-                    transactionId: res.transaction.id,
-                    amount: res.transaction.amount,
+                    transaction_id: res.transaction.id,
+                    totalPrice: res.transaction.amount,
                     address
                 }
 
