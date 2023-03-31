@@ -11,10 +11,10 @@ export const createOrder = (userId, orderData) => {
   });
 };
 
-export const fetchOrders = () => {
+export const fetchOrders = (page, limit) => {
   return admin({
     method: "GET",
-    url: `orders/${user._id}`,
+    url: `orders/${user._id}?page=${page}&limit=${limit}`,
   });
 }
 
@@ -26,7 +26,6 @@ export const getStatus = () => {
 }
 
 export const changeStatus = (data) => {
-  console.log('waadata', data)
   return admin({
     method: "PATCH",
     url: `orders/${data._id}/status/${user._id}`,
@@ -35,3 +34,10 @@ export const changeStatus = (data) => {
     }
   });
 }
+
+export const searchOrder = (search, field, page, limit) => {
+  return admin({
+    method: "GET",
+    url: `orders/search/${user._id}?search=${search}&field=${field}&page=${page}&limit=${limit}`,
+  });
+};

@@ -2,12 +2,13 @@ import { Toast } from "primereact";
 import React, { useRef, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { CategoryIcon, OrderIcon } from "../assets/icons";
+import { PRODUCT_DATATABLE_LIMIT } from "../common/constants";
 import CustomButton from "../components/buttons/CustomButton";
 import Dashboard from "../components/Dashboard";
 import EmptyBox from "../components/EmptyBox";
 import DataTableSkeleton from "../components/loadings/DataTableSkeleton";
 import OrdersTable from "../components/orders/OrdersTable";
-import { changeStatus, fetchOrders, getStatus } from "../services/orders";
+import { changeStatus, fetchOrders, getStatus, searchOrder } from "../services/orders";
 
 const crumbs = [
   { label: "Home", url: "/" },
@@ -16,20 +17,23 @@ const crumbs = [
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
-  const [count, setCount] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(0);
+  const [searchValue, setSearchValue] = useState("");
+  const [field, setField] = useState(null)
   const toast = useRef(null);
 
   const ordersQuery = useQuery(
-    ["fetchOrders"],
+    ["fetchOrders", page],
     async () => {
-      const response = await fetchOrders();
+      const response = await fetchOrders(page, PRODUCT_DATATABLE_LIMIT);
       const orders = await response.data.orders;
       const count = await response.data.count;
       setOrders(orders);
-      setCount(count);
-      return orders
+      setTotal(count);
+      return orders;
     },
-    { refetchOnWindowFocus: false }
+    { refetchOnWindowFocus: false, cacheTime: 0 }
   );
 
   const getStatusQuery = useQuery(
@@ -39,20 +43,38 @@ const Orders = () => {
       const data = await response.data.status;
       let status = [];
       data.map(el => {
-        status.push({name: el, code: el})
-      })
-      return status
+        status.push({ name: el, code: el });
+      });
+      return status;
     },
     { refetchOnWindowFocus: false }
   );
 
-  const changeStatusQuery = useMutation((data) => changeStatus(data))
+  const searchOrderQuery = useQuery(
+    ["search-order",page],
+    async () => {
+      const response = await searchOrder(searchValue, field.code, page, PRODUCT_DATATABLE_LIMIT);
+      const orders = await response.data.orders;
+      const count = await response.data.count;
+      setOrders(orders);
+      setTotal(count);
+      return orders;
+    },
+    { enabled: false }
+  );
 
+
+  const changeStatusQuery = useMutation(data => changeStatus(data));
+
+  const handlePageChange = e => {
+    setPage(e.page);
+    ordersQuery.refetch();
+  };
 
   return (
     <Dashboard
       items={crumbs}
-      title={`Orders (${count})`}
+      title={`Orders (${total})`}
       rightElement={
         <CustomButton
           onClick={() => ordersQuery.refetch()}
@@ -65,11 +87,8 @@ const Orders = () => {
       }
     >
       <Toast ref={toast} />
-      {ordersQuery.isLoading ? (
-        <DataTableSkeleton />
-      ) : (
         <>
-          {orders.length === 0 || count === 0 ? (
+          {orders.length === 0 || total === 0 ? (
             <EmptyBox
               icon={<OrderIcon />}
               parentClassName="pb-8"
@@ -78,11 +97,24 @@ const Orders = () => {
             />
           ) : (
             <div>
-              <OrdersTable orders={orders} ordersQuery={ordersQuery} getStatusQuery={getStatusQuery} changeStatusQuery={changeStatusQuery}/>
+              <OrdersTable
+                orders={orders}
+                ordersQuery={ordersQuery}
+                getStatusQuery={getStatusQuery}
+                changeStatusQuery={changeStatusQuery}
+                handlePageChange={handlePageChange}
+                page={page}
+                total={total}
+                limit={PRODUCT_DATATABLE_LIMIT}
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+                searchOrderQuery={searchOrderQuery}
+                field={field} 
+                setField={setField}
+              />
             </div>
           )}
         </>
-      )}
     </Dashboard>
   );
 };

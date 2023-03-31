@@ -209,13 +209,10 @@ const CustomersTable = props => {
         responsiveLayout="scroll"
         rows={limit}
         header={header1}
-        onPage={handlePageChange}
         selection={selectedCustomers}
         onSelectionChange={e => setSelectedCustomers(e.value)}
         emptyMessage="No customers found."
         stripedRows
-        first={page * limit}
-        totalRecords={total}
       >
         <Column selectionMode="multiple" exportable={false}></Column>
         <Column

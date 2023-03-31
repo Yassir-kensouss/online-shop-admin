@@ -72,7 +72,7 @@ const Customers = () => {
   );
 
   const searchCustomersByName = useQuery(
-    ["search-product-by-name",page],
+    ["search-customer-by-name",page],
     async () => {
       const result = await customersList(searchValue, page, PRODUCT_DATATABLE_LIMIT);
       const data = result.data;
@@ -172,8 +172,6 @@ const Customers = () => {
           page={page}
           limit={PRODUCT_DATATABLE_LIMIT}
           handlePageChange={handlePageChange}
-          setTotal={setTotal}
-          setPage={setPage}
           handleCustomer={handleCustomer}
           searchValue={searchValue}
           editCustomer={editCustomer}
