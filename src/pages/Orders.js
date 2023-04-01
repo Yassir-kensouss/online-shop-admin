@@ -8,7 +8,12 @@ import Dashboard from "../components/Dashboard";
 import EmptyBox from "../components/EmptyBox";
 import DataTableSkeleton from "../components/loadings/DataTableSkeleton";
 import OrdersTable from "../components/orders/OrdersTable";
-import { changeStatus, fetchOrders, getStatus, searchOrder } from "../services/orders";
+import {
+  changeStatus,
+  fetchOrders,
+  getStatus,
+  searchOrder,
+} from "../services/orders";
 
 const crumbs = [
   { label: "Home", url: "/" },
@@ -20,7 +25,7 @@ const Orders = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(0);
   const [searchValue, setSearchValue] = useState("");
-  const [field, setField] = useState(null)
+  const [field, setField] = useState(null);
   const toast = useRef(null);
 
   const ordersQuery = useQuery(
@@ -51,9 +56,14 @@ const Orders = () => {
   );
 
   const searchOrderQuery = useQuery(
-    ["search-order",page],
+    ["search-order", page],
     async () => {
-      const response = await searchOrder(searchValue, field.code, page, PRODUCT_DATATABLE_LIMIT);
+      const response = await searchOrder(
+        searchValue,
+        field.code,
+        page,
+        PRODUCT_DATATABLE_LIMIT
+      );
       const orders = await response.data.orders;
       const count = await response.data.count;
       setOrders(orders);
@@ -62,7 +72,6 @@ const Orders = () => {
     },
     { enabled: false }
   );
-
 
   const changeStatusQuery = useMutation(data => changeStatus(data));
 
@@ -87,34 +96,23 @@ const Orders = () => {
       }
     >
       <Toast ref={toast} />
-        <>
-          {orders.length === 0 || total === 0 ? (
-            <EmptyBox
-              icon={<OrderIcon />}
-              parentClassName="pb-8"
-              title="No Orders"
-              message="You don't have any order for the moment"
-            />
-          ) : (
-            <div>
-              <OrdersTable
-                orders={orders}
-                ordersQuery={ordersQuery}
-                getStatusQuery={getStatusQuery}
-                changeStatusQuery={changeStatusQuery}
-                handlePageChange={handlePageChange}
-                page={page}
-                total={total}
-                limit={PRODUCT_DATATABLE_LIMIT}
-                searchValue={searchValue}
-                setSearchValue={setSearchValue}
-                searchOrderQuery={searchOrderQuery}
-                field={field} 
-                setField={setField}
-              />
-            </div>
-          )}
-        </>
+      <>
+        <OrdersTable
+          orders={orders}
+          ordersQuery={ordersQuery}
+          getStatusQuery={getStatusQuery}
+          changeStatusQuery={changeStatusQuery}
+          handlePageChange={handlePageChange}
+          page={page}
+          total={total}
+          limit={PRODUCT_DATATABLE_LIMIT}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          searchOrderQuery={searchOrderQuery}
+          field={field}
+          setField={setField}
+        />
+      </>
     </Dashboard>
   );
 };

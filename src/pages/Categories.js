@@ -186,10 +186,12 @@ const Categories = () => {
         {isLoading ? (
           <DataTableSkeleton />
         ) : categories && categories?.length > 0 ? (
-          <div ref={datatable}>
+          <div ref={datatable} style={{ height: 'calc(100vh - 150px)' }}>
             <DataTable
               value={categories}
               responsiveLayout="scroll"
+              scrollHeight="flex"
+              scrollable 
               selection={selectedCategory}
               onSelectionChange={e => setSelectedCategory(e.value)}
               className="categories-data-table"
