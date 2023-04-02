@@ -1,11 +1,8 @@
 import {
   Button,
-  Calendar,
   Column,
   DataTable,
   Dropdown,
-  InputNumber,
-  InputText,
   Menu,
   Paginator,
   Sidebar,
@@ -24,7 +21,14 @@ import {
 } from "./TableColumns";
 import { OrderIcon } from "../../assets/icons";
 import EmptyBox from "../EmptyBox";
-import moment from "moment";
+import { useMutation } from "react-query";
+import { ordersByFilters } from "../../services/orders";
+import {
+  NUMERIC_FILTERS_MODE,
+  STRING_FILTERS_MODE,
+} from "../../common/constants";
+import { handleTableFiltering, totalPriceFilterTemplate } from "./TableFilters";
+import TableHeader from "./TableHeader";
 
 const fields = [
   { name: "Transaction ID", code: "transaction_id" },
@@ -46,6 +50,8 @@ const OrdersTable = props => {
     searchOrderQuery,
     setField,
     field,
+    setOrders,
+    setTotal,
   } = props;
 
   const menu = useRef(null);
@@ -117,51 +123,17 @@ const OrdersTable = props => {
         constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
       },
     });
+    ordersQuery.refetch();
   };
 
-  const renderHeader = () => {
-    return (
-      <div className="flex justify-content-between">
-        <span className="p-input-icon-left flex align-items-center gap-2">
-          <i className="pi pi-search" />
-          <InputText
-            type="search"
-            value={searchValue}
-            onKeyDown={searchOrderEvent}
-            placeholder="Global Search"
-            onChange={handleCustomer}
-          />
-          <Dropdown
-            optionLabel="name"
-            value={field}
-            options={fields}
-            onChange={e => setField(e.value)}
-            placeholder="Select a field"
-            title="search by"
-          />
-        </span>
-        <Button
-          type="button"
-          icon="pi pi-filter-slash"
-          label="Clear"
-          className="p-button-outlined"
-          onClick={initFilters}
-        />
-      </div>
-    );
-  };
+  const ordersByFiltersQuery = useMutation(data => ordersByFilters(data));
 
-  const totalPriceFilterTemplate = options => {
-    return (
-      <InputNumber
-        value={options.value}
-        onChange={e => options.filterCallback(e.value, options.index)}
-        mode="currency"
-        currency="USD"
-        locale="en-US"
-      />
-    );
-  };
+  useEffect(() => {
+    if (ordersByFiltersQuery.isSuccess) {
+      setOrders(ordersByFiltersQuery.data.data.orders);
+      setTotal(ordersByFiltersQuery.data.data.count);
+    }
+  }, [ordersByFiltersQuery.isSuccess]);
 
   const statusFilterTemplate = options => {
     return (
@@ -189,6 +161,8 @@ const OrdersTable = props => {
       <DataTable
         value={orders}
         responsiveLayout="scroll"
+        onFilter={(e) => handleTableFiltering(e, setFilters, ordersByFiltersQuery, page, limit)}
+        resizableColumns
         emptyMessage={
           <EmptyBox
             icon={<OrderIcon />}
@@ -200,18 +174,34 @@ const OrdersTable = props => {
         filters={filters}
         stripedRows
         loading={ordersQuery.isLoading}
-        header={renderHeader}
+        header={
+          <TableHeader
+            searchValue={searchValue}
+            searchOrderEvent={searchOrderEvent}
+            handleCustomer={handleCustomer}
+            field={field}
+            fields={fields}
+            setField={setField}
+            initFilters={initFilters}
+          />
+        }
       >
         <Column
           field="transaction_id"
           header="Transaction ID"
           body={data => renderTransitionID(data)}
         />
-        <Column header="Customer" body={data => renderCustomer(data)} sortable sortField="user.name"/>
+        <Column
+          header="Customer"
+          body={data => renderCustomer(data)}
+          sortable
+          sortField="user.name"
+        />
         <Column
           field="address"
           header="Delivery Place"
           body={data => renderAddress(data)}
+          resizeable={true}
         />
         <Column
           field="createdAt"
@@ -226,6 +216,8 @@ const OrdersTable = props => {
           filterElement={totalPriceFilterTemplate}
           filterField="totalPrice"
           dataType="numeric"
+          showFilterOperator={false}
+          filterMatchModeOptions={NUMERIC_FILTERS_MODE}
         />
         <Column
           field="status"
@@ -243,7 +235,9 @@ const OrdersTable = props => {
           filter
           filterElement={statusFilterTemplate}
           filterField="status"
-        //   dataType="string"
+          filterMatchMode="equals"
+          filterMatchModeOptions={STRING_FILTERS_MODE}
+          showFilterOperator={false}
         />
         <Column
           header="Details"

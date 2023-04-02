@@ -99,6 +99,8 @@ const Orders = () => {
       <>
         <OrdersTable
           orders={orders}
+          setOrders={setOrders}
+          setTotal={setTotal}
           ordersQuery={ordersQuery}
           getStatusQuery={getStatusQuery}
           changeStatusQuery={changeStatusQuery}

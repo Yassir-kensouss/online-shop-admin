@@ -41,3 +41,13 @@ export const searchOrder = (search, field, page, limit) => {
     url: `orders/search/${user._id}?search=${search}&field=${field}&page=${page}&limit=${limit}`,
   });
 };
+
+
+export const ordersByFilters = (data) => {
+  // debugger
+  return admin({
+    method: "POST",
+    url: `orders/filters/${user._id}?page=${data.page}&limit=${data.limit}`,
+    data: data.body
+  });
+};
