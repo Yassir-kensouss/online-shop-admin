@@ -29,3 +29,16 @@
         background-color: rgb(243, 243, 243);
     }
 }
+
+
+.orders-stats-card{
+    transition: 0.15s ease-in;
+    &:hover{
+        box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;
+        cursor: pointer;
+    }
+
+    &:active{
+        transform: translateY(3px);
+    }
+}

@@ -1,5 +1,5 @@
 import { Toast } from "primereact";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { CategoryIcon, OrderIcon } from "../assets/icons";
 import { PRODUCT_DATATABLE_LIMIT } from "../common/constants";
@@ -7,7 +7,9 @@ import CustomButton from "../components/buttons/CustomButton";
 import Dashboard from "../components/Dashboard";
 import EmptyBox from "../components/EmptyBox";
 import DataTableSkeleton from "../components/loadings/DataTableSkeleton";
+import OrdersStatisticsCard from "../components/orders/OrdersStatisticsCard";
 import OrdersTable from "../components/orders/OrdersTable";
+import { eventSource } from "../services/events";
 import {
   changeStatus,
   fetchOrders,
@@ -26,7 +28,16 @@ const Orders = () => {
   const [page, setPage] = useState(0);
   const [searchValue, setSearchValue] = useState("");
   const [field, setField] = useState(null);
+  const [statistics, setStatistics] = useState({})
   const toast = useRef(null);
+
+  useEffect(() => {
+
+    eventSource.onmessage = (event) => {
+        ordersQuery.refetch()
+    }
+
+  },[])
 
   const ordersQuery = useQuery(
     ["fetchOrders", page],
@@ -36,6 +47,12 @@ const Orders = () => {
       const count = await response.data.count;
       setOrders(orders);
       setTotal(count);
+      setStatistics({
+        cancelled: response.data.cancelled,
+        delivered: response.data.delivered,
+        processing: response.data.processing,
+        newOrders: response.data.newOrders,
+      })
       return orders;
     },
     { refetchOnWindowFocus: false, cacheTime: 0 }
@@ -87,16 +104,19 @@ const Orders = () => {
       rightElement={
         <CustomButton
           onClick={() => ordersQuery.refetch()}
-          className="p-button-secondary"
+          className="p-button-secondary p-button-sm"
           icon="pi pi-refresh"
           disabled={ordersQuery.isLoading}
           id="refreshCustomersTable"
           aria-label="refresh customers table"
+          tooltip='refresh' 
+          tooltipOptions={{position: 'left'}}
         />
       }
     >
       <Toast ref={toast} />
       <>
+        <OrdersStatisticsCard isLoading={ordersQuery.isLoading} statistics={statistics}/>
         <OrdersTable
           orders={orders}
           setOrders={setOrders}

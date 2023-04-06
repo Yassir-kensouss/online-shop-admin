@@ -11,7 +11,6 @@ const TableHeader = props => {
     setField,
     initFilters,
   } = props;
-  console.log('fieldbbbb', field)
   return (
     <>
       <div className="flex justify-content-between">
@@ -24,6 +23,7 @@ const TableHeader = props => {
             placeholder="Global Search"
             onChange={handleCustomer}
             disabled={field ? false : true}
+            className="p-inputtext-sm"
           />
           <Dropdown
             optionLabel="name"
@@ -38,7 +38,7 @@ const TableHeader = props => {
           type="button"
           icon="pi pi-filter-slash"
           label="Clear"
-          className="p-button-outlined"
+          className="p-button-outlined p-button-sm"
           onClick={initFilters}
         />
       </div>

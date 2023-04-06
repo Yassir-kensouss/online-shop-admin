@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { signOut } from "../../services/auth";
 import { getCategries } from "../../store/categories";
 import { isAuthenticated } from "../../utils/helpers";
+import OrdersItem from "./OrdersItem";
 
 const SidebarMenu = () => {
   const dispatch = useDispatch();
@@ -87,23 +88,7 @@ const SidebarMenu = () => {
             </Link>
           </li>
         )}
-        {isAuthenticated() && (
-          <li className="sidebar__item">
-            <Link
-              className={
-                pathname === "/orders"
-                  ? "sidebar__link active"
-                  : "sidebar__link"
-              }
-              to="/orders"
-            >
-              <span className="sidebar__MenuItemIcon">
-                <i className="pi pi-shopping-cart" />
-              </span>
-              Orders
-            </Link>
-          </li>
-        )}
+        <OrdersItem/>
         {isAuthenticated() && (
           <li className="sidebar__item">
             <Link

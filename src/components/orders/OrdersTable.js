@@ -118,7 +118,11 @@ const OrdersTable = props => {
 
   const initFilters = () => {
     setFilters({
-      balance: {
+      totalPrice: {
+        operator: FilterOperator.AND,
+        constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
+      },
+      status: {
         operator: FilterOperator.AND,
         constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
       },
