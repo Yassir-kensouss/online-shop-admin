@@ -34,6 +34,14 @@ const STRING_FILTERS_MODE = [
     { label: "not equals", value: "not equals" },
   ];
 
+const ORDERS_STATUS = {
+  NOT_PROCESSED: 'Not processed',
+  PROCESSING: 'Processing',
+  DELIVERED: 'Delivered',
+  SHIPPED: 'Shipped',
+  CANCELLED: 'Cancelled',
+}
+
 export {
   FILE_SIZE,
   FILE_FORMATS,
@@ -42,5 +50,7 @@ export {
   MAX_QUANTITY,
   PRODUCT_DATATABLE_LIMIT,
   NUMERIC_FILTERS_MODE,
-  STRING_FILTERS_MODE
+  STRING_FILTERS_MODE,
+  ORDERS_STATUS
 };
+

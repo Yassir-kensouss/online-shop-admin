@@ -1,14 +1,17 @@
 import { Badge } from "primereact";
-import React, { useEffect, memo } from "react";
+import React, { useEffect, memo, useRef } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { API_URL } from "../../config";
 import { increaseOrdersCount, resetOrdersCount } from "../../store/orders";
 import { isAuthenticated } from "../../utils/helpers";
+import notificationSound from '../../assets/ordernotification.mp3'
 
 const OrdersItem = () => {
   const pathname = useLocation().pathname;
+
+  const notificationSoundRef = useRef(null);
 
   const newOrdersCount = useSelector(state => state.orders.newOrdersCount)
   const dispatch = useDispatch();
@@ -17,10 +20,13 @@ const OrdersItem = () => {
     const eventSource = new EventSource(`${API_URL}/sse`);
     eventSource.onmessage = event => {
       const data = JSON.parse(event.data);
-      dispatch(increaseOrdersCount(data))
+      dispatch(increaseOrdersCount(data));
+
+      notificationSoundRef.current.play()
+
       toast.success('you have a new order',{
         duration: 5000,
-        position: 'bottom-right',
+        position: 'top-center',
         icon: '👏',
       })
     };
@@ -62,6 +68,7 @@ const OrdersItem = () => {
           </Link>
         </li>
       )}
+      <audio src={notificationSound} ref={notificationSoundRef} />
     </>
   );
 };

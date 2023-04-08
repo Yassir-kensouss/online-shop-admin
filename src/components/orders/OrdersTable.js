@@ -21,8 +21,6 @@ import {
 } from "./TableColumns";
 import { OrderIcon } from "../../assets/icons";
 import EmptyBox from "../EmptyBox";
-import { useMutation } from "react-query";
-import { ordersByFilters } from "../../services/orders";
 import {
   NUMERIC_FILTERS_MODE,
   STRING_FILTERS_MODE,
@@ -52,6 +50,7 @@ const OrdersTable = props => {
     field,
     setOrders,
     setTotal,
+    ordersByFiltersQuery
   } = props;
 
   const menu = useRef(null);
@@ -129,8 +128,6 @@ const OrdersTable = props => {
     });
     ordersQuery.refetch();
   };
-
-  const ordersByFiltersQuery = useMutation(data => ordersByFilters(data));
 
   useEffect(() => {
     if (ordersByFiltersQuery.isSuccess) {

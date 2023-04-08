@@ -22,13 +22,6 @@ const ClickToCopy = props => {
         {limit ? shortenString(value, limit) : value}
         {showIcon ? <Button icon="pi pi-copy" className="p-button-rounded p-button-text copy-to-clipboard-btn" aria-label="copy" tooltip={copied} tooltipOptions={{position: 'right'}} /> : null}
       </div>
-      <Toaster 
-        toastOptions={{
-          style: {
-            boxShadow: "rgba(0, 0, 0, 0.05) 0px 2px 6px"
-          },
-        }}
-      />
     </>
   );
 };

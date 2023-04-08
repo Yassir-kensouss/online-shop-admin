@@ -14,6 +14,7 @@ import {
   changeStatus,
   fetchOrders,
   getStatus,
+  ordersByFilters,
   searchOrder,
 } from "../services/orders";
 
@@ -92,6 +93,8 @@ const Orders = () => {
 
   const changeStatusQuery = useMutation(data => changeStatus(data));
 
+  const ordersByFiltersQuery = useMutation(data => ordersByFilters(data));
+
   const handlePageChange = e => {
     setPage(e.page);
     ordersQuery.refetch();
@@ -116,7 +119,7 @@ const Orders = () => {
     >
       <Toast ref={toast} />
       <>
-        <OrdersStatisticsCard isLoading={ordersQuery.isLoading} statistics={statistics}/>
+        <OrdersStatisticsCard isLoading={ordersQuery.isLoading} ordersByFiltersQuery={ordersByFiltersQuery} statistics={statistics} page={page} limit={PRODUCT_DATATABLE_LIMIT}/>
         <OrdersTable
           orders={orders}
           setOrders={setOrders}
@@ -133,6 +136,7 @@ const Orders = () => {
           searchOrderQuery={searchOrderQuery}
           field={field}
           setField={setField}
+          ordersByFiltersQuery={ordersByFiltersQuery}
         />
       </>
     </Dashboard>

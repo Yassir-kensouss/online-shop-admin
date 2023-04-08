@@ -44,7 +44,6 @@ export const searchOrder = (search, field, page, limit) => {
 
 
 export const ordersByFilters = (data) => {
-  // debugger
   return admin({
     method: "POST",
     url: `orders/filters/${user._id}?page=${data.page}&limit=${data.limit}`,

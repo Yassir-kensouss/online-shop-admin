@@ -42,3 +42,33 @@
         transform: translateY(3px);
     }
 }
+
+.object-fit-cover {
+    object-fit: cover;
+}
+
+.preview-product-images{
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 1em;
+
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.preview-product-photo{
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.product-preview-gallery::-webkit-scrollbar {
+    display: none;
+}
