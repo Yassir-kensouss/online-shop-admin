@@ -186,6 +186,8 @@ const OrdersTable = props => {
             initFilters={initFilters}
           />
         }
+        scrollable 
+        scrollHeight="500px"
       >
         <Column
           field="transaction_id"

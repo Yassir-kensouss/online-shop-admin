@@ -72,3 +72,43 @@
 .product-preview-gallery::-webkit-scrollbar {
     display: none;
 }
+
+.dash-counters-grid{
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.dash-grid-container{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1em;
+    margin-top: 1em;
+
+    .dash-grid-item-1{
+        grid-column-start: 1;
+        grid-column-end: 4;
+    }
+
+    .dash-grid-item-2{
+        grid-column-start: 4;
+        grid-column-end: 5;
+    }
+}
+
+.range-calendar{
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.bsp-range-calendar{
+    display: flex;
+    align-items: center;
+
+    .p-datepicker-trigger {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+    }
+}

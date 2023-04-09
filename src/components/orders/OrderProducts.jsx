@@ -9,13 +9,16 @@ const OrderProducts = props => {
 
   const [seeProducts, setSeeProducts] = useState(true);
   const [viewProduct, setViewProduct] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState(false);
 
   const handleProductPreview = async (productId) => {
+    setLoading(true)
     const response = await fetchSingleProduct(productId);
     const product = await response.data.product;
     setProduct(product);
     setViewProduct(true);
+    setLoading(false)
   }
 
   return (
@@ -54,7 +57,7 @@ const OrderProducts = props => {
                   </span>
                 </div>
                 <div>
-                  <Button tooltip="View" tooltipOptions={{
+                  <Button loading={loading} tooltip="View" tooltipOptions={{
                     position: 'left'
                   }} icon="pi pi-eye" aria-label="Submit" className="p-button-sm text-indigo-500 p-button-rounded p-button-text" onClick={() => handleProductPreview(product._id)}/>
                 </div>

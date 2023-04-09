@@ -6,10 +6,10 @@ import { createOrder } from '../services/orders';
 
 const prods = [
   {
-    _id: "63f55799447902e4ef2ffaf0",
-    name: "The real dream",
-    price: 215,
-    count: 1,
+    _id: "6432d6ca6fe77f7e7ea326af",
+    name: "CHAUSSURE OZNOVO GRIS",
+    price: 760,
+    count: 2,
   }
 ];
 

@@ -93,3 +93,14 @@ export const productsList = (value, page, limit) => {
   })
 
 }
+
+export const bestSellingProducts = (query) => {
+  return auth({
+    headers:{
+      Authorization: `Bearer ${jwt.token}`
+    },
+    method: "POST",
+    url: `/product/best-selling-products?page=${query.page}&limit=${query.limit}`,
+    data: query.filters
+  })
+}
