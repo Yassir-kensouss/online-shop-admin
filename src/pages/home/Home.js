@@ -1,5 +1,6 @@
 import React from "react";
 import Cards from "../../components/Cards";
+import MUC from "../../components/category/MostUsedCategories";
 import Dashboard from "../../components/Dashboard";
 import BSP from "../../components/products/Best selling products";
 
@@ -34,12 +35,12 @@ const Home = () => {
         />
       </section>
       <div className="dash-grid-container">
-        <div className="dash-grid-item-1 dash-card">
+        <div className="dash-grid-item-1">
           <BSP/>
         </div>
-        <section className="dash-grid-item-2">
-          most used categories
-        </section>
+        <div className="dash-grid-item-2">
+          <MUC/>
+        </div>
       </div>
     </Dashboard>
   );

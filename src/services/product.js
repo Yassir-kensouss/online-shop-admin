@@ -104,3 +104,13 @@ export const bestSellingProducts = (query) => {
     data: query.filters
   })
 }
+
+export const mostUsedCategories = () => {
+  return auth({
+    headers:{
+      Authorization: `Bearer ${jwt.token}`
+    },
+    method: "GET",
+    url: `/product/most-used-categories`,
+  })
+}

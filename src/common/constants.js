@@ -42,6 +42,19 @@ const ORDERS_STATUS = {
   CANCELLED: 'Cancelled',
 }
 
+const BG_COLORS = [
+  "#0B2447",
+  "#D5B4B4",
+  "#66347F",
+  "#19376D",
+  "#576CBC",
+  "#0EA293",
+  "#CE5959",
+  "#89375F",
+  "#FF8400",
+  "#159895",
+]
+
 export {
   FILE_SIZE,
   FILE_FORMATS,
@@ -51,6 +64,7 @@ export {
   PRODUCT_DATATABLE_LIMIT,
   NUMERIC_FILTERS_MODE,
   STRING_FILTERS_MODE,
-  ORDERS_STATUS
+  ORDERS_STATUS,
+  BG_COLORS
 };
 
