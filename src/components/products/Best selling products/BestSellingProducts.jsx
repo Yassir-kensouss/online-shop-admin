@@ -29,7 +29,7 @@ const BestSellingProducts = props => {
             <th className="customTable__productNameTh">Product name</th>
             <th>Price</th>
             <th>Sold</th>
-            <th>Status</th>
+            <th>Stock</th>
           </tr>
         </thead>
         <tbody>
@@ -49,7 +49,9 @@ const BestSellingProducts = props => {
               </td>
               <td className="customTable__productPrice">{product.price}</td>
               <td className="customTable__productSold">{product.sold}</td>
-              <td>Out of stock</td>
+              <td>
+                <Stock stock={product.stock} />
+              </td>
             </tr>
           ))}
         </tbody>
@@ -70,5 +72,14 @@ const BestSellingProducts = props => {
     </>
   );
 };
+
+const Stock = ({stock}) => {
+  return (
+    <div className="flex align-items-center gap-2">
+      <i className={`pi pi-circle-fill text-xs ${stock ? 'text-green-400' : 'text-red-400'}`}></i>
+      <span className={`font-semibold text-xs ${stock ? 'text-green-400' : 'text-red-400'}`}>{stock ? 'In Stock' : 'Out of Stock'}</span>
+    </div>
+  )
+}
 
 export default BestSellingProducts;

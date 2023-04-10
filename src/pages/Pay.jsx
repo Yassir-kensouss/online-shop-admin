@@ -6,10 +6,11 @@ import { createOrder } from '../services/orders';
 
 const prods = [
   {
-    _id: "6432d6ca6fe77f7e7ea326af",
+    _id: "63f55799447902e4ef2ffaf0",
     name: "CHAUSSURE OZNOVO GRIS",
     price: 760,
-    count: 2,
+    count: 4,
+    quantity: 0
   }
 ];
 
@@ -76,7 +77,8 @@ const Pay = () => {
         .then(data => {
             paymentProcess(userId, token, {
                 amount: setTotalPrice(),
-                paymentMethodNonce: data.nonce
+                paymentMethodNonce: data.nonce,
+                products: prods
             }).then(res => {
 
                 const orderData = {
