@@ -6,11 +6,11 @@ import { createOrder } from '../services/orders';
 
 const prods = [
   {
-    _id: "63f55799447902e4ef2ffaf0",
+    _id: "63f55a00dad98c276c74f8c3",
     name: "CHAUSSURE OZNOVO GRIS",
     price: 760,
     count: 4,
-    quantity: 0
+    quantity: 12
   }
 ];
 

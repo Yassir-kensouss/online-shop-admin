@@ -58,8 +58,6 @@ const NewUserForm = props => {
     control,
     formState: { errors },
     handleSubmit,
-    reset,
-    formFields,
   } = useForm({ defaultValues });
 
   const getFormErrorMessage = name => {
@@ -93,8 +91,6 @@ const NewUserForm = props => {
     };
 
     createNewUser.mutate(body);
-
-    reset();
   };
 
   return (

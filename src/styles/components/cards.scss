@@ -7,9 +7,22 @@
     align-items: center;
     gap: 0.5em;
 
+    &__content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    &__leftSide{
+        width: 100%;
+    }
+
     &__iconWrapper{
         width: 30px;
         height: 30px;
+        min-width: 30px;
+        min-height: 30px;
         background-color: $graySecondary;
         border-radius: 50%;
         display: grid;
@@ -28,5 +41,30 @@
         color: $darkPrimary;
         margin-top: 0.25em;
         font-weight: 600;
+    }
+
+    .up-rate,.down-rate{
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        font-size: 0.7rem;
+        border-radius: 4px;
+        font-weight: 600;
+
+        .pi {
+            font-size: 0.6rem;
+            font-weight: 600;
+        }
+    }
+
+    .up-rate{
+        background-color: rgb(235, 252, 235);
+        color: rgb(45, 138, 45);
+    }
+
+    .down-rate{
+        background-color: rgb(252, 235, 235);
+        color: rgb(138, 45, 45);
     }
 }

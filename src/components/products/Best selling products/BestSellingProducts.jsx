@@ -4,20 +4,12 @@ import { PRODUCT_DATATABLE_LIMIT } from "../../../common/constants";
 import EmptyBox from "../../EmptyBox";
 
 const BestSellingProducts = props => {
-  const { bspMutation, filters } = props;
-  const [page, setPage] = useState(0);
-
-  useEffect(() => {
-    bspMutation.mutate({ page, limit: PRODUCT_DATATABLE_LIMIT, filters: {} });
-  }, []);
+  const { refetch, products, total, setPage, page } = props;
 
   const handlePageChange = e => {
     setPage(e.page);
-    bspMutation.mutate({ page: e.page, limit: PRODUCT_DATATABLE_LIMIT, filters: filters });
+    refetch();
   };
-
-  const products = bspMutation.data?.data.products;
-  const total = bspMutation.data?.data.total;
 
   return (
     <>

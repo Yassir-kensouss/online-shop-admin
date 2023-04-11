@@ -3,7 +3,7 @@ const FILE_SIZE = {
   VIDEO: 2000000, // Bytes
 };
 
-const PRODUCT_DATATABLE_LIMIT = 5;
+const PRODUCT_DATATABLE_LIMIT = 2;
 
 const FILE_FORMATS = {
   IMAGE: [".png", ".webp", ".jpeg", ".jpg"],

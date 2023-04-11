@@ -24,8 +24,7 @@ export const fetchAllProducts = (page, limit) => {
 };
 
 export const duplicateProduct = data => {
-
-  delete data._id
+  delete data._id;
 
   return auth({
     headers: {
@@ -37,80 +36,76 @@ export const duplicateProduct = data => {
   });
 };
 
-export const deleteProduct = (id) => {
+export const deleteProduct = id => {
   return auth({
-    headers:{
-      Authorization: `Bearer ${jwt.token}`
+    headers: {
+      Authorization: `Bearer ${jwt.token}`,
     },
     method: "DELETE",
-    url: `product/${id}/${user._id}`
-  })
-}
+    url: `product/${id}/${user._id}`,
+  });
+};
 
-export const deleteManyProducts = (ids) => {
-  
+export const deleteManyProducts = ids => {
   return auth({
-    headers:{
-      Authorization: `Bearer ${jwt.token}`
+    headers: {
+      Authorization: `Bearer ${jwt.token}`,
     },
     method: "POST",
     url: `/product/deleteMany/${user._id}`,
-    data: ids
-  })
-}
+    data: ids,
+  });
+};
 
-export const fetchSingleProduct = (id) => {
-  
+export const fetchSingleProduct = id => {
   return auth({
-    headers:{
-      Authorization: `Bearer ${jwt.token}`
+    headers: {
+      Authorization: `Bearer ${jwt.token}`,
     },
     method: "GET",
     url: `/product/${id}`,
-  })
-}
+  });
+};
 
-export const updateProduct = (body) => {
-  
+export const updateProduct = body => {
   return auth({
-    headers:{
-      Authorization: `Bearer ${jwt.token}`
+    headers: {
+      Authorization: `Bearer ${jwt.token}`,
     },
     method: "PUT",
     url: `/product/${body._id}`,
-    data: body
-  })
-}
+    data: body,
+  });
+};
 
 export const productsList = (value, page, limit) => {
-
   return auth({
-    headers:{
-      Authorization: `Bearer ${jwt.token}`
+    headers: {
+      Authorization: `Bearer ${jwt.token}`,
     },
     method: "GET",
     url: `/product/productsList?search=${value}&page=${page}&limit=${limit}`,
-  })
+  });
+};
 
-}
-
-export const bestSellingProducts = (query) => {
+export const bestSellingProducts = (page, limit, price) => {
   return auth({
-    headers:{
-      Authorization: `Bearer ${jwt.token}`
+    headers: {
+      Authorization: `Bearer ${jwt.token}`,
     },
-    method: "POST",
-    url: `/product/best-selling-products?page=${query.page}&limit=${query.limit}`,
-    data: query.filters
-  })
-}
+    method: "GET",
+    url: `/product/best-selling-products?page=${page}&limit=${limit}&price=${
+      price[0] + "-" + price[1]
+    }`,
+  });
+};
 
 export const mostUsedCategories = () => {
   return auth({
-    headers:{
-      Authorization: `Bearer ${jwt.token}`
+    headers: {
+      Authorization: `Bearer ${jwt.token}`,
     },
     method: "GET",
     url: `/product/most-used-categories`,
-  })
-}
+  });
+};

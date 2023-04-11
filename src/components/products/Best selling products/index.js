@@ -1,51 +1,63 @@
-import { Button, Calendar, OverlayPanel, Slider } from "primereact";
+import { Button, OverlayPanel, Slider } from "primereact";
 import React, { useRef, useState } from "react";
-import { useMutation } from "react-query";
+import { useQuery } from "react-query";
 import { PRODUCT_DATATABLE_LIMIT } from "../../../common/constants";
 import { bestSellingProducts } from "../../../services/product";
 import DashCards from "../../DashCards";
 import BestSellingProducts from "./BestSellingProducts";
+import BSPSkeleton from "./BSPSkeleton";
 
 const BSP = () => {
-  const [price, setPrice] = useState([20, 80]);
-  const [filters, setFilters] = useState({});
+  const [price, setPrice] = useState([0, 100]);
+  const [products, setProducts] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(0);
 
-  const bspMutation = useMutation(data => bestSellingProducts(data));
+  const bspMutation = useQuery(["best-selling-products",{page: page}], async () => {
+    const response = await bestSellingProducts(
+      page,
+      PRODUCT_DATATABLE_LIMIT,
+      price
+    );
+    setProducts(response.data.products);
+    setTotal(response.data.total);
+  },{refetchOnWindowFocus:false});
 
   const handleBspFilters = () => {
-    const _filters = {
-      price: {
-        $gte: price[0],
-        $lte: price[1],
-      },
-    };
-    setFilters(_filters);
-    bspMutation.mutate({
-      page: 0,
-      limit: PRODUCT_DATATABLE_LIMIT,
-      filters: _filters,
-    });
+    setPage(0)
+    bspMutation.refetch();
   };
 
   const clearFilter = () => {
-    bspMutation.mutate({page: 0, limit: PRODUCT_DATATABLE_LIMIT, filters: {}})
-  }
+    setPage(0)
+    bspMutation.refetch();
+  };
 
   return (
     <>
-      <DashCards
-        title="Best selling products"
-        rightContent={
-          <BSPCalendar
-            price={price}
-            setPrice={setPrice}
-            handleBspFilters={handleBspFilters}
-            clearFilter={clearFilter}
+      {bspMutation.isLoading ? (
+        <BSPSkeleton />
+      ) : (
+        <DashCards
+          title="Best selling products"
+          rightContent={
+            <BSPCalendar
+              price={price}
+              setPrice={setPrice}
+              handleBspFilters={handleBspFilters}
+              clearFilter={clearFilter}
+            />
+          }
+        >
+          <BestSellingProducts
+            products={products}
+            total={total}
+            refetch={bspMutation.refetch}
+            setPage={setPage}
+            page={page}
           />
-        }
-      >
-        <BestSellingProducts bspMutation={bspMutation} filters={filters} />
-      </DashCards>
+        </DashCards>
+      )}
     </>
   );
 };
@@ -84,7 +96,10 @@ const BSPCalendar = ({ price, setPrice, handleBspFilters, clearFilter }) => {
           <Button className="p-button-sm mt-5" onClick={handleBspFilters}>
             Filter
           </Button>
-          <Button className="p-button-sm mt-5 p-button-outlined p-button-secondary" onClick={clearFilter}>
+          <Button
+            className="p-button-sm mt-5 p-button-outlined p-button-secondary"
+            onClick={clearFilter}
+          >
             Clear
           </Button>
         </div>
