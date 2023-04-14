@@ -20,3 +20,18 @@ export const browsersTraffic = () => {
     url: `statistics/traffic/browsers`,
   })
 }
+
+export const deviceTraffic = () => {
+  return admin({
+    method: "GET",
+    url: `statistics/traffic/device`,
+  })
+}
+
+
+export const osTraffic = () => {
+  return admin({
+    method: "GET",
+    url: `statistics/traffic/os`,
+  })
+}

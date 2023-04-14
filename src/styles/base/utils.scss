@@ -82,7 +82,7 @@
 .dash-grid-container{
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(2, 400px);
+    grid-template-rows: repeat(3, 400px);
     gap: 1em;
     margin-top: 1em;
 
@@ -108,6 +108,27 @@
         grid-column-end: 6;
         grid-row-start: 2;
         grid-row-end: 3;
+    }
+
+    .dash-grid-item-5{
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 3;
+        grid-row-end: 4;
+    }
+
+    .dash-grid-item-6{
+        grid-column-start: 3;
+        grid-column-end: 5;
+        grid-row-start: 3;
+        grid-row-end: 4;
+    }
+
+    .dash-grid-item-7{
+        grid-column-start: 5;
+        grid-column-end: 6;
+        grid-row-start: 3;
+        grid-row-end: 4;
     }
 }
 
