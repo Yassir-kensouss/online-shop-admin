@@ -88,15 +88,14 @@ export const productsList = (value, page, limit) => {
   });
 };
 
-export const bestSellingProducts = (page, limit, price) => {
+export const bestSellingProducts = (page, limit, price, hasFilter) => {
+  const filter = hasFilter ? `&price=${price[0] + "-" + price[1]}` : ""
   return auth({
     headers: {
       Authorization: `Bearer ${jwt.token}`,
     },
     method: "GET",
-    url: `/product/best-selling-products?page=${page}&limit=${limit}&price=${
-      price[0] + "-" + price[1]
-    }`,
+    url: `/product/best-selling-products?page=${page}&limit=${limit}${filter}`,
   });
 };
 

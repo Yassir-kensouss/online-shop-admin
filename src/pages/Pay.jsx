@@ -7,10 +7,17 @@ import { createOrder } from '../services/orders';
 const prods = [
   {
     _id: "63f55a00dad98c276c74f8c3",
-    name: "CHAUSSURE OZNOVO GRIS",
+    name: "NEW YOURK CITY",
     price: 760,
     count: 4,
     quantity: 12
+  },
+  {
+    _id: "6432d6ca6fe77f7e7ea326af",
+    name: "CHAUSSURE OZNOVO GRIS",
+    price: 200,
+    count: 2,
+    quantity: 8
   }
 ];
 

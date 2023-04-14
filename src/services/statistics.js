@@ -6,3 +6,17 @@ export const totalRevenues = () => {
     url: `statistics/total/revenues`,
   });
 };
+
+export const revenueByDate = (interval) => {
+  return admin({
+    method: "GET",
+    url: `statistics/revenue/interval?interval=${interval}`,
+  })
+}
+
+export const browsersTraffic = () => {
+  return admin({
+    method: "GET",
+    url: `statistics/traffic/browsers`,
+  })
+}

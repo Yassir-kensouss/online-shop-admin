@@ -1,20 +1,33 @@
-import React from 'react'
+import { Tooltip } from "primereact";
+import React from "react";
 
-const DashCards = (props) => {
-    const {title, children, rightContent} = props;
+const DashCards = props => {
+  const { title, children, rightContent, hasInfo, infoContent, height = "87%" } = props;
   return (
-    <section className='bg-white border-round-xl p-3 pb-0 h-full'>
-        <div className='mb-3 flex align-items-center justify-content-between'>
-            <h2 className='text-l font-semibold text-primary-800 capitalize'>{title}</h2>
+    <section style={{overflowX: 'auto'}} className="bg-white border-round-xl p-3 pb-0 h-full">
+      <div className="mb-3 flex align-items-start justify-content-between">
+        <h2 className="text-l font-semibold text-primary-800 capitalize flex align-items-center gap-2">
+          {title}
+          {hasInfo ? (
             <div>
-                {rightContent}
+              <Tooltip target=".custom-target-icon">
+                <p className="w-10rem line-height-2">
+                  {infoContent}
+                </p>
+              </Tooltip>
+              <i
+                className="cursor-pointer mt-1 custom-target-icon pi pi-info-circle p-text-secondary text-sm"
+                data-pr-position="bottom"
+              >
+              </i>
             </div>
-        </div>
-        <div style={{height: '87%'}}>
-            {children}
-        </div>
+          ) : null}
+        </h2>
+        <div>{rightContent}</div>
+      </div>
+      <div style={{ height }}>{children}</div>
     </section>
-  )
-}
+  );
+};
 
-export default DashCards
+export default DashCards;
