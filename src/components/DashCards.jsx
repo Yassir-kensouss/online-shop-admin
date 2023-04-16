@@ -2,7 +2,7 @@ import { Tooltip } from "primereact";
 import React from "react";
 
 const DashCards = props => {
-  const { title, children, rightContent, hasInfo, infoContent, height = "87%" } = props;
+  const {id, title, children, rightContent, hasInfo, infoContent, height = "87%" } = props;
   return (
     <section style={{overflowX: 'auto'}} className="bg-white border-round-xl p-3 pb-0 h-full">
       <div className="mb-3 flex align-items-start justify-content-between">
@@ -10,13 +10,13 @@ const DashCards = props => {
           {title}
           {hasInfo ? (
             <div>
-              <Tooltip target=".custom-target-icon">
+              <Tooltip target={`.${id}`}>
                 <p className="w-10rem line-height-2">
                   {infoContent}
                 </p>
               </Tooltip>
               <i
-                className="cursor-pointer mt-1 custom-target-icon pi pi-info-circle p-text-secondary text-sm"
+                className={id + " cursor-pointer mt-1 custom-target-icon pi pi-info-circle p-text-secondary text-sm"}
                 data-pr-position="bottom"
               >
               </i>

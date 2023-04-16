@@ -29,10 +29,10 @@ export const persistManyCategories = (categories) => {
   })
 }
 
-export const fetchAllCategories = async (page = 0) => {
+export const fetchAllCategories = async (page, limit) => {
   return auth({
     method: "GET",
-    url: `category/fetchAll?page=${page - 1}`,
+    url: `category/fetchAll?page=${page}&limit=${limit}`,
   });
 };
 
@@ -71,10 +71,10 @@ export const updateCategory = async (data) => {
 }
 
 
-export const searchCategories = async (data) => {
+export const searchCategories = async (data, page, limit) => {
   return auth({
     method: 'GET',
-    url: `category/categories/search?searchValue=${data}`,
+    url: `category/categories/search?searchValue=${data}&page${page}&limit=${limit}`,
   })
 
 }

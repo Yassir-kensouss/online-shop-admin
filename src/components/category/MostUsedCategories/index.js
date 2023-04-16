@@ -59,6 +59,7 @@ const MUC = () => {
         <BSPSkeleton />
       ) : (
         <DashCards
+          id="most-used-categories"
           title="Most Used Categories"
           hasInfo={true}
           infoContent="This report presents an overview of the product categories with the highest sales volume."

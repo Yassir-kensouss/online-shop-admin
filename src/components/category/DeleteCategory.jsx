@@ -11,24 +11,14 @@ const DeleteCategory = props => {
     isDeleteCategory,
     selectedCategory,
     setSelectedCategory,
-    refetch
+    refetch,
   } = props;
 
   const dispatch = useDispatch();
   const toast = useRef(null);
 
-  const deleteMutation = useMutation(data => deleteManyCategories(data));
-
-  const _deleteCategory = () => {
-    let ids = [];
-    selectedCategory &&
-      selectedCategory.map(category => ids.push(category._id));
-    deleteMutation.mutate({ ids: ids });
-    console.log(deleteMutation.isSuccess);
-  };
-
-  useEffect(() => {
-    if (deleteMutation.isSuccess) {
+  const deleteMutation = useMutation(data => deleteManyCategories(data), {
+    onSuccess: () => {
       setIsDeleteCategory(false);
       toast.current.show({
         severity: "success",
@@ -37,21 +27,38 @@ const DeleteCategory = props => {
         } categories deleted`,
         life: 3000,
       });
-      refetch()
+      refetch();
       setSelectedCategory(null);
-    }
-  }, [deleteMutation.isSuccess]);
-
-  useEffect(() => {
-    if (deleteMutation.isError) {
+    },
+    onError: () => {
       setIsDeleteCategory(true);
       toast.current.show({
         severity: "error",
-        detail: 'Something went wrong',
+        detail: "Something went wrong",
         life: 3000,
       });
+    },
+  });
+
+  const _deleteCategory = () => {
+    const linkedP = selectedCategory.filter(el => el.linkedProduct > 0);
+
+    if (linkedP.length > 0) {
+      toast.current.show({
+        severity: "error",
+        detail: `Unable to delete, some products belongs to ${linkedP[0].name}`,
+        life: 3000,
+      });
+
+      return;
+    } else {
+      let ids = selectedCategory.map(category => {
+        return category._id;
+      });
+
+      deleteMutation.mutate({ ids: ids });
     }
-  }, [deleteMutation.isError]);
+  };
 
   const deleteCategoryDialogFooter = (
     <>

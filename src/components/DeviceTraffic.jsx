@@ -14,7 +14,7 @@ const DeviceTraffic = () => {
     aspectRatio: 0.8,
     plugins: {
       legend: {
-        align: "end",
+        align: "center",
         labels: {
           boxWidth: 10,
           boxHeight: 10,
@@ -52,6 +52,7 @@ const DeviceTraffic = () => {
         <BSPSkeleton />
       ) : (
         <DashCards
+          id="device-traffic"
           title="Device Traffic"
           hasInfo={true}
           height="80%"

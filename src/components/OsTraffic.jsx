@@ -14,7 +14,7 @@ const OsTraffic = () => {
     aspectRatio: 0.8,
     plugins: {
       legend: {
-        align: "end",
+        align: "center",
         labels: {
           boxWidth: 10,
           boxHeight: 10,
@@ -52,6 +52,7 @@ const OsTraffic = () => {
         <BSPSkeleton />
       ) : (
         <DashCards
+          id="os-traffic"
           title="Os Traffic"
           hasInfo={true}
           height="80%"

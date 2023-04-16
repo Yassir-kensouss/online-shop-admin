@@ -92,7 +92,13 @@ const Pay = () => {
                     products: prods,
                     transaction_id: res.transaction.id,
                     totalPrice: res.transaction.amount,
-                    address
+                    address: {
+                      address: 'New york city, 34st',
+                      state: 'Florida',
+                      country: 'United state',
+                      zip_code: '45000',
+                      country_code: 'US'
+                    }
                 }
 
                 createOrder(userId,orderData)

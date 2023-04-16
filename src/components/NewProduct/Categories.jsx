@@ -27,7 +27,7 @@ const Categories = () => {
   }
 
   const { data, isLoading, refetch } = useQuery(
-    "fetchCategories",
+    "fetchCategories-create",
     async () => {
       const response = await allCategories();
       const data = await response.data;

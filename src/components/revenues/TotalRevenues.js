@@ -10,7 +10,15 @@ const TotalRevenues = () => {
     totalRevenue: 0,
     totalSales: 0,
     totalOrders: 0,
-    totalUsers: 0
+    totalUsers: 0,
+    newUsers: {
+      value: 0,
+      rate: 0
+    },
+    newOrders: {
+      value: 0,
+      rate: 0
+    }
   });
 
   const { isLoading } = useQuery(

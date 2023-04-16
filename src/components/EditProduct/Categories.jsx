@@ -25,7 +25,7 @@ const Categories = (props) => {
   }
 
   const { data, isLoading, refetch } = useQuery(
-    "fetchCategories",
+    "fetchCategories-edit",
     async () => {
       const response = await allCategories();
       const data = await response.data;

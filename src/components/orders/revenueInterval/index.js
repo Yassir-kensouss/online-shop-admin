@@ -26,6 +26,7 @@ const RevenueInterval = () => {
         isLoading ?
         <BSPSkeleton/> :
         <DashCards
+            id="revenue-by-date"
             title={`Revenue by ${intervalValue}`}
             hasInfo={true}
             infoContent="This report presents an overview of the product categories with the highest sales volume."

@@ -35,3 +35,10 @@ export const osTraffic = () => {
     url: `statistics/traffic/os`,
   })
 }
+
+export const countryTraffic = () => {
+  return admin({
+    method: "GET",
+    url: `statistics/traffic/countries`,
+  })
+}

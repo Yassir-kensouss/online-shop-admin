@@ -60,6 +60,7 @@ const BrowserTraffic = () => {
         <BSPSkeleton />
       ) : (
         <DashCards
+          id="browser-traffic"
           title="Browser Traffic"
           hasInfo={true}
           height="80%"

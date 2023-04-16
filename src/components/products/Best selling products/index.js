@@ -47,6 +47,7 @@ const BSP = () => {
         <BSPSkeleton />
       ) : (
         <DashCards
+          id="best-selling-products"
           title="Best selling products"
           hasInfo={true}
           height="80%"
