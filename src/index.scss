@@ -20,6 +20,7 @@
 @import './styles/components/emptyBox.scss';
 @import './styles/components/pagination.scss';
 @import './styles/components/customTable.scss';
+@import './styles/components/settings.scss';
 
 // Pages
 @import './styles/pages/sign-in.scss';
@@ -27,6 +28,8 @@
 @import './styles/pages/categories.scss';
 @import './styles/pages/newProduct.scss';
 @import './styles/pages/customers.scss';
+@import './styles/pages/404.scss';
+@import './styles/pages/settings.scss';
 
 // Vendors
 @import './styles/vendors/_primereact.scss';

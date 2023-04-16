@@ -1,12 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Analytics from "./pages/Analytics";
 import Categories from "./pages/Categories";
 import NewProduct from "./pages/NewProduct";
 import Customers from "./pages/Customers";
 import Home from "./pages/home/Home";
 import Products from "./pages/Products";
-import Profile from "./pages/Profile";
 import SignIn from "./pages/SignIn";
 import ResetPassword from "./pages/ResetPasswrod";
 import UpdatePassword from "./pages/UpdatePassword";
@@ -16,6 +14,8 @@ import EditProduct from "./pages/EditProduct";
 import CustomerDetails from "./pages/CustomerDetails";
 import Pay from "./pages/Pay";
 import Orders from "./pages/Orders";
+import PageNotFound from "./components/PageNotFound";
+import Settings from "./pages/Settings";
 
 const Routers = () => {
   return (
@@ -85,16 +85,8 @@ const Routers = () => {
             </PrivateRoute>
           }
         />
-        <Route
-          path="/analytics"
-          element={
-            <PrivateRoute>
-              <Analytics />
-            </PrivateRoute>
-          }
-        />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="*" element={<div>No match</div>} />
+        <Route path="/profile" element={<Settings />} />
+        <Route path="*" element={<PageNotFound/>} />
       </Routes>
     </Router>
   );

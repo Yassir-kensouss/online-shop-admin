@@ -9,6 +9,10 @@
         background-color: white;
     }
 
+    .collapse{
+        width: 70px;
+    }
+
     &__header{
         margin-bottom: 1em;
     }
@@ -22,7 +26,7 @@
     }
 
     &__main{
-        width: 85%;
+        width: 100%;
         overflow-x: hidden;
         background-color: $graySecondary;
         padding: 1.5em 1em 1em 1em;

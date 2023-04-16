@@ -1,0 +1,41 @@
+.pageNotFound{
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    padding: 2em;
+
+    &__content{
+        flex: 1;
+    }
+
+    &__subheader{
+        font-size: 3rem;
+        margin-bottom: 1em;
+    }
+
+    &__redirect{
+        text-decoration: none;
+    }
+
+    &__header{
+        font-size: 4rem;
+        font-weight: 600;
+        margin: 0;
+        color: rgb(62, 24, 91);
+        text-transform: capitalize;
+    }
+
+    &__message{
+        font-size: 1.5rem;
+        color: rgb(69, 70, 71);
+        margin: 1em 0 0.5em 0;
+    }
+
+    &__illustration{
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        height: 100%;
+        width: 60%;
+    }
+}

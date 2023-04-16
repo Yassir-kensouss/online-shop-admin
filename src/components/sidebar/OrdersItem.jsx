@@ -8,7 +8,7 @@ import { increaseOrdersCount, resetOrdersCount } from "../../store/orders";
 import { isAuthenticated } from "../../utils/helpers";
 import notificationSound from '../../assets/ordernotification.mp3'
 
-const OrdersItem = () => {
+const OrdersItem = ({collapse}) => {
   const pathname = useLocation().pathname;
 
   const notificationSoundRef = useRef(null);
@@ -59,7 +59,7 @@ const OrdersItem = () => {
               <span className="sidebar__MenuItemIcon">
                 <i className="pi pi-shopping-cart" />
               </span>
-              Orders
+             {!collapse ? "Orders" : null}
             </div>
             {newOrdersCount.length > 0 ? (
               <Badge value={'+' + newOrdersCount.length} severity="warning" />

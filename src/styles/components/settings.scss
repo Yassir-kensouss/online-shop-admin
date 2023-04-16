@@ -1,0 +1,24 @@
+.settingsItems{
+    padding: 15px;
+    &__list{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    &__listTitle{
+        font-size: 14px;
+        text-transform: capitalize;
+        font-weight: 600;
+    }
+
+    &__listItem{
+        margin-left: 5px;
+        font-size: 14px;
+        text-transform: capitalize;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+    }
+}

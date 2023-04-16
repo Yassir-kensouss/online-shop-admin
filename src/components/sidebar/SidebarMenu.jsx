@@ -7,7 +7,7 @@ import { getCategries } from "../../store/categories";
 import { isAuthenticated } from "../../utils/helpers";
 import OrdersItem from "./OrdersItem";
 
-const SidebarMenu = () => {
+const SidebarMenu = ({collapse}) => {
   const dispatch = useDispatch();
   const pathname = useLocation().pathname;
   const navigate = useNavigate();
@@ -18,125 +18,119 @@ const SidebarMenu = () => {
         localStorage.removeItem("jwt_data");
         return navigate("/sign-in");
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
   };
 
   return (
     <div className="sidebar__menu">
-      <ul className="sidebar__list">
-        <li className="sidebar__item">
-          <Link
-            className={
-              pathname === "/" ? "sidebar__link active" : "sidebar__link"
-            }
-            to="/"
-          >
-            <span className="sidebar__MenuItemIcon">
-              <i className="pi pi-home" />
-            </span>
-            Dashboard
-          </Link>
-        </li>
-        {isAuthenticated() && isAuthenticated().user.role === 1 && (
+      <div className="sidebar__topMenu">
+        <ul className="sidebar__list">
           <li className="sidebar__item">
             <Link
               className={
-                pathname === "/customers"
-                  ? "sidebar__link active"
-                  : "sidebar__link"
+                pathname === "/" ? "sidebar__link active" : "sidebar__link"
               }
-              to="/customers"
+              to="/"
             >
               <span className="sidebar__MenuItemIcon">
-                <i className="pi pi-users" />
+                <i className="pi pi-home" />
               </span>
-              Customers
+              {!collapse ? "Dashboard" : null}
             </Link>
           </li>
-        )}
-        {isAuthenticated() && (
-          <li className="sidebar__item" onClick={() => dispatch(getCategries(0))}>
-            <Link
-              className={
-                pathname === "/categories"
-                  ? "sidebar__link active"
-                  : "sidebar__link"
-              }
-              to="/categories"
+          {isAuthenticated() && isAuthenticated().user.role === 1 && (
+            <li className="sidebar__item">
+              <Link
+                className={
+                  pathname === "/customers"
+                    ? "sidebar__link active"
+                    : "sidebar__link"
+                }
+                to="/customers"
+              >
+                <span className="sidebar__MenuItemIcon">
+                  <i className="pi pi-users" />
+                </span>
+                {!collapse ? "Customers" : null}
+              </Link>
+            </li>
+          )}
+          {isAuthenticated() && (
+            <li
+              className="sidebar__item"
+              onClick={() => dispatch(getCategries(0))}
             >
-              <span className="sidebar__MenuItemIcon">
-                <i className="pi pi-folder-open" />
-              </span>
-              Categories
-            </Link>
-          </li>
-        )}
-        {isAuthenticated() && (
+              <Link
+                className={
+                  pathname === "/categories"
+                    ? "sidebar__link active"
+                    : "sidebar__link"
+                }
+                to="/categories"
+              >
+                <span className="sidebar__MenuItemIcon">
+                  <i className="pi pi-folder-open" />
+                </span>
+                {!collapse ? "Categories" : null}
+              </Link>
+            </li>
+          )}
+          {isAuthenticated() && (
+            <li className="sidebar__item">
+              <Link
+                className={
+                  pathname === "/products"
+                    ? "sidebar__link active"
+                    : "sidebar__link"
+                }
+                to="/products"
+              >
+                <span className="sidebar__MenuItemIcon">
+                  <i className="pi pi-shopping-bag" />
+                </span>
+                {!collapse ? "Products" : null}
+              </Link>
+            </li>
+          )}
+          <OrdersItem collapse={collapse} />
+        </ul>
+      </div>
+      <div className="sidebar__bottomMenu">
+        <ul>
+          {isAuthenticated() && (
+            <li className="sidebar__item">
+              <Link
+                className={
+                  pathname === "/profile"
+                    ? "sidebar__link active"
+                    : "sidebar__link"
+                }
+                to="/profile"
+              >
+                <span className="sidebar__MenuItemIcon">
+                  <i className="pi pi-cog" />
+                </span>
+                {!collapse ? "Settings" : null}
+              </Link>
+            </li>
+          )}
           <li className="sidebar__item">
             <Link
               className={
-                pathname === "/products"
+                pathname === "/logout"
                   ? "sidebar__link active"
                   : "sidebar__link"
               }
-              to="/products"
+              onClick={handleSignout}
             >
               <span className="sidebar__MenuItemIcon">
-                <i className="pi pi-shopping-bag" />
+                <i className="pi pi-sign-out" />
               </span>
-              Products
+              {!collapse ? "Log out" : null}
             </Link>
           </li>
-        )}
-        <OrdersItem/>
-        {isAuthenticated() && (
-          <li className="sidebar__item">
-            <Link
-              className={
-                pathname === "/analytics"
-                  ? "sidebar__link active"
-                  : "sidebar__link"
-              }
-              to="/analytics"
-            >
-              <span className="sidebar__MenuItemIcon">
-                <i className="pi pi-chart-line" />
-              </span>
-              Analytics
-            </Link>
-          </li>
-        )}
-        {isAuthenticated() && (
-          <li className="sidebar__item">
-            <Link
-              className={
-                pathname === "/profile"
-                  ? "sidebar__link active"
-                  : "sidebar__link"
-              }
-              to="/profile"
-            >
-              <span className="sidebar__MenuItemIcon">
-                <i className="pi pi-user" />
-              </span>
-              Profile
-            </Link>
-          </li>
-        )}
-        <li className="sidebar__item">
-          <Link
-            className={
-              pathname === "/logout" ? "sidebar__link active" : "sidebar__link"
-            }
-            onClick={handleSignout}
-          >
-            <span className="sidebar__MenuItemIcon">
-              <i className="pi pi-lock" />
-            </span>
-            Log out
-          </Link>
-        </li>
-      </ul>
+        </ul>
+      </div>
     </div>
   );
 };
