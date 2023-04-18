@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-// import categoriesReducer from "./categories";
+import settingsReducers from "./settings";
 import ordersReducers from './orders'
 
 export const store = configureStore({
   reducer: {
-    // categories: categoriesReducer,
+    settings: settingsReducers,
     orders: ordersReducers
   },
 });

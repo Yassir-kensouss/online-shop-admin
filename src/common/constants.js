@@ -53,7 +53,20 @@ const BG_COLORS = [
   "#89375F",
   "#FF8400",
   "#159895",
-]
+];
+
+const CURRENCIES = [
+  { name: 'Mad', code: 'mad' },
+  { name: 'Dollar', code: '$' },
+  { name: 'Euro', code: '€' },
+];
+
+const LANGUAGES = [
+  { name: 'English', code: 'en' },
+  { name: 'Arab', code: 'ar' },
+  { name: 'French', code: 'fr' },
+  { name: 'Spanish', code: 'sp' },
+];
 
 export {
   FILE_SIZE,
@@ -65,6 +78,8 @@ export {
   NUMERIC_FILTERS_MODE,
   STRING_FILTERS_MODE,
   ORDERS_STATUS,
-  BG_COLORS
+  BG_COLORS,
+  CURRENCIES,
+  LANGUAGES
 };
 

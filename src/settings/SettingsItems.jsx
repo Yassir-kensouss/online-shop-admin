@@ -1,7 +1,6 @@
-import { Divider } from "primereact";
 import React from "react";
 
-const SettingsItems = () => {
+const SettingsItems = ({ setSetting }) => {
   const settings = {
     General: [
       { label: "Personalize", icon: "pi pi-wrench" },
@@ -21,7 +20,11 @@ const SettingsItems = () => {
           <>
             <h3 className="settingsItems__listTitle">{setting}</h3>
             {settings[setting].map(el => (
-              <li key={el.label} className="settingsItems__listItem">
+              <li
+                key={el.label}
+                className="settingsItems__listItem"
+                onClick={() => setSetting(el.label)}
+              >
                 <span>
                   <i className={el.icon}></i>
                 </span>
