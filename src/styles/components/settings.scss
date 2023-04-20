@@ -24,8 +24,8 @@
 }
 
 .preview-brand{
-    width: 125px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
 
     img{
         display: block;
@@ -33,5 +33,20 @@
         height: 100%;
         object-fit: cover;
         border-radius: 10px;
+    }
+}
+
+.sp-label, .sp-brand-uploader-label, .sa-label{
+    display: block;
+    color: #424242;
+}
+
+.sa-sub-label{
+    color: #757575;
+}
+
+.settings-content-wrapper{
+    .scw-title{
+        color: #363885
     }
 }

@@ -1,6 +1,7 @@
 import { Button, Dialog } from "primereact";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { fetchSingleProduct } from "../../services/product";
 import PreviewProduct from "../products/PreviewProduct";
 
@@ -11,6 +12,9 @@ const OrderProducts = props => {
   const [viewProduct, setViewProduct] = useState(false);
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState(false);
+
+  const settings = useSelector(state => state.settings.personalize);
+  const currency = settings.currency?.split("-")[1];
 
   const handleProductPreview = async (productId) => {
     setLoading(true)
@@ -49,7 +53,7 @@ const OrderProducts = props => {
                   </span>
                   <span className="block font-semibold mb-2">
                     Price:{" "}
-                    <span className="font-light ml-2">{product.price}</span>
+                    <span className="font-light ml-2">{`${currency} ${product.price}`}</span>
                   </span>
                   <span className="block font-semibold">
                     Count:{" "}

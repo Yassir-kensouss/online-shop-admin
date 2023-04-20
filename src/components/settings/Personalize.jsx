@@ -1,4 +1,11 @@
-import { Button, Dropdown, FileUpload, Image, Toast, Tooltip } from "primereact";
+import {
+  Button,
+  Dropdown,
+  FileUpload,
+  Image,
+  Toast,
+  Tooltip,
+} from "primereact";
 import React, { useRef, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useDispatch } from "react-redux";
@@ -18,12 +25,11 @@ const Personalize = () => {
   const [settings, setSettings] = useState(null);
   const [changes, setChanges] = useState({});
 
-  const toast = useRef(null); 
+  const toast = useRef(null);
   const dispatch = useDispatch();
 
   const customBase64Uploader = async e => {
     const file = e.target.files[0];
-
 
     const avatar = new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -46,10 +52,9 @@ const Personalize = () => {
     setBrandName(file.name);
   };
 
-  const updateSettings = useMutation(data => updateGeneralSettings(data),{
+  const updateSettings = useMutation(data => updateGeneralSettings(data), {
     onSuccess: () => {
-
-      dispatch(updatePSettings(changes))
+      dispatch(updatePSettings(changes));
 
       toast.current.show({
         severity: "success",
@@ -64,7 +69,7 @@ const Personalize = () => {
         detail: "Something went wrong",
         life: 3000,
       });
-    }
+    },
   });
 
   const { isLoading } = useQuery(
@@ -123,11 +128,11 @@ const Personalize = () => {
       >
         <Toast ref={toast} />
         <div className="mt-4 w-full flex gap-2 align-items-center">
-          <label className="block text-800" htmlFor="upload-brand">
-            <Tooltip target='.brand-tooltip'>
-                <p className="w-10rem line-height-2">
-                  the recommended dimensions are: 120 x 40
-                </p>
+          <label className="sp-label" htmlFor="upload-brand">
+            <Tooltip target=".brand-tooltip">
+              <p className="w-10rem line-height-2">
+                the recommended dimensions are: 120 x 40
+              </p>
             </Tooltip>
             <div className="flex align-items-center gap-2">
               <span>Brand:</span>
@@ -136,7 +141,9 @@ const Personalize = () => {
             <div>
               <div className="cursor-pointer mt-2 w-10rem h-3rem bg-indigo-50 border-round-md flex gap-3 align-items-center justify-content-start p-2">
                 <i className="pi pi-upload text-indigo-800 font-semibold"></i>
-                <span className="text-sm">Click to upload</span>
+                <span className="sp-brand-uploader-label text-sm">
+                  Click to upload
+                </span>
               </div>
               {brandName ? (
                 <span className="block mt-2 text-sm text-800">{brandName}</span>
@@ -169,7 +176,7 @@ const Personalize = () => {
         </div>
         <div className="flex align-items-center gap-3 w-full">
           <div className="mt-4 w-full">
-            <label htmlFor="currency-dropdown">
+            <label className="sp-label" htmlFor="currency-dropdown">
               <div>Currency:</div>
               <Dropdown
                 className="mt-2 w-full"
@@ -183,7 +190,7 @@ const Personalize = () => {
             </label>
           </div>
           <div className="mt-4 w-full">
-            <label htmlFor="currency-dropdown">
+            <label className="sp-label" htmlFor="currency-dropdown">
               <div>Language:</div>
               <Dropdown
                 className="mt-2 w-full"

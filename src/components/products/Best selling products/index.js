@@ -83,7 +83,7 @@ const BSPCalendar = ({ price, setPrice, handleBspFilters, clearFilter }) => {
       <Button
         icon="pi pi-filter"
         style={{ transform: "scale(0.8)" }}
-        className="p-button-rounded p-button-text p-button-plain"
+        className="dashCard__filter p-button-rounded p-button-text"
         onClick={e => op.current.toggle(e)}
         aria-label="Filter"
       />

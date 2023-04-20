@@ -15,21 +15,27 @@ const Inventory = props => {
   };
 
   return (
-    <div className="bg-white p-3 border-round-sm mt-3">
-      <h2 className="text-xl mb-5 font-medium text-800">Inventory</h2>
+    <div className="np-card mt-3">
+      <h2 className="np-card-title text-xl mb-5 font-medium">Inventory</h2>
       <div className="product-title-field mb-3">
-        <label htmlFor="sku" className="block text-sm mb-2">
+        <label htmlFor="sku" className="np-card-label block text-sm mb-2">
           SKU
         </label>
         <Controller
           defaultValue={""}
           name="sku"
           control={control}
-          rules={{ required: "SKU is required.", maxLength: {value: MAX_LENGTH.PRODUCT_SKU, message: 'SKU is too long'} }}
+          rules={{
+            required: "SKU is required.",
+            maxLength: {
+              value: MAX_LENGTH.PRODUCT_SKU,
+              message: "SKU is too long",
+            },
+          }}
           render={({ field, fieldState }) => (
             <InputText
               id={field.sku}
-              {...register('sku')}
+              {...register("sku")}
               className={`${classNames({
                 "p-invalid": fieldState.error,
               })} w-full p-inputtext-sm`}
@@ -40,18 +46,27 @@ const Inventory = props => {
         {getFormErrorMessage("sku")}
       </div>
       <div className="product-title-field">
-        <label htmlFor="stock-quantity" className="block text-sm mb-2">
+        <label
+          htmlFor="stock-quantity"
+          className="np-card-label block text-sm mb-2"
+        >
           Stock quantity
         </label>
         <Controller
           name="quantity"
           defaultValue={""}
           control={control}
-          rules={{ required: "Quantity is required.", max: {value: MAX_QUANTITY, message: `Maximum you can add is ${MAX_QUANTITY}`} }}
+          rules={{
+            required: "Quantity is required.",
+            max: {
+              value: MAX_QUANTITY,
+              message: `Maximum you can add is ${MAX_QUANTITY}`,
+            },
+          }}
           render={({ field, fieldState }) => (
             <InputText
               id={field.quantity}
-              {...register('quantity')}
+              {...register("quantity")}
               className={`${classNames({
                 "p-invalid": fieldState.error,
               })} w-full p-inputtext-sm`}

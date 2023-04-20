@@ -38,7 +38,7 @@ const TableHeader = props => {
           type="button"
           icon="pi pi-filter-slash"
           label="Clear"
-          className="p-button-outlined p-button-sm"
+          className="p-button-primary p-button-sm"
           onClick={initFilters}
         />
       </div>

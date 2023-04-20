@@ -15,9 +15,9 @@ import React, { useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { changeCustomerState, deleteCustomer } from "../../services/customers";
 import { Outlet, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const CustomersTable = props => {
-
   const [rowBody, setRowBody] = useState(null);
   const {
     selectedCustomers,
@@ -36,11 +36,12 @@ const CustomersTable = props => {
 
   const [confirmDelete, setConformDelete] = useState(false);
   const [confirmState, setConformState] = useState(false);
+  const mode = useSelector(state => state.settings.appearance.mode);
 
   const menu = useRef(null);
   const toast = useRef(null);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const searchCustomer = event => {
     if (event.key === "Enter") {
@@ -83,7 +84,7 @@ const CustomersTable = props => {
     },
   });
 
-  const updateStateMutation = useMutation((data) => changeCustomerState(data), {
+  const updateStateMutation = useMutation(data => changeCustomerState(data), {
     onSuccess: () => {
       toast.current.show({
         severity: "success",
@@ -106,14 +107,13 @@ const CustomersTable = props => {
       <>
         <Badge
           value={rowData.state}
-          severity={rowData.state === 'suspended' ? "danger" : 'success'}
+          severity={rowData.state === "suspended" ? "danger" : "success"}
         ></Badge>
       </>
     );
   };
 
   const renderActions = rowData => {
-    
     let items = [
       {
         label: "Edit",
@@ -128,13 +128,15 @@ const CustomersTable = props => {
         command: () => setConformDelete(true),
       },
       {
-        label: rowData.state !== 'active' ? 'Activate Account' : 'Suspend Account',
-        icon: rowData.state !== 'active' ? 'pi pi-user-minus' : 'pi pi-user-plus',
+        label:
+          rowData.state !== "active" ? "Activate Account" : "Suspend Account",
+        icon:
+          rowData.state !== "active" ? "pi pi-user-minus" : "pi pi-user-plus",
         command: () => setConformState(true),
       },
       {
-        label: 'View',
-        icon: 'pi pi-eye',
+        label: "View",
+        icon: "pi pi-eye",
         command: () => navigate(`/customer/details/${rowBody._id}`),
       },
     ];
@@ -150,7 +152,7 @@ const CustomersTable = props => {
           }}
           aria-controls="popup_menu"
           aria-haspopup
-          className="p-button-rounded p-button-secondary p-button-text p-button-sm table-btn-icon"
+          className="cdt-action p-button-rounded p-button-secondary p-button-text p-button-sm table-btn-icon"
         />
       </>
     );
@@ -194,12 +196,14 @@ const CustomersTable = props => {
         <ConfirmDialog
           visible={confirmState}
           onHide={() => setConformState(false)}
-          message={`Are you sure you want to ${rowBody.state === 'active' ? 'Suspend' : 'Activate'} ${rowBody.name}'s account?`}
+          message={`Are you sure you want to ${
+            rowBody.state === "active" ? "Suspend" : "Activate"
+          } ${rowBody.name}'s account?`}
           header="Confirmation"
           icon="pi pi-exclamation-triangle"
           accept={() => {
-            const state = rowBody.state === 'active' ? 'suspended' : 'active' 
-            updateStateMutation.mutate({id: rowBody._id,state})
+            const state = rowBody.state === "active" ? "suspended" : "active";
+            updateStateMutation.mutate({ id: rowBody._id, state });
           }}
           reject={() => setConformState(false)}
         />
@@ -212,7 +216,9 @@ const CustomersTable = props => {
         selection={selectedCustomers}
         onSelectionChange={e => setSelectedCustomers(e.value)}
         emptyMessage="No customers found."
-        stripedRows
+        stripedRows={mode === "Light" ? true : false}
+        // selectionMode="checkbox"
+        className="custom-data-table"
       >
         <Column selectionMode="multiple" exportable={false}></Column>
         <Column
@@ -244,6 +250,7 @@ const CustomersTable = props => {
         rows={limit}
         totalRecords={total}
         onPageChange={handlePageChange}
+        className="custom-datatable-pagination"
       />
       <Outlet />
     </div>

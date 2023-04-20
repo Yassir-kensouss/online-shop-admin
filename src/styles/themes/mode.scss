@@ -1,0 +1,235 @@
+.dark-mode {
+  .dashboard__sidebar {
+    background-color: $dm_background;
+  }
+
+  .sidebar {
+
+    &__header{
+      border-bottom-color: $dm_input_border_color ;
+    }
+
+    &__link {
+      color: $dm_text;
+
+      &.active {
+        color: $dm_active_link;
+
+        &::before {
+          background-color: $dm_active_link;
+        }
+      }
+
+      &:hover {
+        color: $dm_text_hover
+      }
+    }
+
+    
+  }
+
+  .sidebar__link.active .sidebar__MenuItemIcon{
+    color: $dm_active_link;
+  }
+
+  .dashboard{
+
+    &__main{
+      background-color: $dm_main_background;
+    }
+
+    &__title{
+      color: $dm_text;
+    }
+
+  }
+  .dCard{
+    background-color: $dm_background;
+
+    &__title, &__value{
+      color: $dm_text;
+    }
+
+    &__iconWrapper{
+      color: $dm_dark_text;
+    }
+  }
+
+  .dashCard{
+    background-color: $dm_background;
+
+    &__title{
+      color: $dm_text;
+    }
+
+    &__tooltipIcon{
+      color: $dm_text;
+    }
+
+    &__filter{
+      color: $dm_text;
+    }
+  }
+
+  .bsp_table_pagination{
+    background-color: $dm_background;
+    button{
+      color: $dm_text;
+    }
+  }
+
+  .customTable {
+    tr th, tr td {
+      color: $dm_text;
+    }
+
+    &__tableRowChild:not(:last-child){
+      border-color: #485163;
+    }
+  }
+
+  .countriesTraffic{
+    &__country, &__percentage {
+      color: $dm_text;
+    }
+  }
+
+
+  // Settings page
+  .settings{
+    &__sidebar, &__content{
+      background-color: $dm_background;
+    }
+  }
+
+  .settingsItems__list, .sp-label, .sa-label{
+    color: $dm_text;
+  }
+
+  .sa-sub-label{
+    color: $dm_secondary_text
+  }
+
+  .settings-content-wrapper{
+    .scw-title{
+        color: $dm_text
+    }
+  }
+
+  // Data tables
+  .custom-data-table{
+    .p-datatable-header, th{
+      background: $dm_datatable_bg;
+      border-color: $dm_datatable_border;
+    }
+
+    .p-datatable-thead{
+      .p-sortable-column-icon, .p-column-filter-menu-button {
+        color: $dm_secondary_text;
+      }
+
+      tr th {
+        color: $dm_text;
+        background: $dm_datatable_bg;
+        border-color: $dm_datatable_border;
+      }
+    }
+
+    .p-datatable-tbody tr {
+      background: $dm_datatable_bg !important;
+      color: $dm_text;
+      td{
+        border-color: $dm_datatable_border ;
+        .p-row-editor-init, .p-row-editor-save, .p-row-editor-cancel{
+          color: $dm_text;
+        }
+      }
+
+      &:hover{
+        td {
+          color: darken($color: $dm_text, $amount: 13);
+        }
+      }
+    }
+
+    .cdt-action, .pi-map-marker{
+      color: $dm_text !important;
+    }
+  }
+
+  .custom-datatable-pagination{
+    background: #2c313b;
+
+    button{
+      color: $dm_text;
+    }
+
+    .p-paginator-page.p-highlight{
+      background: $dm_datatable_bg;
+      border-color: $dm_datatable_border;
+      color: $dm_text;
+    }
+  }
+
+  // Breadcrumbs
+  .breadcrumbs{
+    &__link, &__divider{
+      color: $dm_text;
+    }
+  }
+
+  // Inputs
+  .p-inputtext {
+    background: $dm_input_bg;
+    border-color: $dm_input_border_color;
+    color: $dm_text;
+    &:hover{
+      border-color: white;
+    }
+  }
+
+  // Dropdown
+  .p-dropdown{
+    background: $dm_input_bg;
+    border-color: $dm_input_border_color;
+  }
+
+  // Editor
+  .p-editor-container .p-editor-content .ql-editor {
+    background: $dm_input_bg;
+    border-color: $dm_input_border_color;
+  }
+
+  .p-editor-toolbar{
+    background: $dm_background;
+  }
+
+  .links{
+    color: $dm_text;
+    text-decoration: dashed;
+  }
+
+  .copy-to-clipboard-btn{
+    color: $dm_text;
+  }
+
+  .click-to-copy{
+    &:hover{
+      color: $dm_dark_text;
+    }
+  }
+
+  //New Product
+  .np-card{
+    background-color: $dm_background;
+  }
+
+  .np-card-title {
+      color: $dm_text;
+  }
+
+  .np-card-label {
+      color: $dm_text;
+  }
+
+}

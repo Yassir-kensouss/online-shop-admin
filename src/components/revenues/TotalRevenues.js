@@ -1,11 +1,16 @@
 import { Skeleton } from "primereact";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { totalRevenues } from "../../services/statistics";
 import Cards from "../Cards";
 import TRSkeleton from "./TRSkeleton";
 
 const TotalRevenues = () => {
+  const settings = useSelector(state => state.settings.personalize);
+
+  const currency = settings.currency?.split("-")[1];
+
   const [revenue, setRevenue] = useState({
     totalRevenue: 0,
     totalSales: 0,
@@ -13,12 +18,12 @@ const TotalRevenues = () => {
     totalUsers: 0,
     newUsers: {
       value: 0,
-      rate: 0
+      rate: 0,
     },
     newOrders: {
       value: 0,
-      rate: 0
-    }
+      rate: 0,
+    },
   });
 
   const { isLoading } = useQuery(
@@ -35,13 +40,13 @@ const TotalRevenues = () => {
   return (
     <section id="dashboardStatus" className="dash-counters-grid">
       {isLoading ? (
-        <TRSkeleton/>
+        <TRSkeleton />
       ) : (
         <>
           <Cards
             icon={<i className="pi pi-shopping-bag"></i>}
             title="Total Revenues"
-            value={"$" + revenue.totalRevenue}
+            value={`${currency} ${revenue.totalRevenue}`}
           />
           <Cards
             icon={<i className="pi pi-dollar"></i>}
@@ -64,8 +69,8 @@ const TotalRevenues = () => {
           />
           <Cards
             icon={<i className="pi pi-shopping-cart"></i>}
-            title="total products"
-            value="5000"
+            title="Total Product"
+            value={revenue.productsCount}
           />
         </>
       )}

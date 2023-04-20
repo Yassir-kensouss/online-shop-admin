@@ -4,7 +4,12 @@ import { useMutation, useQuery } from "react-query";
 import { PRODUCT_DATATABLE_LIMIT } from "../common/constants";
 import CustomButton from "../components/buttons/CustomButton";
 import Dashboard from "../components/Dashboard";
-import { customersList, deleteManyCustomers, fetchAllCustomers, getCustomer } from "../services/customers";
+import {
+  customersList,
+  deleteManyCustomers,
+  fetchAllCustomers,
+  getCustomer,
+} from "../services/customers";
 import CustomersTable from "../components/customers/CustomersTable";
 import CreateNewUser from "../components/customers/CreateNewUser";
 import EditCustomerDetails from "../components/customers/EditCustomerDetails";
@@ -15,7 +20,6 @@ const crumbs = [
 ];
 
 const Customers = () => {
-
   const [selectedCustomers, setSelectedCustomers] = useState([]);
   const [confirmDelete, setConformDelete] = useState(false);
   const [customers, setCustomers] = useState([]);
@@ -24,27 +28,26 @@ const Customers = () => {
   const [searchValue, setSearchValue] = useState("");
   const [newUserDialog, setNewUserDialog] = useState(false);
   const [editUserDialog, setEditUserDialog] = useState(false);
-  const [customer, setCustomer] = useState({})
+  const [customer, setCustomer] = useState({});
 
   const toast = useRef(null);
 
-  const editCustomer = async (id) => {
-
+  const editCustomer = async id => {
     const _getCustomer = await getCustomer(id);
     const result = await _getCustomer.data.user;
 
-    if(_getCustomer.status === 200) {
-      setEditUserDialog(true)
+    if (_getCustomer.status === 200) {
+      setEditUserDialog(true);
     }
 
     setCustomer(result);
-  }
+  };
 
   const deleteMany = useMutation(ids => deleteManyCustomers(ids), {
     onSuccess: () => {
       toast.current.show({
         severity: "success",
-        detail: 'Customer deleted',
+        detail: "Customer deleted",
         life: 3000,
       });
       fetchCustomersQuery.refetch();
@@ -64,7 +67,7 @@ const Customers = () => {
       const response = await fetchAllCustomers(page, PRODUCT_DATATABLE_LIMIT);
       const data = await response.data;
       const customers = await data.customers;
-      setTotal(data.count)
+      setTotal(data.count);
       setCustomers(customers);
       return customers;
     },
@@ -72,12 +75,16 @@ const Customers = () => {
   );
 
   const searchCustomersByName = useQuery(
-    ["search-customer-by-name",page],
+    ["search-customer-by-name", page],
     async () => {
-      const result = await customersList(searchValue, page, PRODUCT_DATATABLE_LIMIT);
+      const result = await customersList(
+        searchValue,
+        page,
+        PRODUCT_DATATABLE_LIMIT
+      );
       const data = result.data;
       setCustomers(data.customers);
-      setTotal(data.count)
+      setTotal(data.count);
       return data;
     },
     { enabled: false }
@@ -100,10 +107,10 @@ const Customers = () => {
     deleteMany.mutate(ids);
   };
 
-  const handlePageChange = (e) => {
-    setPage(e.page)
-    fetchCustomersQuery.refetch()
-  }
+  const handlePageChange = e => {
+    setPage(e.page);
+    fetchCustomersQuery.refetch();
+  };
 
   return (
     <>
@@ -115,12 +122,12 @@ const Customers = () => {
         />
       ) : null}
 
-        <EditCustomerDetails
-          editUserDialog={editUserDialog}
-          setEditUserDialog={setEditUserDialog}
-          customer={customer}
-          fetchCustomersQuery={fetchCustomersQuery}
-        />
+      <EditCustomerDetails
+        editUserDialog={editUserDialog}
+        setEditUserDialog={setEditUserDialog}
+        customer={customer}
+        fetchCustomersQuery={fetchCustomersQuery}
+      />
 
       <Dashboard
         items={crumbs}
@@ -129,7 +136,7 @@ const Customers = () => {
           <>
             <CustomButton
               onClick={() => fetchCustomersQuery.refetch()}
-              className="p-button-secondary"
+              className="refetch-table p-button-secondary "
               icon="pi pi-refresh"
               disabled={fetchCustomersQuery.isLoading}
               id="refreshCustomersTable"

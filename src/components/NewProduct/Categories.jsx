@@ -8,23 +8,22 @@ import { ContextContainer } from "../../pages/NewProduct";
 import { allCategories } from "../../services/category";
 
 const Categories = () => {
-
-  const {product, setProduct, errors} = useContext(ContextContainer);
+  const { product, setProduct, errors } = useContext(ContextContainer);
 
   const [selectedCategories, setSelectedCategories] = useState(null);
   const [categories, setCategories] = useState([]);
 
-  const handleCatgoriesSelect = (e) => {
+  const handleCatgoriesSelect = e => {
     const objectId = e.value.map(el => {
-      return el.code
-    })
-    
-    setSelectedCategories(e.value)
+      return el.code;
+    });
+
+    setSelectedCategories(e.value);
     setProduct({
       ...product,
-      categories: e.value
-    })
-  }
+      categories: e.value,
+    });
+  };
 
   const { data, isLoading, refetch } = useQuery(
     "fetchCategories-create",
@@ -44,15 +43,15 @@ const Categories = () => {
     const selectedItems = selectedCategories;
     const length = selectedItems ? selectedItems.length : 0;
     return (
-        <div className="py-2 px-3">
-            <b>{length}</b> item{length > 1 ? 's' : ''} selected.
-        </div>
+      <div className="py-2 px-3">
+        <b>{length}</b> item{length > 1 ? "s" : ""} selected.
+      </div>
     );
-  }
+  };
 
   return (
-    <div className="bg-white p-3 border-round-sm mt-3">
-      <h2 className="text-xl mb-5 font-medium text-800">Categories *</h2>
+    <div className="np-card mt-3">
+      <h2 className="np-card-title text-xl mb-5 font-medium">Categories *</h2>
       <div className="flex gap-4">
         <MultiSelect
           className="w-full"
@@ -66,12 +65,13 @@ const Categories = () => {
           panelFooterTemplate={panelFooterTemplate}
         />
       </div>
-      {
-          errors && 'categories' in errors ? 
-          <p className="text-red-400 mt-2 text-sm">{errors['categories']}</p>:null
-        }
+      {errors && "categories" in errors ? (
+        <p className="text-red-400 mt-2 text-sm">{errors["categories"]}</p>
+      ) : null}
       <div className="mt-3 text-sm">
-        <Link to='/categories'>Add New Category</Link>
+        <Link to="/categories" className="links">
+          Add New Category
+        </Link>
       </div>
     </div>
   );

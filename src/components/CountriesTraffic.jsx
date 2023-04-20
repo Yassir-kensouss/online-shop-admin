@@ -7,6 +7,7 @@ import DashCards from "./DashCards";
 import BSPSkeleton from "./products/Best selling products/BSPSkeleton";
 import emojiFlags from "emoji-flags";
 import Flag from "react-world-flags";
+import EmptyBox from "./EmptyBox";
 
 const CountriesTraffic = () => {
   const [country, setCountries] = useState([]);
@@ -17,7 +18,6 @@ const CountriesTraffic = () => {
     async () => {
       const response = await countryTraffic();
       const data = await response.data.result;
-      console.log("data", data);
       setCountries(data);
     },
     { refetchOnWindowFocus: false }
@@ -36,27 +36,32 @@ const CountriesTraffic = () => {
           infoContent="This report presents an overview of the order countries traffic"
         >
           <div className="h-full overflow-auto">
-            {country &&
-              country.length > 0 &&
+            {country && country.length > 0 ? (
               country.map(el => {
                 const countryCode = el.country_code;
                 return (
-                  <div
-                    key={el.country}
-                    className="flex align-items-center justify-content-between"
-                  >
+                  <div key={el.country} className="countriesTraffic">
                     <div className="flex align-items-center gap-2">
                       <div className="w-2rem h-2rem mb-2">
                         <Flag code="US" className="rounded-image-fit" />
                       </div>
-                      <span className="capitalize text-800">{el.country}</span>
+                      <span className="countriesTraffic__country">
+                        {el.country}
+                      </span>
                     </div>
-                    <div className="text-800 text-sm font-semibold">
+                    <div className="countriesTraffic__percentage text-sm">
                       {el.percentage}%
                     </div>
                   </div>
                 );
-              })}
+              })
+            ) : (
+              <EmptyBox
+                title="No Data"
+                message="You don't have any data to show"
+                icon={<i className="pi pi-list"></i>}
+              />
+            )}
           </div>
         </DashCards>
       )}

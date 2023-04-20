@@ -1,12 +1,14 @@
 import { classNames, InputNumber } from "primereact";
 import React, { useState } from "react";
 import { Controller } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { MAX_PRICE } from "../../common/constants";
 
 const Pricing = props => {
   const { errors, control, register, values } = props;
 
-  console.log(values("price"));
+  const settings = useSelector(state => state.settings.personalize);
+  const currency = settings.currency?.split("-")[1];
 
   const getFormErrorMessage = name => {
     return (
@@ -17,11 +19,11 @@ const Pricing = props => {
   };
 
   return (
-    <div className="bg-white p-3 border-round-sm mt-3">
-      <h2 className="text-xl mb-5 font-medium text-800">Pricing</h2>
+    <div className="np-card mt-3">
+      <h2 className="np-card-title text-xl mb-5 font-medium">Pricing</h2>
       <div className="flex gap-4">
         <div className="p-0 flex-1">
-          <label htmlFor="price" className="block text-sm mb-2">
+          <label htmlFor="price" className="np-card-label block text-sm mb-2">
             Price *
           </label>
           <Controller
@@ -43,7 +45,7 @@ const Pricing = props => {
                 {...register("price")}
                 showButtons
                 mode="currency"
-                currency="USD"
+                currency={currency || "USD"}
                 {...field}
                 onChange={event => field.onChange(event.value)}
               />
@@ -51,7 +53,7 @@ const Pricing = props => {
           />
         </div>
         <div className="p-0 flex-1">
-          <label htmlFor="price" className="block text-sm mb-2">
+          <label htmlFor="price" className="np-card-label block text-sm mb-2">
             Old Price
           </label>
           <Controller
@@ -77,7 +79,7 @@ const Pricing = props => {
                 {...register("oldPrice")}
                 showButtons
                 mode="currency"
-                currency="USD"
+                currency={currency || "USD"}
                 {...field}
                 onChange={event => field.onChange(event.value)}
               />

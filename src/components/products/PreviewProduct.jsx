@@ -1,11 +1,15 @@
 import { Image } from "primereact";
 import React from "react";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { shortenString } from "../../utils/helpers";
 import SeeMore from "../SeeMore";
 
 const PreviewProduct = props => {
   const { product } = props;
+
+  const settings = useSelector(state => state.settings.personalize);
+  const currency = settings.currency?.split("-")[1];
 
   return (
     <section className="flex align-items-start gap-4">
@@ -25,7 +29,7 @@ const PreviewProduct = props => {
         <div className="flex align-items-center gap-4">
             <div>
               <label className="mt-3 mb-2 text-900 block font-semibold" htmlFor="price">Price:</label>
-              <div id="price">{product.price}$</div>
+              <div id="price">{`${currency} ${product.price}`}</div>
             </div>
             <div>
               <label className="mt-3 mb-2 text-900 block font-semibold" htmlFor="oldPrice">Old Price:</label>

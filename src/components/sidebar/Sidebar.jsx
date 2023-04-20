@@ -31,7 +31,7 @@ const Sidebar = ({setCollapse, collapse}) => {
   return (
     <div className="sidebar">
       <header className="sidebar__header" onClick={handleCollapse}>
-        <div className="flex align-items-center gap-2">
+        <div className="sidebar__brand flex align-items-center gap-2">
           <img src={brand} width="100%" />
         </div>
       </header>

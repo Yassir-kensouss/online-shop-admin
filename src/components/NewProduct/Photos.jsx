@@ -10,7 +10,8 @@ import { ContextContainer } from "../../pages/NewProduct";
 
 const Photos = () => {
   const toast = useRef(null);
-  const { setFiles, files, product, setProduct, errors } = useContext(ContextContainer);
+  const { setFiles, files, product, setProduct, errors } =
+    useContext(ContextContainer);
   const [media, setMedia] = useState([]);
   const [fileErrors, setFileErrors] = useState(null);
 
@@ -21,14 +22,14 @@ const Photos = () => {
           if (err.code === "file-too-large") {
             setFileErrors({
               hasError: true,
-              message: 'File is larger than 2MB',
+              message: "File is larger than 2MB",
             });
           }
 
-          if(err.code === 'too-many-files'){
+          if (err.code === "too-many-files") {
             setFileErrors({
               hasError: true,
-              message: 'Too many files, Maximum you can upload is 6',
+              message: "Too many files, Maximum you can upload is 6",
             });
           }
 
@@ -39,7 +40,7 @@ const Photos = () => {
                 "Error: Invalid media type (png, jpg, jpeg, webp) only allowed",
             });
           }
-          console.log('errors', err)
+          console.log("errors", err);
         });
       });
     } else {
@@ -93,9 +94,9 @@ const Photos = () => {
   };
 
   return (
-    <div className="bg-white p-3 border-round-sm mt-3">
+    <div className="np-card mt-3">
       <Toast ref={toast} />
-      <h2 className="text-xl mb-5 font-medium text-800">Pictures *</h2>
+      <h2 className="np-card-title text-xl mb-5 font-medium">Pictures *</h2>
       <>
         <div className="productPictures">
           <div
@@ -116,10 +117,9 @@ const Photos = () => {
         {fileErrors && fileErrors.hasError ? (
           <p className="text-red-400 mt-2 text-sm">{fileErrors.message}</p>
         ) : null}
-        {
-          errors && 'files' in errors ? 
-          <p className="text-red-400 mt-2 text-sm">{errors['files']}</p>:null
-        }
+        {errors && "files" in errors ? (
+          <p className="text-red-400 mt-2 text-sm">{errors["files"]}</p>
+        ) : null}
       </>
       {files && files.length > 0 && (
         <div className="previewPictures mt-3">

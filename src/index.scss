@@ -3,12 +3,14 @@
 @import './styles/abstracts/mixins.scss';
 @import './styles/abstracts/variables.scss';
 
-
 // base
 @import './styles/base/reset.scss';
 @import './styles/base/font-face.css';
 @import './styles/base/utils.scss';
 
+
+// theme
+@import './styles/themes/mode.scss';
 
 // components
 @import './styles/components/inputs.scss';
@@ -21,6 +23,7 @@
 @import './styles/components/pagination.scss';
 @import './styles/components/customTable.scss';
 @import './styles/components/settings.scss';
+@import './styles/components/dashCard.scss';
 
 // Pages
 @import './styles/pages/sign-in.scss';

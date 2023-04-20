@@ -70,3 +70,17 @@
         cursor: pointer;
     }
 }
+
+.np-card{
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.np-card-title {
+    color: $dash_title;
+}
+
+.np-card-label {
+    color: $text;
+}

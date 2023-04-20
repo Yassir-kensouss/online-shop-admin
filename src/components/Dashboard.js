@@ -2,12 +2,20 @@ import React, { useState } from "react";
 import BreadCrumb from "./BreadCrumb";
 import Sidebar from "./sidebar/Sidebar";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 const Dashboard = props => {
   const { children, items, title, rightElement } = props;
   const [collapse, setCollapse] = useState(false);
+
+  const mode = useSelector(state => state.settings.appearance.mode);
+
   return (
-    <section className="dashboard">
+    <section
+      className={
+        mode === "Light" ? "light-mode dashboard" : "dark-mode dashboard"
+      }
+    >
       <div
         className={
           collapse ? "collapse dashboard__sidebar" : "dashboard__sidebar"

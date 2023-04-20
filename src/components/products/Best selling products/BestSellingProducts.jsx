@@ -1,10 +1,15 @@
 import { Image, Paginator } from "primereact";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { PRODUCT_DATATABLE_LIMIT } from "../../../common/constants";
 import EmptyBox from "../../EmptyBox";
 
 const BestSellingProducts = props => {
   const { refetch, products, total, setPage, page } = props;
+
+  const settings = useSelector(state => state.settings.personalize);
+
+  const currency = settings.currency?.split("-")[1];
 
   const handlePageChange = e => {
     setPage(e.page);
@@ -39,7 +44,7 @@ const BestSellingProducts = props => {
                       <h3 className="customTable__pname">{product.name}</h3>
                     </div>
                   </td>
-                  <td className="customTable__productPrice">{product.price}</td>
+                  <td className="customTable__productPrice">{`${currency} ${product.price}`}</td>
                   <td className="customTable__productSold">{product.sold}</td>
                   <td>
                     <Stock stock={product.stock} />
@@ -54,6 +59,7 @@ const BestSellingProducts = props => {
             totalRecords={total}
             onPageChange={handlePageChange}
             style={{ transform: "scale(0.85)" }}
+            className="bsp_table_pagination"
           />
         </>
       ) : (

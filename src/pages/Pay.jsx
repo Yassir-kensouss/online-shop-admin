@@ -6,18 +6,18 @@ import { createOrder } from '../services/orders';
 
 const prods = [
   {
-    _id: "63f55a00dad98c276c74f8c3",
-    name: "NEW YOURK CITY",
-    price: 760,
+    _id: "643f3eccc4a78011a674a640",
+    name: "Air JordanNike | new collection",
+    price: 210,
     count: 4,
-    quantity: 12
+    quantity: 15
   },
   {
-    _id: "6432d6ca6fe77f7e7ea326af",
-    name: "CHAUSSURE OZNOVO GRIS",
-    price: 200,
+    _id: "643f3ee2c4a78011a674a64a",
+    name: "Air force Nike | new collection",
+    price: 400,
     count: 2,
-    quantity: 8
+    quantity: 12
   }
 ];
 

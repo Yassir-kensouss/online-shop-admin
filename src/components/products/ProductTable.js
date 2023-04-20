@@ -1,4 +1,4 @@
-import '../../styles/pages/products.scss'
+import "../../styles/pages/products.scss";
 import {
   Avatar,
   Badge,
@@ -14,11 +14,9 @@ import {
 } from "primereact";
 import React, { useRef, useState } from "react";
 import { useMutation } from "react-query";
-import {
-  deleteProduct,
-  duplicateProduct,
-} from "../../services/product";
+import { deleteProduct, duplicateProduct } from "../../services/product";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ProductTable = props => {
   const navigate = useNavigate();
@@ -34,10 +32,14 @@ const ProductTable = props => {
     handlePageChange,
     searchProductsByName,
     searchValue,
-    handleCustomer
+    handleCustomer,
   } = props;
 
   const [confirmDelete, setConformDelete] = useState(false);
+
+  const settings = useSelector(state => state.settings.personalize);
+  const currency = settings.currency?.split("-")[1];
+  const mode = useSelector(state => state.settings.appearance.mode);
 
   const menu = useRef(null);
   const toast = useRef(null);
@@ -93,7 +95,7 @@ const ProductTable = props => {
   };
 
   const setPrice = rowData => {
-    return <span>{`${rowData.price} $`}</span>;
+    return <span>{`${currency} ${rowData.price}`}</span>;
   };
 
   const duplicate = useMutation(data => duplicateProduct(data), {
@@ -164,7 +166,7 @@ const ProductTable = props => {
           }}
           aria-controls="popup_menu"
           aria-haspopup
-          className="p-button-rounded p-button-secondary p-button-text p-button-sm table-btn-icon"
+          className="cdt-action p-button-rounded p-button-secondary p-button-text p-button-sm table-btn-icon"
         />
       </>
     );
@@ -174,7 +176,12 @@ const ProductTable = props => {
     return (
       <Image
         src={data?.photos[0].url}
-        style={{ verticalAlign: "middle", width: '40px', height: '40px', borderRadius: '50%' }}
+        style={{
+          verticalAlign: "middle",
+          width: "40px",
+          height: "40px",
+          borderRadius: "50%",
+        }}
         className="datatable-product-image"
         preview
       />
@@ -196,16 +203,16 @@ const ProductTable = props => {
       <DataTable
         value={products}
         responsiveLayout="scroll"
-        // paginator
         rows={limit}
         header={header1}
         onPage={handlePageChange}
         selection={selectedProducts}
         onSelectionChange={e => setSelectedProducts(e.value)}
         emptyMessage="No products found."
-        stripedRows
+        stripedRows={mode === "Light" ? true : false}
         first={page * limit}
         totalRecords={total}
+        className="custom-data-table"
       >
         <Column selectionMode="multiple" exportable={false}></Column>
         <Column
@@ -245,7 +252,13 @@ const ProductTable = props => {
         ></Column>
         <Column body={data => renderActions(data)} exportable={false}></Column>
       </DataTable>
-      <Paginator first={page * limit} rows={limit} totalRecords={total} onPageChange={handlePageChange} />
+      <Paginator
+        first={page * limit}
+        rows={limit}
+        totalRecords={total}
+        onPageChange={handlePageChange}
+        className="custom-datatable-pagination"
+      />
     </div>
   );
 };

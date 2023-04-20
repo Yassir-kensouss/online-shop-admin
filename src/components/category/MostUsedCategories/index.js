@@ -1,12 +1,16 @@
 import { Chart } from "primereact/chart";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { BG_COLORS } from "../../../common/constants";
 import { mostUsedCategories } from "../../../services/product";
 import DashCards from "../../DashCards";
+import EmptyBox from "../../EmptyBox";
 import BSPSkeleton from "../../products/Best selling products/BSPSkeleton";
 
 const MUC = () => {
+  const mode = useSelector(state => state.settings.appearance.mode);
+
   const { isLoading } = useQuery(
     "most-used-categories",
     async () => {
@@ -19,6 +23,8 @@ const MUC = () => {
       const values = statistics.map(el => {
         return el.totalSold;
       });
+
+      setResult(statistics);
 
       setChartData({
         labels,
@@ -37,21 +43,23 @@ const MUC = () => {
   );
 
   const [chartData, setChartData] = useState({});
+  const [result, setResult] = useState([]);
 
-  const [lightOptions] = useState({
+  const lightOptions = {
     plugins: {
       legend: {
         align: "center",
-        position: 'top',
+        position: "top",
         labels: {
           boxWidth: 10,
           boxHeight: 10,
           usePointStyle: true,
-          pointStyle: 'rectRounded'
+          pointStyle: "rectRounded",
+          color: mode === "Light" ? "#424242" : "#fff",
         },
       },
     },
-  });
+  };
 
   return (
     <>
@@ -65,12 +73,20 @@ const MUC = () => {
           infoContent="This report presents an overview of the product categories with the highest sales volume."
         >
           <div className="flex justify-content-center h-full w-full align-items-center">
-            <Chart
-              type="doughnut"
-              data={chartData}
-              options={lightOptions}
-              style={{ position: "relative", width: "60%" }}
-            />
+            {result.length > 0 ? (
+              <Chart
+                type="doughnut"
+                data={chartData}
+                options={lightOptions}
+                style={{ position: "relative", width: "60%" }}
+              />
+            ) : (
+              <EmptyBox
+                title="No Data"
+                message="You don't have any data to show"
+                icon={<i className="pi pi-chart-pie"></i>}
+              />
+            )}
           </div>
         </DashCards>
       )}

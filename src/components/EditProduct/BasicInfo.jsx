@@ -4,8 +4,7 @@ import { Controller } from "react-hook-form";
 import { MAX_LENGTH } from "../../common/constants";
 
 const BasicInfo = props => {
-  const { errors, control, setDescription, description, register } =
-    props;
+  const { errors, control, setDescription, description, register } = props;
 
   const getFormErrorMessage = name => {
     return (
@@ -16,8 +15,8 @@ const BasicInfo = props => {
   };
 
   return (
-    <div className="bg-white p-3 border-round-sm">
-      <h2 className="text-xl mb-5 font-medium text-800 flex align-items-center gap-2">
+    <div className="np-card">
+      <h2 className="np-card-title text-xl mb-5 font-medium flex align-items-center gap-2">
         Basic Information
       </h2>
       <div className="product-title-field mb-3">

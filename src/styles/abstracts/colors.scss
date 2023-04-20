@@ -6,7 +6,21 @@ $graySecondary: #F4F7FE;
 $normalGray:#707EAE;
 $text: rgb(18, 18, 18);
 $error: rgb(234, 63, 63);
+$dash_title: #363885;
 
 
 // borders
 $inputBorder: 1px solid #E0E5F2;
+
+// dark mode
+$dm_background: #2c313b;
+$dm_main_background: #1b2234;
+$dm_text: #fafafa;
+$dm_dark_text: #2c313b;
+$dm_text_hover: #ded6ff;
+$dm_active_link: #a888c1;
+$dm_secondary_text: #aeaeae;
+$dm_datatable_bg: #4a5364;
+$dm_datatable_border: #63717e;
+$dm_input_bg:#1b2234;
+$dm_input_border_color: #7a8187

@@ -27,6 +27,7 @@ import {
 } from "../../common/constants";
 import { handleTableFiltering, totalPriceFilterTemplate } from "./TableFilters";
 import TableHeader from "./TableHeader";
+import { useSelector } from "react-redux";
 
 const fields = [
   { name: "Transaction ID", code: "transaction_id" },
@@ -50,7 +51,7 @@ const OrdersTable = props => {
     field,
     setOrders,
     setTotal,
-    ordersByFiltersQuery
+    ordersByFiltersQuery,
   } = props;
 
   const menu = useRef(null);
@@ -59,6 +60,10 @@ const OrdersTable = props => {
   const [visible, setVisible] = useState(false);
   const [statusSelect, setStatusSelect] = useState(false);
   const [filters, setFilters] = useState(null);
+
+  const settings = useSelector(state => state.settings.personalize);
+  const mode = useSelector(state => state.settings.appearance.mode);
+  const currency = settings.currency?.split("-")[1];
 
   const handleStatusClick = data => {
     setStatusSelect(true);
@@ -96,7 +101,7 @@ const OrdersTable = props => {
           }}
           aria-controls="popup_menu"
           aria-haspopup
-          className=" p-button-rounded p-button-secondary p-button-text p-button-sm table-btn-icon"
+          className="cdt-action p-button-rounded p-button-secondary p-button-text p-button-sm table-btn-icon"
         />
       </>
     );
@@ -148,6 +153,10 @@ const OrdersTable = props => {
     );
   };
 
+  const renderTotalPrice = rowData => {
+    return <span>{`${currency} ${rowData.totalPrice}`}</span>;
+  };
+
   return (
     <div>
       <Sidebar
@@ -162,7 +171,9 @@ const OrdersTable = props => {
       <DataTable
         value={orders}
         responsiveLayout="scroll"
-        onFilter={(e) => handleTableFiltering(e, setFilters, ordersByFiltersQuery, page, limit)}
+        onFilter={e =>
+          handleTableFiltering(e, setFilters, ordersByFiltersQuery, page, limit)
+        }
         resizableColumns
         emptyMessage={
           <EmptyBox
@@ -173,8 +184,9 @@ const OrdersTable = props => {
           />
         }
         filters={filters}
-        stripedRows
+        stripedRows={mode === "Light" ? true : false}
         loading={ordersQuery.isLoading}
+        className="custom-data-table"
         header={
           <TableHeader
             searchValue={searchValue}
@@ -186,7 +198,7 @@ const OrdersTable = props => {
             initFilters={initFilters}
           />
         }
-        scrollable 
+        scrollable
         scrollHeight="500px"
       >
         <Column
@@ -220,6 +232,7 @@ const OrdersTable = props => {
           filterField="totalPrice"
           dataType="numeric"
           showFilterOperator={false}
+          body={data => renderTotalPrice(data)}
           filterMatchModeOptions={NUMERIC_FILTERS_MODE}
         />
         <Column
@@ -254,6 +267,7 @@ const OrdersTable = props => {
         rows={limit}
         totalRecords={total}
         onPageChange={handlePageChange}
+        className="custom-datatable-pagination"
       />
       <Outlet />
     </div>

@@ -74,7 +74,7 @@ const CategoriesDatatable = props => {
         scrollable
         selection={selectedCategory}
         onSelectionChange={e => setSelectedCategory(e.value)}
-        className="categories-data-table"
+        className="categories-data-table custom-data-table"
         editMode="row"
         onRowEditComplete={onRowEditComplete1}
         stripedRows
@@ -108,6 +108,7 @@ const CategoriesDatatable = props => {
         rows={PRODUCT_DATATABLE_LIMIT}
         totalRecords={total}
         onPageChange={handlePageChange}
+        className="custom-datatable-pagination"
       />
     </div>
   );

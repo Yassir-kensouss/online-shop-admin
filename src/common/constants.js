@@ -56,9 +56,9 @@ const BG_COLORS = [
 ];
 
 const CURRENCIES = [
-  { name: 'Mad', code: 'mad' },
-  { name: 'Dollar', code: '$' },
-  { name: 'Euro', code: '€' },
+  { name: 'MAD', code: 'MAD' },
+  { name: 'USD', code: '$' },
+  { name: 'EUR', code: '€' },
 ];
 
 const LANGUAGES = [
