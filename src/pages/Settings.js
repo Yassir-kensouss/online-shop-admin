@@ -3,6 +3,8 @@ import Dashboard from "../components/Dashboard";
 import SettingsItems from "../settings/SettingsItems";
 import Personalize from "../components/settings/Personalize";
 import Appearance from "../components/settings/Appearance";
+import Hero from "../components/settings/HeroCarousal";
+import HeroCarousal from "../components/settings/HeroCarousal";
 
 const Settings = () => {
   const [setting, setSetting] = useState("Personalize");
@@ -13,6 +15,8 @@ const Settings = () => {
         return <Personalize />;
       case "Appearance":
         return <Appearance />;
+      case "Hero":
+        return <HeroCarousal />;
       default:
         return <div>Run</div>;
     }
