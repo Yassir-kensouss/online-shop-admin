@@ -3,27 +3,25 @@ import React from "react";
 import HeroSlideItem from "./HeroSlideItem";
 import { useState } from "react";
 import HeroNewSlideForm from "./HeroNewSlideForm";
+import { useQuery } from "react-query";
+import { fetchHeroCarousal } from "../../services/settings";
 
 const HeroCarousal = () => {
   const [slideDialog, setSlideDialog] = useState(false);
-  const renderFooter = () => {
-    return (
-      <div>
-        <Button
-          label="Cancel"
-          icon="pi pi-times"
-          onClick={() => setSlideDialog(false)}
-          className="p-button-text p-button-sm"
-        />
-        <Button
-          label="Save"
-          icon="pi pi-check"
-          autoFocus
-          className="p-button-sm"
-        />
-      </div>
-    );
-  };
+  const [slides, setSlides] = useState([]);
+
+  const { isLoading, refetch } = useQuery(
+    "fetch-hero-carousal",
+    async () => {
+      const response = await fetchHeroCarousal();
+      const data = response.data.slides;
+      console.log("data", data);
+      setSlides(data);
+      return data;
+    },
+    { refetchOnWindowFocus: false }
+  );
+
   return (
     <div className="w-full p-2">
       <div className="w-full flex justify-content-between align-items-center">
@@ -36,18 +34,18 @@ const HeroCarousal = () => {
         />
       </div>
       <ul className="mt-4 hero-slides">
-        <li>
-          <HeroSlideItem />
-        </li>
-        <li>
-          <HeroSlideItem />
-        </li>
-        <li>
-          <HeroSlideItem />
-        </li>
-        <li>
-          <HeroSlideItem />
-        </li>
+        {slides.map(slide => (
+          <li key={slide._id}>
+            <HeroSlideItem
+              caption={slide.caption}
+              subCaption={slide.sub_caption}
+              link={slide.link}
+              photo={slide.photo}
+              _id={slide._id}
+              refetch={refetch}
+            />
+          </li>
+        ))}
       </ul>
       <Dialog
         header="New slide"
@@ -56,7 +54,7 @@ const HeroCarousal = () => {
         onHide={() => setSlideDialog(false)}
         draggable={false}
       >
-        <HeroNewSlideForm setSlideDialog={setSlideDialog} />
+        <HeroNewSlideForm refetch={refetch} setSlideDialog={setSlideDialog} />
       </Dialog>
     </div>
   );

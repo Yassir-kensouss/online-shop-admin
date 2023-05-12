@@ -2,9 +2,9 @@ import { Button, Image, Tooltip } from "primereact";
 import React from "react";
 import { useState } from "react";
 
-const HeroSlideImgUploader = () => {
+const HeroSlideImgUploader = ({ preview, setPreview }) => {
   const [brandName, setBrandName] = useState("");
-  const [preview, setPreview] = useState(null);
+
   const [changes, setChanges] = useState({});
   const customBase64Uploader = async e => {
     const file = e.target.files[0];

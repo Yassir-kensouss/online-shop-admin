@@ -1,10 +1,17 @@
 import classNames from "classnames";
-import { Button, Image, InputText, Tooltip } from "primereact";
+import { Button, Image, InputText, Toast, Tooltip } from "primereact";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import HeroSlideImgUploader from "./HeroSlideImgUploader";
+import { useMutation } from "react-query";
+import { addNewHeroCarousal } from "../../services/settings";
+import { useRef } from "react";
 
-const HeroNewSlideForm = ({ setSlideDialog }) => {
+const HeroNewSlideForm = ({ setSlideDialog, refetch }) => {
+  const [preview, setPreview] = useState(null);
+
+  const toast = useRef();
+
   const defaultValues = {
     caption: "",
     sub_caption: "",
@@ -23,12 +30,33 @@ const HeroNewSlideForm = ({ setSlideDialog }) => {
       )
     );
   };
+
+  const { isLoading, mutate } = useMutation(data => addNewHeroCarousal(data), {
+    onSuccess: () => {
+      toast.current.show({
+        severity: "success",
+        detail: "New slide created",
+        life: 3000,
+      });
+      refetch();
+      setSlideDialog(false);
+    },
+    onError: () => {
+      toast.current.show({
+        severity: "error",
+        detail: "Something went wrong",
+        life: 3000,
+      });
+    },
+  });
+
   const onSubmit = data => {
-    console.log("data", data);
+    mutate({ ...data, photo: preview });
   };
 
   return (
     <div>
+      <Toast ref={toast} />
       <form onSubmit={handleSubmit(onSubmit)} className="p-fluid">
         <div className="field">
           <span>
@@ -123,7 +151,7 @@ const HeroNewSlideForm = ({ setSlideDialog }) => {
           </span>
           {getFormErrorMessage("link")}
         </div>
-        <HeroSlideImgUploader />
+        <HeroSlideImgUploader preview={preview} setPreview={setPreview} />
         <div className="flex gap-2 justify-content-end w-max ml-auto">
           <Button
             label="Cancel"
@@ -136,6 +164,7 @@ const HeroNewSlideForm = ({ setSlideDialog }) => {
             icon="pi pi-check"
             autoFocus
             className="p-button-sm"
+            loading={isLoading}
           />
         </div>
       </form>

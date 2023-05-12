@@ -26,3 +26,34 @@ export const updateGeneralSettings = data => {
     },
   });
 };
+
+export const addNewHeroCarousal = data => {
+  return auth({
+    headers: {
+      Authorization: `Bearer ${jwt.token}`,
+    },
+    method: "POST",
+    url: `settings/carousals/hero/add`,
+    data,
+  });
+};
+
+export const fetchHeroCarousal = data => {
+  return auth({
+    headers: {
+      Authorization: `Bearer ${jwt.token}`,
+    },
+    method: "GET",
+    url: "settings/carousals/hero/fetch",
+  });
+};
+
+export const deleteHeroCarousal = id => {
+  return auth({
+    headers: {
+      Authorization: `Bearer ${jwt.token}`,
+    },
+    method: "DELETE",
+    url: `settings/carousals/hero/delete?_id=${id}`,
+  });
+};
