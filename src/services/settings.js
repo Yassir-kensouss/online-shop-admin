@@ -57,3 +57,14 @@ export const deleteHeroCarousal = id => {
     url: `settings/carousals/hero/delete?_id=${id}`,
   });
 };
+
+export const editHeroCarousal = data => {
+  return auth({
+    headers: {
+      Authorization: `Bearer ${jwt.token}`,
+    },
+    method: "PUT",
+    url: `settings/carousals/hero/edit?_id=${data._id}`,
+    data: data,
+  });
+};

@@ -4,11 +4,14 @@ import { useMutation } from "react-query";
 import { deleteHeroCarousal } from "../../services/settings";
 import { useRef } from "react";
 import { useState } from "react";
+import HeroNewSlideForm from "./HeroNewSlideForm";
+import EditHeroCarousal from "./EditHeroCarousal";
 
 const HeroSlideItem = ({ photo, caption, subCaption, link, _id, refetch }) => {
   const toast = useRef();
 
   const [confirm, setConfirm] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   const { isLoading, mutate } = useMutation(id => deleteHeroCarousal(id), {
     onSuccess: () => {
@@ -77,6 +80,7 @@ const HeroSlideItem = ({ photo, caption, subCaption, link, _id, refetch }) => {
           <Button
             icon="pi pi-file-edit"
             className="p-button-sm p-button-secondary"
+            onClick={() => setEdit(true)}
           />
         </div>
       </div>
@@ -89,6 +93,23 @@ const HeroSlideItem = ({ photo, caption, subCaption, link, _id, refetch }) => {
         footer={renderFooter}
       >
         <p>Are you sure you want to delete this slide ?</p>
+      </Dialog>
+      <Dialog
+        header="Edit Slide"
+        visible={edit}
+        style={{ width: "50vw" }}
+        onHide={() => setEdit(false)}
+        draggable={false}
+      >
+        <EditHeroCarousal
+          caption={caption}
+          subCaption={subCaption}
+          link={link}
+          photo={photo}
+          setEdit={setEdit}
+          _id={_id}
+          refetch={refetch}
+        />
       </Dialog>
     </>
   );
