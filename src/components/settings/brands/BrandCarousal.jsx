@@ -35,7 +35,7 @@ const BrandCarousal = () => {
           onClick={() => setFormDialog(true)}
         />
       </div>
-      <ul className="mt-4">
+      <ul className="mt-4 overflow-auto h-28rem">
         <li className="w-full flex justify-content-between pt-2 pb-2 border-bottom-1 border-gray-300">
           <div className="flex align-items-center gap-6 text-gray-700 text-sm">
             <p>Logo</p>
