@@ -81,7 +81,7 @@ const EditHeroCarousal = ({
               control={control}
               rules={{
                 maxLength: {
-                  value: 30,
+                  value: 60,
                   message: "Maximum length is 30 character",
                 },
               }}

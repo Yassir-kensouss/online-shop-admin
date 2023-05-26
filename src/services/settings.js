@@ -68,3 +68,34 @@ export const editHeroCarousal = data => {
     data: data,
   });
 };
+
+export const addNewBrand = data => {
+  return auth({
+    headers: {
+      Authorization: `Bearer ${jwt.token}`,
+    },
+    method: "POST",
+    url: `settings/carousals/brands/add`,
+    data,
+  });
+};
+
+export const fetchBrands = () => {
+  return auth({
+    headers: {
+      Authorization: `Bearer ${jwt.token}`,
+    },
+    method: "GET",
+    url: `settings/carousals/brands/fetch`,
+  });
+};
+
+export const deleteBrands = _id => {
+  return auth({
+    headers: {
+      Authorization: `Bearer ${jwt.token}`,
+    },
+    method: "DELETE",
+    url: `settings/carousals/brands/delete?_id=${_id}`,
+  });
+};

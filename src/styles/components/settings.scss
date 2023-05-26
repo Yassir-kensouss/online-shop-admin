@@ -27,6 +27,7 @@
 
     &__subChildItem{
         color: #6d6d6d;
+        margin-bottom: 1em;
 
         &:hover{
             color: #9b9b9b
@@ -97,4 +98,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
+}
+
+.settings-brand-img{
+    .p-image-preview-indicator,img{
+        border-radius: 50%;
+    }
 }

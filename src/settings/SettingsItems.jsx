@@ -19,7 +19,10 @@ const SettingsItems = ({ setSetting }) => {
         id: 5,
         label: "Carousal",
         icon: "pi pi-images",
-        subItems: [{ id: 6, label: "Hero", icon: null }],
+        subItems: [
+          { id: 6, label: "Hero", icon: null },
+          { id: 7, label: "Brands", icon: null },
+        ],
       },
     ],
   };

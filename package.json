@@ -29,6 +29,7 @@
     "react-hook-form": "^7.37.0",
     "react-hot-toast": "^2.4.0",
     "react-image-crop": "^10.0.9",
+    "react-loading-skeleton": "^3.3.1",
     "react-phone-input-2": "^2.15.1",
     "react-query": "^3.39.2",
     "react-redux": "^8.0.2",
