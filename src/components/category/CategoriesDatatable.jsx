@@ -1,11 +1,25 @@
-import { Column, DataTable, InputText, Paginator, Toast } from "primereact";
+import {
+  Button,
+  Column,
+  DataTable,
+  Dialog,
+  Image,
+  InputText,
+  Paginator,
+  Toast,
+} from "primereact";
 import React, { useRef } from "react";
 import { useMutation } from "react-query";
 import { PRODUCT_DATATABLE_LIMIT } from "../../common/constants";
 import { updateCategory } from "../../services/category";
+import MediaUploader from "../../common/MediaUploader";
+import { useState } from "react";
+import EditCategory from "./EditCategory";
 
 const CategoriesDatatable = props => {
   const datatable = useRef(null);
+  const [editForm, setEditForm] = useState(false);
+  const [rowData, setRowData] = useState(false);
   const toast = useRef(null);
   const {
     categories,
@@ -25,6 +39,7 @@ const CategoriesDatatable = props => {
         detail: "Category updated successfully",
         life: 3000,
       });
+      setEditForm(false);
     },
     onError: () => {
       toast.current.show({
@@ -64,6 +79,39 @@ const CategoriesDatatable = props => {
     }
   };
 
+  const renderImage = data => {
+    return (
+      <div className="w-3rem h-3rem">
+        <Image
+          preview
+          className="rounded-image"
+          src={data.image}
+          alt={data.name}
+        />
+      </div>
+    );
+  };
+
+  const imageUploader = () => {
+    return <MediaUploader />;
+  };
+
+  const editRow = data => {
+    setEditForm(true);
+    setRowData(data);
+  };
+
+  const editRowBody = data => {
+    return (
+      <Button
+        icon="pi pi-pencil"
+        className="p-button-rounded p-button-outlined p-button-sm"
+        aria-label="Submit"
+        onClick={() => editRow(data)}
+      />
+    );
+  };
+
   return (
     <div ref={datatable} style={{ height: "calc(100vh - 200px)" }}>
       <Toast ref={toast} />
@@ -85,6 +133,13 @@ const CategoriesDatatable = props => {
           exportable={false}
         ></Column>
         <Column
+          field="image"
+          header="Image"
+          sortable
+          body={data => renderImage(data)}
+          editor={options => imageUploader(options)}
+        ></Column>
+        <Column
           field="name"
           header="Name"
           sortable
@@ -98,7 +153,7 @@ const CategoriesDatatable = props => {
         ></Column>
         <Column
           header="Actions"
-          rowEditor
+          body={data => editRowBody(data)}
           headerStyle={{ width: "10%", minWidth: "8rem" }}
           bodyStyle={{ textAlign: "center" }}
         ></Column>
@@ -110,6 +165,18 @@ const CategoriesDatatable = props => {
         onPageChange={handlePageChange}
         className="custom-datatable-pagination"
       />
+      <Dialog
+        header="Edit Category"
+        visible={editForm}
+        style={{ width: "50vw" }}
+        onHide={() => setEditForm(false)}
+      >
+        <EditCategory
+          setEditForm={setEditForm}
+          values={rowData}
+          updateRow={updateRow}
+        />
+      </Dialog>
     </div>
   );
 };

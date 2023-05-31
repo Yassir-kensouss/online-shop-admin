@@ -77,6 +77,20 @@
     color: #424242;
 }
 
+.custom-media-uploader{
+    &:hover{
+        background-color: #eaeaf4 !important;
+    }
+
+    &:active{
+        background-color: #fafaff !important;
+    }
+
+    &:focus{
+        outline: 2px solid rgb(178, 194, 219);
+    }
+}
+
 .sa-sub-label{
     color: #757575;
 }

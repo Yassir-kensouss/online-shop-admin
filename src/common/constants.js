@@ -30,17 +30,17 @@ const NUMERIC_FILTERS_MODE = [
 ];
 
 const STRING_FILTERS_MODE = [
-    { label: "equals", value: "equals" },
-    { label: "not equals", value: "not equals" },
-  ];
+  { label: "equals", value: "equals" },
+  { label: "not equals", value: "not equals" },
+];
 
 const ORDERS_STATUS = {
-  NOT_PROCESSED: 'Not processed',
-  PROCESSING: 'Processing',
-  DELIVERED: 'Delivered',
-  SHIPPED: 'Shipped',
-  CANCELLED: 'Cancelled',
-}
+  NOT_PROCESSED: "Not processed",
+  PROCESSING: "Processing",
+  DELIVERED: "Delivered",
+  SHIPPED: "Shipped",
+  CANCELLED: "Cancelled",
+};
 
 const BG_COLORS = [
   "#0B2447",
@@ -56,16 +56,48 @@ const BG_COLORS = [
 ];
 
 const CURRENCIES = [
-  { name: 'MAD', code: 'MAD' },
-  { name: 'USD', code: '$' },
-  { name: 'EUR', code: '€' },
+  { name: "MAD", code: "MAD" },
+  { name: "USD", code: "$" },
+  { name: "EUR", code: "€" },
 ];
 
 const LANGUAGES = [
-  { name: 'English', code: 'en' },
-  { name: 'Arab', code: 'ar' },
-  { name: 'French', code: 'fr' },
-  { name: 'Spanish', code: 'sp' },
+  { name: "English", code: "en" },
+  { name: "Arab", code: "ar" },
+  { name: "French", code: "fr" },
+  { name: "Spanish", code: "sp" },
+];
+
+const PRODUCT_SIZES = [
+  { name: "S", code: "small" },
+  { name: "M", code: "medium" },
+  { name: "L", code: "large" },
+  { name: "XL", code: "extra large" },
+  { name: "XXL", code: "2 extra large" },
+  { name: "XXXL", code: "3 extra large" },
+];
+
+const PRODUCT_MATERIAL = [
+  { name: "Cotton", code: "cotton" },
+  { name: "Polyester", code: "polyester" },
+  { name: "Silk", code: "silk" },
+  { name: "Wool", code: "wool" },
+  { name: "Linen", code: "linen" },
+  { name: "Denim", code: "denim" },
+  { name: "Rayon", code: "rayon" },
+  { name: "Nylon", code: "nylon" },
+  { name: "Spandex", code: "spandex" },
+  { name: "Leather", code: "leather" },
+  { name: "Velvet", code: "velvet" },
+  { name: "Satin", code: "satin" },
+  { name: "Cashmere", code: "cashmere" },
+  { name: "Acrylic", code: "acrylic" },
+  { name: "Viscose", code: "viscose" },
+  { name: "Chiffon", code: "chiffon" },
+  { name: "Tulle", code: "tulle" },
+  { name: "Organza", code: "organza" },
+  { name: "Lace", code: "lace" },
+  { name: "Suede", code: "suede" },
 ];
 
 export {
@@ -80,6 +112,7 @@ export {
   ORDERS_STATUS,
   BG_COLORS,
   CURRENCIES,
-  LANGUAGES
+  LANGUAGES,
+  PRODUCT_SIZES,
+  PRODUCT_MATERIAL,
 };
-

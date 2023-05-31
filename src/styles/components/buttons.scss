@@ -6,3 +6,33 @@
     }
 }
 
+.custom-link-btn {
+
+    &.with-icon {
+        font-size: 0.9rem;
+        color: $darkPrimary;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-weight: bold;
+        text-transform: capitalize;
+
+        i {
+            font-weight: bold; 
+        }
+    }
+
+    &:hover{
+        color: lighten($color: $darkPrimary, $amount: 30%);
+    }
+
+    &:active{
+        color: $darkPrimary;
+    }
+
+    &:focus{
+        outline: 2px solid $darkPrimary;
+        border-radius: 5px;
+    }
+}

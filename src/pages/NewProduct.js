@@ -12,6 +12,7 @@ import useValidProduct from "../hooks/useValidProduct";
 import { useMutation } from "react-query";
 import { addNewProduct } from "../services/product";
 import { useNavigate } from "react-router-dom";
+import Variants from "../components/NewProduct/Variants";
 
 const crumbs = [
   { label: "Home", url: "/" },
@@ -45,30 +46,36 @@ export const ContextContainer = createContext(null);
 const Products = () => {
   const toast = useRef(null);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [files, setFiles] = useState(null);
   const [errors, setErrors] = useState(null);
-  const [product, setProduct] = useState({ ...initialState, name, files });
-  
+  const [variants, setVariants] = useState([]);
+  const [product, setProduct] = useState({
+    ...initialState,
+    name,
+    files,
+    variants,
+  });
+
   const newProduct = useMutation(data => addNewProduct(data), {
     onSuccess: () => {
       toast.current.show({
         severity: "success",
-        detail: 'you have added one product successfully',
+        detail: "you have added one product successfully",
         life: 3000,
       });
       const navigateTimer = setTimeout(() => {
-        navigate('/products');
-      },3000)
+        navigate("/products");
+      }, 3000);
 
-      return () => clearTimeout(navigateTimer)
+      return () => clearTimeout(navigateTimer);
     },
     onError: () => {
       toast.current.show({
         severity: "error",
-        detail: 'Something went wrong',
+        detail: "Something went wrong",
         life: 3000,
       });
     },
@@ -78,7 +85,7 @@ const Products = () => {
     const { isValid, errors } = useValidProduct({ ...product, name, files });
     !isValid ? setErrors(errors) : setErrors(null);
     if (isValid) {
-      newProduct.mutate(product);
+      newProduct.mutate({ ...product, variants });
     }
   };
 
@@ -116,6 +123,8 @@ const Products = () => {
               setFiles,
               files,
               errors,
+              setVariants,
+              variants,
             }}
           >
             <div className="col-7">
@@ -126,6 +135,7 @@ const Products = () => {
             <div className="col-5">
               <Visibility />
               <Categories />
+              <Variants />
               <Tags />
               <Photos />
             </div>
