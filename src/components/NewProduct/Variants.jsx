@@ -53,6 +53,7 @@ const Variants = () => {
           {
             <ul>
               <div className="flex align-items-center gap-4 text-sm text-gray-900 font-semibold bg-gray-200 p-2 border-round-md">
+                <div className="w-3rem">Color</div>
                 <div className="w-3rem">Size</div>
                 <div className="w-5rem">Material</div>
                 <div className="w-3rem">Qte</div>
@@ -65,6 +66,10 @@ const Variants = () => {
                     className="flex align-items-center justify-content-between border-bottom-1 border-gray-300 p-2 "
                   >
                     <div className="flex align-items-center gap-4 text-sm text-gray-700">
+                      <div
+                        style={{ background: `#${variant.color}` }}
+                        className="w-2rem h-2rem border-round-lg"
+                      ></div>
                       <div className="w-3rem">{variant.size}</div>
                       <div className="w-5rem">{variant.material}</div>
                       <div className="w-3rem">{variant.quantity}</div>

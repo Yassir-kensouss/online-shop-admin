@@ -34,14 +34,14 @@ const NewVariant = ({
     sku: "",
   });
 
-  const [colors, setColors] = useState([]);
+  const [color, setColor] = useState([]);
 
   const onSubmit = data => {
     data = {
       ...data,
       size: data.size.name,
       material: data.material.name,
-      colors,
+      color,
       variantId,
     };
 
@@ -49,6 +49,10 @@ const NewVariant = ({
 
     setVariants(prevStatus => [...prevStatus, data]);
     setVariantDialog(false);
+  };
+
+  const colorCodeInput = e => {
+    setColor(e.target.value);
   };
 
   return (
@@ -85,7 +89,25 @@ const NewVariant = ({
           />
         </div>
         <div className="w-full flex gap-2 mt-4">
-          {/* <VariantColorPicker colors={colors} setColors={setColors} /> */}
+          <div className="flex-1">
+            <label htmlFor="variantColor">
+              <div className="block mb-2">Color</div>
+              <div className="flex gap-2">
+                <ColorPicker
+                  inputId="variantColor"
+                  className="variant-color-picker"
+                  format="hex"
+                  value={color}
+                  onChange={e => setColor(e.value)}
+                ></ColorPicker>
+                <InputText
+                  className="w-6rem"
+                  value={`${color}`}
+                  onChange={colorCodeInput}
+                />
+              </div>
+            </label>
+          </div>
           <VariantInputText
             name="sku"
             label="SKU"
