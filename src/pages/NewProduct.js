@@ -39,7 +39,7 @@ const initialState = {
   visibility: "published",
   quantity: null,
   tags: [],
-  categories: [],
+  category: {},
 };
 export const ContextContainer = createContext(null);
 

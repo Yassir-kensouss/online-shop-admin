@@ -14,8 +14,13 @@ const useValidProduct = values => {
           errors.name
             ? errors.name.push("Product name is required")
             : (errors.name = ["Product name is required"]);
-        } else if (values["name"] && values["name"].length > MAX_LENGTH.PRODUCT_NAME) {
-          errors.name = [`maximum character length for name is ${MAX_LENGTH.PRODUCT_NAME}`];
+        } else if (
+          values["name"] &&
+          values["name"].length > MAX_LENGTH.PRODUCT_NAME
+        ) {
+          errors.name = [
+            `maximum character length for name is ${MAX_LENGTH.PRODUCT_NAME}`,
+          ];
         } else {
           delete errors.name;
         }
@@ -28,7 +33,10 @@ const useValidProduct = values => {
           errors.description
             ? errors.description.push("product description is required")
             : (errors.description = ["product description is required"]);
-        } else if (values["description"] && values["description"].length > MAX_LENGTH.PRODUCT_DESC) {
+        } else if (
+          values["description"] &&
+          values["description"].length > MAX_LENGTH.PRODUCT_DESC
+        ) {
           errors.description = [
             `maximum character length for description is ${MAX_LENGTH.PRODUCT_DESC}`,
           ];
@@ -39,24 +47,19 @@ const useValidProduct = values => {
     },
 
     validateShortDescription: property => {
-        if (
-          !values[property] ||
-          values[property].length == 0
-        ) {
-          errors.shortDescription
-            errors.shortDescription = [
-                "product short description is required",
-              ]
-        } else if (
-          values[property] &&
-          values[property].length > MAX_LENGTH.PRODUCT_SHORT_DESC
-        ) {
-          errors.shortDescription = [
-            `maximum character length for short description is ${MAX_LENGTH.PRODUCT_SHORT_DESC}`,
-          ];
-        } else {
-          delete errors.shortDescription;
-        }
+      if (!values[property] || values[property].length == 0) {
+        errors.shortDescription;
+        errors.shortDescription = ["product short description is required"];
+      } else if (
+        values[property] &&
+        values[property].length > MAX_LENGTH.PRODUCT_SHORT_DESC
+      ) {
+        errors.shortDescription = [
+          `maximum character length for short description is ${MAX_LENGTH.PRODUCT_SHORT_DESC}`,
+        ];
+      } else {
+        delete errors.shortDescription;
+      }
     },
 
     validatePrices: property => {
@@ -85,7 +88,10 @@ const useValidProduct = values => {
     },
 
     validateSku: property => {
-      if (values[property] && values[property].length > MAX_LENGTH.PRODUCT_SKU) {
+      if (
+        values[property] &&
+        values[property].length > MAX_LENGTH.PRODUCT_SKU
+      ) {
         errors.sku = ["product sku is too long"];
       } else {
         delete errors.sku;
@@ -93,16 +99,18 @@ const useValidProduct = values => {
     },
     validateQuantity: property => {
       if (values[property] && values[property] > MAX_QUANTITY) {
-        errors.quantity = [`Maximum product quantity you can add is ${MAX_QUANTITY}`];
+        errors.quantity = [
+          `Maximum product quantity you can add is ${MAX_QUANTITY}`,
+        ];
       } else {
         delete errors.quantity;
       }
     },
     validateCategories: property => {
       if (!values[property] || values[property].length == 0) {
-        errors.categories = ["product must belong to at least one category"];
+        errors.category = ["product must belong to at least one category"];
       } else {
-        delete errors.categories;
+        delete errors.category;
       }
     },
     validatePictures: property => {

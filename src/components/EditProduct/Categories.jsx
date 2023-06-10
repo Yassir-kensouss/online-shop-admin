@@ -1,4 +1,4 @@
-import { MultiSelect } from "primereact";
+import { Dropdown, MultiSelect } from "primereact";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
@@ -13,10 +13,10 @@ const Categories = props => {
   const handleCategoriesSelect = e => {
     const err = {};
     if (e.value?.length === 0) {
-      err.categories = "Product should at least belong to one category";
+      err.category = "Product should at least belong to one category";
       setHasError(err);
     } else {
-      delete err.categories;
+      delete err.category;
       setHasError(err);
     }
 
@@ -51,16 +51,14 @@ const Categories = props => {
     <div className="np-card mt-3">
       <h2 className="np-card-title text-xl mb-5 font-medium">Categories *</h2>
       <div className="flex gap-4">
-        <MultiSelect
+        <Dropdown
           className="w-full"
           value={selectedCategories}
           options={categories}
           onChange={handleCategoriesSelect}
           optionLabel="name"
           placeholder="Select a category"
-          display="chip"
           filter
-          panelFooterTemplate={panelFooterTemplate}
         />
       </div>
       {hasError && hasError?.categories ? (

@@ -1,12 +1,5 @@
-import {
-  Toast,
-} from "primereact";
-import React, {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { Toast } from "primereact";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Dashboard from "../components/Dashboard";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import CustomButton from "../components/buttons/CustomButton";
@@ -36,7 +29,7 @@ const EditProduct = () => {
   const [files, setFiles] = useState(null);
   const [product, setProduct] = useState({});
   const [visibility, setVisibility] = useState(null);
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState({});
   const [tags, setTags] = useState([]);
   const [description, setDescription] = useState("");
   const [hasError, setHasError] = useState({});
@@ -49,7 +42,7 @@ const EditProduct = () => {
       const prod = await data.product;
       setProduct(prod);
       setVisibility(prod.visibility);
-      setSelectedCategories(prod.categories);
+      setSelectedCategories(prod.category);
       setTags(prod.tags);
       setDescription(prod.description);
       return prod;
@@ -68,22 +61,26 @@ const EditProduct = () => {
     </>
   );
 
-  const updateProductMutation = useMutation(data => updateProduct(data), {
-    onSuccess: () => {
-      toast.current.show({
-        severity: "success",
-        detail: successMessage,
-        life: 3000,
-      });
+  const updateProductMutation = useMutation(
+    data => updateProduct(data),
+    {
+      onSuccess: () => {
+        toast.current.show({
+          severity: "success",
+          detail: successMessage,
+          life: 3000,
+        });
+      },
+      onError: error => {
+        toast.current.show({
+          severity: "error",
+          detail: error?.response.data,
+          life: 3000,
+        });
+      },
     },
-    onError: (error) => {
-      toast.current.show({
-        severity: "error",
-        detail: error?.response.data,
-        life: 3000,
-      });
-    }
-  },{useErrorBoundary: true});
+    { useErrorBoundary: true }
+  );
 
   useEffect(() => {
     if (isError) {
@@ -119,7 +116,6 @@ const EditProduct = () => {
   }, [product]);
 
   const onSubmit = async data => {
-
     const body = {
       _id: data._id,
       name: data.name,
@@ -129,10 +125,10 @@ const EditProduct = () => {
       sku: data.sku,
       quantity: data.quantity,
       visibility: visibility,
-      categories: selectedCategories,
+      category: selectedCategories,
       tags: tags,
       description: description,
-      photos: files
+      photos: files,
     };
 
     if (
@@ -141,7 +137,6 @@ const EditProduct = () => {
     ) {
       updateProductMutation.mutate(body);
     }
-    
   };
 
   return (

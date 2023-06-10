@@ -1,4 +1,4 @@
-import { MultiSelect, Skeleton } from "primereact";
+import { Dropdown, MultiSelect, Skeleton } from "primereact";
 import React, { useState } from "react";
 import { useContext } from "react";
 import { useQuery } from "react-query";
@@ -13,15 +13,11 @@ const Categories = () => {
   const [selectedCategories, setSelectedCategories] = useState(null);
   const [categories, setCategories] = useState([]);
 
-  const handleCatgoriesSelect = e => {
-    const objectId = e.value.map(el => {
-      return el.code;
-    });
-
+  const handleCategoriesSelect = e => {
     setSelectedCategories(e.value);
     setProduct({
       ...product,
-      categories: e.value,
+      category: e.value,
     });
   };
 
@@ -53,20 +49,18 @@ const Categories = () => {
     <div className="np-card mt-3">
       <h2 className="np-card-title text-xl mb-5 font-medium">Categories *</h2>
       <div className="flex gap-4">
-        <MultiSelect
+        <Dropdown
           className="w-full"
           value={selectedCategories}
           options={categories}
-          onChange={handleCatgoriesSelect}
+          onChange={handleCategoriesSelect}
           optionLabel="name"
           placeholder="Select a category"
-          display="chip"
           filter
-          panelFooterTemplate={panelFooterTemplate}
         />
       </div>
-      {errors && "categories" in errors ? (
-        <p className="text-red-400 mt-2 text-sm">{errors["categories"]}</p>
+      {errors && "category" in errors ? (
+        <p className="text-red-400 mt-2 text-sm">{errors["category"]}</p>
       ) : null}
       <div className="mt-3 text-sm">
         <Link to="/categories" className="links">
