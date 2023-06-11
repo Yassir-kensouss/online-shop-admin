@@ -24,9 +24,8 @@ const BrandsList = ({
           key={brand._id}
           className="w-full flex justify-content-between border-bottom-1 border-gray-300 pt-2 pb-2"
         >
-          <div className="h-4rem flex align-items-center gap-6">
+          <div className="h-4rem w-4rem flex align-items-center gap-6">
             <img
-              width="30%"
               className="settings-brand-img"
               src={brand.photo}
               alt={brand.brandName}

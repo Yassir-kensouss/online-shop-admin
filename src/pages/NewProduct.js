@@ -13,6 +13,8 @@ import { useMutation } from "react-query";
 import { addNewProduct } from "../services/product";
 import { useNavigate } from "react-router-dom";
 import Variants from "../components/NewProduct/Variants";
+import Brands from "../components/NewProduct/Brands";
+import Types from "../components/NewProduct/Types";
 
 const crumbs = [
   { label: "Home", url: "/" },
@@ -24,9 +26,6 @@ const items = [
   {
     label: "As Draft",
     icon: "pi pi-file",
-    // command: () => {
-    //     toast.current.show({severity:'success', summary:'Updated', detail:'Data Updated'});
-    // }
   },
 ];
 
@@ -40,6 +39,8 @@ const initialState = {
   quantity: null,
   tags: [],
   category: {},
+  color: "",
+  size: "",
 };
 export const ContextContainer = createContext(null);
 
@@ -135,6 +136,8 @@ const Products = () => {
             <div className="col-5">
               <Visibility />
               <Categories />
+              <Brands />
+              <Types />
               <Variants />
               <Tags />
               <Photos />

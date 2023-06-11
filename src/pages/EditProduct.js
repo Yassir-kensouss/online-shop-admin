@@ -14,6 +14,7 @@ import Categories from "../components/EditProduct/Categories";
 import Tags from "../components/EditProduct/Tags";
 import Photos from "../components/EditProduct/Photos";
 import { useForm } from "react-hook-form";
+import Brands from "../components/EditProduct/Brands";
 
 const crumbs = [
   { label: "Home", url: "/" },
@@ -30,6 +31,7 @@ const EditProduct = () => {
   const [product, setProduct] = useState({});
   const [visibility, setVisibility] = useState(null);
   const [selectedCategories, setSelectedCategories] = useState({});
+  const [selectedBrand, setSelectedBrand] = useState({});
   const [tags, setTags] = useState([]);
   const [description, setDescription] = useState("");
   const [hasError, setHasError] = useState({});
@@ -43,6 +45,7 @@ const EditProduct = () => {
       setProduct(prod);
       setVisibility(prod.visibility);
       setSelectedCategories(prod.category);
+      setSelectedBrand(prod.brand);
       setTags(prod.tags);
       setDescription(prod.description);
       return prod;
@@ -126,6 +129,7 @@ const EditProduct = () => {
       quantity: data.quantity,
       visibility: visibility,
       category: selectedCategories,
+      brand: selectedBrand,
       tags: tags,
       description: description,
       photos: files,
@@ -197,6 +201,10 @@ const EditProduct = () => {
                     setSelectedCategories={setSelectedCategories}
                     hasError={hasError}
                     setHasError={setHasError}
+                  />
+                  <Brands
+                    selectedBrand={selectedBrand}
+                    setSelectedBrand={setSelectedBrand}
                   />
                   <Tags setTags={setTags} tags={tags} />
                   <Photos
