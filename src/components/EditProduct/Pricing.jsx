@@ -8,7 +8,7 @@ const Pricing = props => {
   const { errors, control, register, values } = props;
 
   const settings = useSelector(state => state.settings.personalize);
-  const currency = settings.currency?.split("-")[1];
+  const currency = settings.currency?.split("-")[0];
 
   const getFormErrorMessage = name => {
     return (

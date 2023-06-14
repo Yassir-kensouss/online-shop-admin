@@ -15,6 +15,7 @@ import Tags from "../components/EditProduct/Tags";
 import Photos from "../components/EditProduct/Photos";
 import { useForm } from "react-hook-form";
 import Brands from "../components/EditProduct/Brands";
+import Types from "../components/EditProduct/Types";
 
 const crumbs = [
   { label: "Home", url: "/" },
@@ -34,6 +35,8 @@ const EditProduct = () => {
   const [selectedBrand, setSelectedBrand] = useState({});
   const [tags, setTags] = useState([]);
   const [description, setDescription] = useState("");
+  const [color, setColor] = useState(null);
+  const [size, setSize] = useState({});
   const [hasError, setHasError] = useState({});
 
   const { isLoading, isError } = useQuery(
@@ -48,6 +51,8 @@ const EditProduct = () => {
       setSelectedBrand(prod.brand);
       setTags(prod.tags);
       setDescription(prod.description);
+      setSize(prod.size);
+      setColor(prod.color);
       return prod;
     },
     { refetchOnWindowFocus: false, cacheTime: 0 }
@@ -133,6 +138,8 @@ const EditProduct = () => {
       tags: tags,
       description: description,
       photos: files,
+      color: color,
+      size: size,
     };
 
     if (
@@ -201,6 +208,12 @@ const EditProduct = () => {
                     setSelectedCategories={setSelectedCategories}
                     hasError={hasError}
                     setHasError={setHasError}
+                  />
+                  <Types
+                    setColor={setColor}
+                    color={color}
+                    size={size}
+                    setSize={setSize}
                   />
                   <Brands
                     selectedBrand={selectedBrand}

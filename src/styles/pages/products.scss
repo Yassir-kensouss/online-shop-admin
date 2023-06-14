@@ -13,3 +13,10 @@ margin-bottom: 0.5em;
       }
   }
 }
+
+.product-name{
+  width: 150px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

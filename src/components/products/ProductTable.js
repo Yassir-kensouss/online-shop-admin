@@ -188,6 +188,23 @@ const ProductTable = props => {
     );
   };
 
+  const setName = data => {
+    return (
+      <div title={data.name} className="product-name">
+        {data.name}
+      </div>
+    );
+  };
+
+  const setColor = data => {
+    return (
+      <div
+        className="vertical-align-middle w-2rem h-2rem border-round-lg"
+        style={{ backgroundColor: `#${data.color}` }}
+      ></div>
+    );
+  };
+
   return (
     <div>
       <Toast ref={toast} />
@@ -222,6 +239,7 @@ const ProductTable = props => {
         ></Column>
         <Column
           field="name"
+          body={setName}
           header="Name"
           sortable
           filter
@@ -234,11 +252,18 @@ const ProductTable = props => {
           sortable
           filter
         ></Column>
-        <Column field="quantity" header="Qte" sortable filter></Column>
+        <Column field="size.name" header="Size"></Column>
+        <Column field="category.name" header="Category"></Column>
+        <Column field="brand.name" header="Brand"></Column>
+        <Column
+          className="vertical-align-middle"
+          body={setColor}
+          header="Color"
+        ></Column>
+        <Column field="quantity" header="Qte" sortable></Column>
         <Column
           field="sku"
           header="SKU"
-          sortable
           filter
           filterPlaceholder="Search by sku"
         ></Column>
@@ -246,9 +271,8 @@ const ProductTable = props => {
           body={renderVisibility}
           field="visibility"
           header="Status"
-          sortable
           filter
-          filterPlaceholder="Search by sku"
+          filterPlaceholder="Search by visibility"
         ></Column>
         <Column body={data => renderActions(data)} exportable={false}></Column>
       </DataTable>

@@ -1,35 +1,18 @@
 import { ColorPicker, Dropdown, InputText } from "primereact";
-import React, { useContext, useState } from "react";
+import React from "react";
 import { PRODUCT_SIZES } from "../../common/constants";
-import { ContextContainer } from "../../pages/NewProduct";
 
-const Types = () => {
-  const { product, setProduct, errors } = useContext(ContextContainer);
-  const [color, setColor] = useState("1976D2");
-  const [size, setSize] = useState(null);
-
+const Types = ({ color, setColor, size, setSize }) => {
   const handleSize = e => {
     setSize(e.value);
-    setProduct({
-      ...product,
-      size: e.value,
-    });
   };
 
   const handleColor = e => {
     setColor(e.target.value);
-    setProduct({
-      ...product,
-      color: e.target.value,
-    });
   };
 
   const handleColorPicker = e => {
-    setColor(e.value.name);
-    setProduct({
-      ...product,
-      color: e.value.name,
-    });
+    setColor(e.value);
   };
 
   return (

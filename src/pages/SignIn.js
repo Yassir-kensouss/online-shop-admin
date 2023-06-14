@@ -20,32 +20,29 @@ const SignIn = () => {
   const [login, setLogin] = useState(false);
 
   const { mutate, isLoading, isError } = useMutation(signIn, {
-    onSuccess: (data) => {
+    onSuccess: data => {
       localStorage.setItem("jwt_data", JSON.stringify(data.data));
       return navigate("/");
     },
-  });
-
-  const handleCheckbox = (e) => {
-    setStayLogged(e.checked);
-  };
-
-  const handleInputs = (e) => {
-    setUserData({ ...userData, [e.target.id]: e.target.value });
-  };
-
-  useEffect(() => {
-    if (isError) {
+    onError: () => {
       toast.current.show({
         severity: "error",
-        summary: "Somthing went wrong!",
+        summary: "Something went wrong!",
         detail: "Email or password incorrect",
         life: 3000,
       });
-    }
-  }, [isError]);
+    },
+  });
 
-  const handleLogin = async (googleData) => {
+  const handleCheckbox = e => {
+    setStayLogged(e.checked);
+  };
+
+  const handleInputs = e => {
+    setUserData({ ...userData, [e.target.id]: e.target.value });
+  };
+
+  const handleLogin = async googleData => {
     setLogin(true);
     const res = await fetch(`${API_URL}/v1/auth/google`, {
       method: "POST",
