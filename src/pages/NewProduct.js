@@ -39,8 +39,6 @@ const initialState = {
   quantity: null,
   tags: [],
   category: {},
-  color: "",
-  size: "",
 };
 export const ContextContainer = createContext(null);
 
@@ -52,7 +50,7 @@ const Products = () => {
   const [name, setName] = useState("");
   const [files, setFiles] = useState(null);
   const [errors, setErrors] = useState(null);
-  const [variants, setVariants] = useState([]);
+  const [variants, setVariants] = useState({});
   const [product, setProduct] = useState({
     ...initialState,
     name,
@@ -137,8 +135,8 @@ const Products = () => {
               <Visibility />
               <Categories />
               <Brands />
-              <Types />
-              <Variants />
+              {/* <Types /> */}
+              <Variants setVariants={setVariants} variants={variants} />
               <Tags />
               <Photos />
             </div>

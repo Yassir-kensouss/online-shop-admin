@@ -2,30 +2,36 @@ import { Button, Dialog } from "primereact";
 import React from "react";
 import NewVariant from "./NewVariant";
 import { useState } from "react";
-import { useContext } from "react";
-import { ContextContainer } from "../../pages/NewProduct";
 
-const Variants = () => {
+const Variants = ({ variants, setVariants }) => {
   const [variantDialog, setVariantDialog] = useState(false);
-  const { variants, setVariants } = useContext(ContextContainer);
-  const [variantId, setVariantId] = useState(1);
+  const [selectedColor, setSelectedColor] = useState("");
 
-  const removeVariant = variantId => {
-    const newVal = variants.filter(variant => variant.variantId != variantId);
-    setVariants(newVal);
+  const removeVariantItem = variantId => {
+    const _v = variants[selectedColor].filter(el => el.variantId !== variantId);
+    if (_v.length > 0) {
+      setVariants({ ...variants, [selectedColor]: _v });
+    } else {
+      removeColor(selectedColor);
+    }
+  };
+
+  const selectColor = color => {
+    setSelectedColor(color);
+  };
+
+  const removeColor = color => {
+    const _newVariants = { ...variants };
+    delete _newVariants[color];
+    setVariants(_newVariants);
   };
 
   return (
     <div className="np-card mt-3 ">
       <div className="flex justify-content-between align-items-start">
-        <h2
-          className={`np-card-title text-xl ${
-            variants.length > 0 ? "mb-5" : null
-          } font-medium`}
-        >
-          Variants
-        </h2>
+        <h2 className="np-card-title text-xl font-medium">Variants</h2>
         <button
+          type="button"
           className="custom-link-btn with-icon"
           onClick={() => setVariantDialog(true)}
         >
@@ -43,51 +49,49 @@ const Variants = () => {
             setVariantDialog={setVariantDialog}
             setVariants={setVariants}
             variants={variants}
-            setVariantId={setVariantId}
-            variantId={variantId}
           />
         </Dialog>
       </div>
-      {variants.length > 0 ? (
-        <div className="max-h-15rem overflow-auto">
-          {
-            <ul>
-              <div className="flex align-items-center gap-4 text-sm text-gray-900 font-semibold bg-gray-200 p-2 border-round-md">
-                <div className="w-3rem">Color</div>
-                <div className="w-3rem">Size</div>
-                <div className="w-5rem">Material</div>
-                <div className="w-3rem">Qte</div>
-                <div className="w-4rem">Price</div>
-              </div>
-              {variants.map(variant => (
-                <>
-                  <li
-                    key={`${variant.size}-${variant.material}`}
-                    className="flex align-items-center justify-content-between border-bottom-1 border-gray-300 p-2 "
-                  >
-                    <div className="flex align-items-center gap-4 text-sm text-gray-700">
-                      <div
-                        style={{ background: `#${variant.color}` }}
-                        className="w-2rem h-2rem border-round-lg"
-                      ></div>
-                      <div className="w-3rem">{variant.size}</div>
-                      <div className="w-5rem">{variant.material}</div>
-                      <div className="w-3rem">{variant.quantity}</div>
-                      <div className="w-4rem">${variant.price}</div>
-                    </div>
-                    <Button
-                      icon="pi pi-times"
-                      className="p-button-rounded p-button-sm p-button-danger p-button-text"
-                      aria-label="Cancel"
-                      onClick={() => removeVariant(variant.variantId)}
-                    />
-                  </li>
-                </>
-              ))}
-            </ul>
-          }
+      {Object.keys(variants || {}).length > 0 ? (
+        <div className="flex gap-2 mt-4">
+          {Object.keys(variants).map(el => (
+            <div
+              key={el}
+              onClick={() => selectColor(el)}
+              style={{ backgroundColor: `#${el}` }}
+              className="variant-color relative w-3rem h-3rem border border-round-2xl cursor-pointer"
+            >
+              <button
+                onClick={() => removeColor(el)}
+                style={{ top: "-8px", right: "-8px" }}
+                className="vc-remove-btn cursor-pointer p-1 flex align-items-center justify-content-center border-circle bg-gray-800 text-white absolute"
+              >
+                <i className="pi pi-times text-xs"></i>
+              </button>
+            </div>
+          ))}
         </div>
       ) : null}
+      <ul>
+        {variants[selectedColor] &&
+          variants[selectedColor].map(item => (
+            <li
+              key={`${item.variantId}-${item.size}`}
+              className="pl-2 pr-2 bg-gray-100 mt-2 border-round-xl flex justify-content-between align-items-center gap-2"
+            >
+              <div className="w-2rem">{item.size}</div>
+              <div className="w-4rem">{item.material}</div>
+              <div className="w-4rem">{item.price}</div>
+              <div className="w-4rem">{item.quantity}</div>
+              <Button
+                icon="pi pi-times"
+                className="p-button-rounded p-button-danger p-button-sm p-button-text"
+                aria-label="delete"
+                onClick={() => removeVariantItem(item.variantId)}
+              />
+            </li>
+          ))}
+      </ul>
     </div>
   );
 };

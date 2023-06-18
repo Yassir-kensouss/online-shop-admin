@@ -20,3 +20,16 @@ margin-bottom: 0.5em;
   white-space: nowrap;
   overflow: hidden;
 }
+
+
+.variant-color{
+  .vc-remove-btn {
+    visibility: hidden;
+  }
+  &:hover {
+    .vc-remove-btn {
+      visibility: visible;
+    }
+  }
+
+}

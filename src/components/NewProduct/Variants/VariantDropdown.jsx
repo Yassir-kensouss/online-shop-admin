@@ -14,7 +14,7 @@ const VariantDropdown = ({ options, label, control, placeholder, errors }) => {
 
   return (
     <>
-      <label className="block flex-1" htmlFor={label}>
+      <label className="mt-4 block flex-1" htmlFor={label}>
         <span className="block capitalize">{label}:</span>
         <Controller
           name={label}

@@ -16,6 +16,7 @@ import Photos from "../components/EditProduct/Photos";
 import { useForm } from "react-hook-form";
 import Brands from "../components/EditProduct/Brands";
 import Types from "../components/EditProduct/Types";
+import Variants from "../components/NewProduct/Variants";
 
 const crumbs = [
   { label: "Home", url: "/" },
@@ -35,8 +36,7 @@ const EditProduct = () => {
   const [selectedBrand, setSelectedBrand] = useState({});
   const [tags, setTags] = useState([]);
   const [description, setDescription] = useState("");
-  const [color, setColor] = useState(null);
-  const [size, setSize] = useState({});
+  const [variants, setVariants] = useState({});
   const [hasError, setHasError] = useState({});
 
   const { isLoading, isError } = useQuery(
@@ -51,11 +51,26 @@ const EditProduct = () => {
       setSelectedBrand(prod.brand);
       setTags(prod.tags);
       setDescription(prod.description);
-      setSize(prod.size);
-      setColor(prod.color);
+      setVariants(prod.variants);
       return prod;
     },
-    { refetchOnWindowFocus: false, cacheTime: 0 }
+    {
+      onError: () => {
+        toast.current.show({
+          severity: "error",
+          detail: "Something went wrong, Please try later",
+          life: 3000,
+        });
+
+        const redirect = setTimeout(() => {
+          navigate("/products");
+        }, 3000);
+
+        return () => clearTimeout(redirect);
+      },
+      refetchOnWindowFocus: false,
+      cacheTime: 0,
+    }
   );
 
   const successMessage = (
@@ -90,22 +105,6 @@ const EditProduct = () => {
     { useErrorBoundary: true }
   );
 
-  useEffect(() => {
-    if (isError) {
-      toast.current.show({
-        severity: "error",
-        detail: "Something went wrong, Please try later",
-        life: 3000,
-      });
-
-      const redirect = setTimeout(() => {
-        navigate("/products");
-      }, 3000);
-
-      return () => clearTimeout(redirect);
-    }
-  }, [isError]);
-
   const {
     control,
     formState: { errors },
@@ -123,7 +122,7 @@ const EditProduct = () => {
     reset(product);
   }, [product]);
 
-  const onSubmit = async data => {
+  const onSubmit = data => {
     const body = {
       _id: data._id,
       name: data.name,
@@ -138,8 +137,7 @@ const EditProduct = () => {
       tags: tags,
       description: description,
       photos: files,
-      color: color,
-      size: size,
+      variants: variants,
     };
 
     if (
@@ -209,16 +207,11 @@ const EditProduct = () => {
                     hasError={hasError}
                     setHasError={setHasError}
                   />
-                  <Types
-                    setColor={setColor}
-                    color={color}
-                    size={size}
-                    setSize={setSize}
-                  />
                   <Brands
                     selectedBrand={selectedBrand}
                     setSelectedBrand={setSelectedBrand}
                   />
+                  <Variants setVariants={setVariants} variants={variants} />
                   <Tags setTags={setTags} tags={tags} />
                   <Photos
                     setProduct={setProduct}

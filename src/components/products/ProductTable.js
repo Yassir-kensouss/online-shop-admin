@@ -1,6 +1,5 @@
 import "../../styles/pages/products.scss";
 import {
-  Avatar,
   Badge,
   Button,
   Column,
@@ -252,14 +251,8 @@ const ProductTable = props => {
           sortable
           filter
         ></Column>
-        <Column field="size.name" header="Size"></Column>
         <Column field="category.name" header="Category"></Column>
         <Column field="brand.name" header="Brand"></Column>
-        <Column
-          className="vertical-align-middle"
-          body={setColor}
-          header="Color"
-        ></Column>
         <Column field="quantity" header="Qte" sortable></Column>
         <Column
           field="sku"

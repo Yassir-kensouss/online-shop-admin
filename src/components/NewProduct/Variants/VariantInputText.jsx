@@ -13,7 +13,7 @@ const VariantInputText = ({ label, name, control, errors, placeholder }) => {
   };
   return (
     <>
-      <label className="block flex-1" htmlFor={name}>
+      <label className="mt-4 block flex-1" htmlFor={name}>
         <span className="block">SKU</span>
         <Controller
           name={name}

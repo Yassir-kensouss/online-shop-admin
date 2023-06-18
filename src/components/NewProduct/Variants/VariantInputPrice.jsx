@@ -14,7 +14,7 @@ const VariantInputPrice = ({ control, name, label, errors }) => {
 
   return (
     <>
-      <label className="block flex-1" htmlFor={label}>
+      <label className="mt-4 block flex-1" htmlFor={label}>
         <span className="block">{label}</span>
         <Controller
           name={name}
