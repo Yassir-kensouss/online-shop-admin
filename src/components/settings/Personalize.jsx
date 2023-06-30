@@ -1,11 +1,4 @@
-import {
-  Button,
-  Dropdown,
-  FileUpload,
-  Image,
-  Toast,
-  Tooltip,
-} from "primereact";
+import { Button, Dropdown, Toast, Tooltip } from "primereact";
 import React, { useRef, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useDispatch } from "react-redux";
@@ -14,14 +7,18 @@ import {
   fetchGeneralSettings,
   updateGeneralSettings,
 } from "../../services/settings";
-import { fetchSettings, updatePSettings } from "../../store/settings";
+import { updatePSettings } from "../../store/settings";
 import SettingContentWrapper from "./SettingContentWrapper";
+import WebsiteDescription from "./personalize/WebsiteDescription";
+import WebsiteTitle from "./personalize/WebsiteTitle";
 
 const Personalize = () => {
   const [brandName, setBrandName] = useState("");
   const [preview, setPreview] = useState(null);
   const [currency, setCurrency] = useState(null);
   const [language, setLanguage] = useState(null);
+  const [wDescription, setWDescription] = useState(null);
+  const [wTitle, setWTitle] = useState(null);
   const [settings, setSettings] = useState(null);
   const [changes, setChanges] = useState({});
 
@@ -87,6 +84,8 @@ const Personalize = () => {
         name: data.language.split("-")[0],
         code: data.language.split("-")[1],
       });
+      setWDescription(data.websiteDescription);
+      setWTitle(data.websiteTitle);
     },
     { refetchOnWindowFocus: false }
   );
@@ -204,6 +203,18 @@ const Personalize = () => {
             </label>
           </div>
         </div>
+        <WebsiteDescription
+          setWDescription={setWDescription}
+          wDescription={wDescription}
+          changes={changes}
+          setChanges={setChanges}
+        />
+        <WebsiteTitle
+          setWTitle={setWTitle}
+          wTitle={wTitle}
+          changes={changes}
+          setChanges={setChanges}
+        />
       </SettingContentWrapper>
     </>
   );

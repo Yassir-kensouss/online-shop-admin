@@ -66,9 +66,12 @@ export const renderStatus = (
 
 export const renderAddress = data => {
   return (
-    <div className="flex gap-1 align-items-center" title={data.address.address}>
+    <div
+      className="flex gap-1 align-items-center"
+      title={data?.address?.address}
+    >
       <i className="pi pi-map-marker text-indigo-500"></i>
-      <ClickToCopy value={data.address.address} limit="20" showIcon={true} />
+      <ClickToCopy value={data?.address?.address} limit="20" showIcon={true} />
     </div>
   );
 };
@@ -78,5 +81,5 @@ export const renderTransitionID = data => {
 };
 
 export const renderCustomer = data => {
-    return <div>{data.user.name}</div>;
-  };
+  return <div>{data.user.name}</div>;
+};

@@ -10,17 +10,22 @@ const ClickToCopy = props => {
   const handleCopy = () => {
     setCopied("Copied");
     navigator.clipboard.writeText(value);
-    toast('Copied')
+    toast("Copied");
   };
 
   return (
     <>
-      <div
-        className="click-to-copy disabled-button"
-        onClick={handleCopy}
-      >
+      <div className="click-to-copy disabled-button" onClick={handleCopy}>
         {limit ? shortenString(value, limit) : value}
-        {showIcon ? <Button icon="pi pi-copy" className="p-button-rounded p-button-text copy-to-clipboard-btn" aria-label="copy" tooltip={copied} tooltipOptions={{position: 'right'}} /> : null}
+        {showIcon ? (
+          <Button
+            icon="pi pi-copy"
+            className="p-button-rounded p-button-text copy-to-clipboard-btn"
+            aria-label="copy"
+            tooltip={copied}
+            tooltipOptions={{ position: "right" }}
+          />
+        ) : null}
       </div>
     </>
   );

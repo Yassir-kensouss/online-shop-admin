@@ -157,6 +157,21 @@ const OrdersTable = props => {
     return <span>{`${currency} ${rowData.totalPrice}`}</span>;
   };
 
+  const renderShippingPlan = rowData => {
+    return (
+      <div className="flex align-items-center">
+        {rowData.shipping ? (
+          <>
+            {rowData?.shipping?.name}-
+            <span className="text-gray-600">({rowData?.shipping?.price})</span>
+          </>
+        ) : (
+          "Not provided"
+        )}
+      </div>
+    );
+  };
+
   return (
     <div>
       <Sidebar
@@ -219,6 +234,10 @@ const OrdersTable = props => {
           resizeable={true}
         />
         <Column
+          header="Shipping Plan"
+          body={data => renderShippingPlan(data)}
+        />
+        <Column
           field="createdAt"
           header="Date"
           body={data => renderDate(data)}
@@ -259,7 +278,7 @@ const OrdersTable = props => {
           header="Details"
           body={data => renderActions(data)}
           exportable={false}
-          style={{ textAlign: "center" }}
+          className="ot-details"
         ></Column>
       </DataTable>
       <Paginator
