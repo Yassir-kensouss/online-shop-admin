@@ -58,7 +58,9 @@ const PreviewProduct = props => {
               Old Price:
             </label>
             <div id="oldPrice">
-              {product.oldPrice ? `${product.oldPrice}$` : "Not provided"}
+              {product.oldPrice
+                ? `${currency} ${product.oldPrice}`
+                : "Not provided"}
             </div>
           </div>
         </div>

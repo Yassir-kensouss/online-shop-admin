@@ -84,7 +84,11 @@ const Products = () => {
     const { isValid, errors } = useValidProduct({ ...product, name, files });
     !isValid ? setErrors(errors) : setErrors(null);
     if (isValid) {
-      newProduct.mutate({ ...product, variants });
+      let qte = 0;
+      Object.keys(variants).map(el => {
+        variants[el].map(v => (qte += v.quantity));
+      });
+      newProduct.mutate({ ...product, variants, quantity: qte });
     }
   };
 

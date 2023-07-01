@@ -23,7 +23,7 @@ const Inventory = () => {
       {errors && "sku" in errors ? (
         <p className="text-red-400 mt-2 text-sm">{errors["sku"]}</p>
       ) : null}
-      <div className="product-title-field">
+      {/* <div className="product-title-field">
         <label
           htmlFor="stock-quantity"
           className="np-card-label block text-sm mb-2"
@@ -37,7 +37,7 @@ const Inventory = () => {
             setProduct({ ...product, quantity: e.target.value })
           }
         />
-      </div>
+      </div> */}
       {errors && "quantity" in errors ? (
         <p className="text-red-400 mt-2 text-sm">{errors["quantity"]}</p>
       ) : null}
