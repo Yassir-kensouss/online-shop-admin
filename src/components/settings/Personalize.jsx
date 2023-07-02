@@ -157,7 +157,7 @@ const Personalize = () => {
           </label>
           {preview ? (
             <>
-              <div className="preview-brand mt-4">
+              <div className="mt-4" style={{ width: "30%" }}>
                 <img
                   width="100%"
                   src={preview}
