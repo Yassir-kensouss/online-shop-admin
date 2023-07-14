@@ -73,24 +73,26 @@ const Variants = ({ variants, setVariants }) => {
         </div>
       ) : null}
       <ul>
-        {variants[selectedColor] &&
-          variants[selectedColor].map(item => (
-            <li
-              key={`${item.variantId}-${item.size}`}
-              className="pl-2 pr-2 bg-gray-100 mt-2 border-round-xl flex justify-content-between align-items-center gap-2"
-            >
-              <div className="w-2rem">{item.size}</div>
-              <div className="w-4rem">{item.material}</div>
-              <div className="w-4rem">{item.price}</div>
-              <div className="w-4rem">{item.quantity}</div>
-              <Button
-                icon="pi pi-times"
-                className="p-button-rounded p-button-danger p-button-sm p-button-text"
-                aria-label="delete"
-                onClick={() => removeVariantItem(item.variantId)}
-              />
-            </li>
-          ))}
+        {Object.keys(variants || {}).length > 0
+          ? variants[selectedColor] &&
+            variants[selectedColor]?.map(item => (
+              <li
+                key={`${item.variantId}-${item.size}`}
+                className="pl-2 pr-2 bg-gray-100 mt-2 border-round-xl flex justify-content-between align-items-center gap-2"
+              >
+                <div className="w-2rem">{item.size}</div>
+                <div className="w-4rem">{item.material}</div>
+                <div className="w-4rem">{item.price}</div>
+                <div className="w-4rem">{item.quantity}</div>
+                <Button
+                  icon="pi pi-times"
+                  className="p-button-rounded p-button-danger p-button-sm p-button-text"
+                  aria-label="delete"
+                  onClick={() => removeVariantItem(item.variantId)}
+                />
+              </li>
+            ))
+          : null}
       </ul>
     </div>
   );
