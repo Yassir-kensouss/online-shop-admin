@@ -38,3 +38,7 @@
 // Vendors
 @import './styles/vendors/_primereact.scss';
 @import './styles/vendors/_reactFlagsSelect.scss';
+
+html,body {
+  font-family: 'Inter', sans-serif;
+}
