@@ -23,6 +23,8 @@ const CountriesTraffic = () => {
     { refetchOnWindowFocus: false }
   );
 
+  console.log("country", country);
+
   return (
     <>
       {isLoading ? (
@@ -38,12 +40,15 @@ const CountriesTraffic = () => {
           <div className="h-full overflow-auto">
             {country && country.length > 0 ? (
               country.map(el => {
-                const countryCode = el.country_code;
                 return (
                   <div key={el.country} className="countriesTraffic">
                     <div className="flex align-items-center gap-2">
                       <div className="w-2rem h-2rem mb-2">
-                        <Flag code="US" className="rounded-image-fit" />
+                        <Flag
+                          code={el.country_code}
+                          fallback="UNK"
+                          className="rounded-image-fit"
+                        />
                       </div>
                       <span className="countriesTraffic__country">
                         {el.country}

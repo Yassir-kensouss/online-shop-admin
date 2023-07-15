@@ -8,6 +8,7 @@ import { fetchGeneralSettings } from "../../services/settings";
 
 const Sidebar = ({ setCollapse, collapse }) => {
   const brand = useSelector(state => state.settings.personalize.brand);
+  const mode = useSelector(state => state.settings.appearance.mode);
 
   const handleCollapse = () => {
     setCollapse(!collapse);
@@ -30,7 +31,24 @@ const Sidebar = ({ setCollapse, collapse }) => {
       <header className="sidebar__header" onClick={handleCollapse}>
         <div className="flex align-items-center gap-2">
           {/* <img src={brand} width="50%" /> */}
-          <div className="font-bold text-xl text-white">Looties.</div>
+
+          {collapse ? (
+            <div
+              className={`font-bold text-xl ${
+                mode === "Light" ? "text--gray-800" : "text-white"
+              }`}
+            >
+              LTS.
+            </div>
+          ) : (
+            <div
+              className={`font-bold text-xl ${
+                mode === "Light" ? "text--gray-800" : "text-white"
+              }`}
+            >
+              Looties.
+            </div>
+          )}
         </div>
       </header>
       <div className="sidebar__headerContainer">
