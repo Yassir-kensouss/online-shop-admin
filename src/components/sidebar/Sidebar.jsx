@@ -34,7 +34,7 @@ const Sidebar = ({ setCollapse, collapse }) => {
 
           {collapse ? (
             <div
-              className={`font-bold text-xl ${
+              className={`logo font-bold text-xl ${
                 mode === "Light" ? "text--gray-800" : "text-white"
               }`}
             >
@@ -42,7 +42,7 @@ const Sidebar = ({ setCollapse, collapse }) => {
             </div>
           ) : (
             <div
-              className={`font-bold text-xl ${
+              className={`logo font-bold text-xl ${
                 mode === "Light" ? "text--gray-800" : "text-white"
               }`}
             >
